@@ -18,7 +18,7 @@
 attackShip()
 function attackShip(){
 var inputRow = window.prompt("Enter the row you would like to attack: ");
-var inputColoumn = window.prompt("Enter the row you would like to attack: ");
+var inputColoumn = window.prompt("Enter the coloumn you would like to attack: ");
 inputRow = a
 inputColoumn = b
 let a = 0
