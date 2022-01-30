@@ -30,3 +30,5 @@ if(attackBoard[a][b]=1)
 }
 else(console.log("Miss!"))
 }
+
+console.log("Mitchell and Git aren't getting along ;(")
