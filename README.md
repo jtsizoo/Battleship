@@ -1,9 +1,10 @@
-# Battleship
-Project 1
+# Group #5 Project 1 Battleship
+Group Members:
+Matt Latendresse
+Liam McKinney  
+Mickey McMahon
+Mitchell Seifert
+Truan Leiker
 
-# matts commit
 
-# adding a comment
-# adding a 2nd comment
-test push
 
