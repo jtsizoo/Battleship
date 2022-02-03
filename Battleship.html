@@ -1,0 +1,37 @@
+<HTML>
+<hyml lang = "en-US"></hyml>
+    <Head>
+    </Head>
+    <Body>
+      <div id="HomeBoard">HomeBoard</div>
+      <div id="AttackBoard">AttackBoard</div>
+      
+      <Canvas id = "myCanvas"
+              width = "1200"
+              height = "600"
+              style = "border: 4px solid black">
+      </Canvas>
+      <h1>
+  
+      </h1>
+      <button onClick="window.location.reload();">Reset Game</button>
+    </Body>
+    <script>
+        document.write('</table>');
+        var gridRow = 10;
+        var gridColoumn = 10;
+        var grid = [];
+        for(var i = 0; i < gridRow; i ++){
+            document.write('<tr>')
+            grid.push([]);
+            for(var j =0; j< gridColoumn; j++){
+                document.write('<td onclick="alert(\'clicked\');">');
+                grid[y].push(0);
+                document.write('</td>');
+            }
+            document.write('</tr>');
+        }
+        document.write('</table>');
+    </script>
+  </HTML>
+  
