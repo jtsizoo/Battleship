@@ -2,7 +2,8 @@ let numShips = 5;
 let shipsRemaining = 0;
 let nextShip = {};
 let isP2 = false;
-shipList = [];
+const PREVIEW_OPACITY = .5;
+let shipList = [];
 
 //Call when the user chooses how many ships to play with.
 //Starts the ship placement phase of the game, beginning with player 1.
@@ -29,6 +30,13 @@ function initializeP2Placement(){
 function hoverCell(cell){
     nextShip.topLeft = cell;
     moveShip(nextShip.length, cell, nextShip.isVertical);
+
+    if(isShipValid(nextShip)){
+        setShipProperties(nextShip.length, PREVIEW_OPACITY, "gray");
+    }else{
+        //invalid placement, make ship red
+        setShipProperties(nextShip.length, PREVIEW_OPACITY, "red");
+    }
 }
 
 //Call when the user scrolls
@@ -51,7 +59,9 @@ function attemptShipPlace(cell){
             if(isP2){
                 gameState = "p1Turn";
                 switchWindow("countdown");
-                //TODO call countdown function
+                /*
+                TODO call countdown function
+                */
                 switchWindow("p1view");
             }else{
                 initializeP2Placement();
@@ -63,19 +73,28 @@ function attemptShipPlace(cell){
 }
 
 //helper method to place the ship and update the ship list.
-function placeShip(){
-    p1Ships.push(nextShip);
+function placeShip(ship){
+    p1Ships.push(ship);
     //set the ship to be gray and opaque
-    setShipProperties(nextShip.length, 1, "gray");
+    setShipProperties(ship.length, 1, "gray");
 }
 
 //Helper function to determine if a ship placement is valid.
-function isShipValid(){}
+/*
+TODO implement
+*/
+function isShipValid(ship){
+    for (const ship of shipList) {
+        
+    }
+}
 
 function initializeShip(_length){
-    return {
+    ship = {
         length = _length,
         topLeft = "a1",
         isVertical = false
     };
+    //moveShip(ship.length, ship.topLeft, ship.isVertical);
+    //setShipProperties(ship.length, PREVIEW_OPACITY, "gray");
 }
