@@ -20,6 +20,7 @@ function initializeShipPlacement(_numShips){
 //Is called internally. Do not call from GraphicsUI.js
 function initializeP2Placement(){
     gameState = "p2Place";
+    shipList = p2Ships;
     switchWindow("p2view");
     shipsRemaining = numShips;
     nextShip = initializeShip(shipsRemaining);
@@ -57,6 +58,7 @@ function attemptShipPlace(cell){
         shipsRemaining--;
         if(shipsRemaining == 0){
             if(isP2){
+
                 gameState = "p1Turn";
                 switchWindow("countdown");
                 /*
@@ -67,7 +69,10 @@ function attemptShipPlace(cell){
                 initializeP2Placement();
             }
         }else{
+            startCell = nextShip.topLeft;
             nextShip = initializeShip(shipsRemaining);
+            nextShip.topLeft = startCell;
+            moveShip(nextShip.length, startCell, nextShip.isVertical);
         }
     }
 }
@@ -84,9 +89,46 @@ function placeShip(ship){
 TODO implement
 */
 function isShipValid(ship){
-    for (const ship of shipList) {
-        
+    //if the ship goes off the bottom of the board
+    let rowNum = parseInt(ship.topLeft.substr(1));
+    if(ship.isVertical && ship.length-1 + rowNum > 10){
+        return false;
     }
+    //if the ship goes off the right of the board
+    let columnNum = ship.topLeft.charCodeAt(0) - "a".charCodeAt(0) + 1; //1 indexed column number
+    if(!ship.isVertical && ship.length-1 + columnNum > 10){
+        return false;
+    }
+
+    let a = [rowNum, columnNum]; //start point of ship
+    let b = [];
+    if(ship.isVertical){
+        b = [rowNum + ship.length-1, columnNum];
+    }else{
+        b = [rowNum, columnNum + ship.length-1]; //endpoint of ship
+    }
+
+    //check if the ship collides with any existing ships
+    for (const gridShip of shipList) {
+        let gridRow = parseInt(gridShip.topLeft.substr(1));
+        let gridCol = gridShip.topLeft.charCodeAt(0) - "a".charCodeAt(0) + 1;
+
+        let c = [gridRow, gridCol]; //start point of ship
+        let d = [];
+        if(gridShip.isVertical){
+            d = [gridRow + gridShip.length-1, gridCol];
+        }else{
+            d = [gridRow, gridCol + gridShip.length-1]; //endpoint of ship
+        }
+
+        //check if ships collide.
+        if(b[0] >= c[0] && d[0] >= a[0] && //check if y coords overlap
+           b[1] >= c[1] && d[1] >= a[1]){  //check if x coords overlap
+               return false;
+        }
+    }
+
+    return true;
 }
 
 function initializeShip(_length){
@@ -95,6 +137,8 @@ function initializeShip(_length){
         topLeft = "a1",
         isVertical = false
     };
+
+    return ship;
     //moveShip(ship.length, ship.topLeft, ship.isVertical);
     //setShipProperties(ship.length, PREVIEW_OPACITY, "gray");
 }
