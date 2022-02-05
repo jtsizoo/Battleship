@@ -1,0 +1,70 @@
+/*table, th, td {
+    background-color: #ADD8E6;
+    border: 2px solid black;
+    border-collapse: collapse;
+    width: 600px;
+    height: 50px;
+  }
+  */
+.Boards{
+    display: flex;
+}
+
+.homeBoard{
+      width: 500px;
+      height: 500px;
+      display: flex;
+      flex-wrap: wrap;
+      background-color: rgb(0, 89, 255);
+}
+.attackBoard{
+    width: 500px;
+    height: 500px;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: rgb(25, 49, 94);
+}
+.board div{
+    width: 50px;
+    height: 50px;
+    background-color:grey;
+  }
+.oneTileShip{
+    height: 50px;
+    width: 50px;
+    background-color: rgb(192, 189, 26);
+    margin: 5px;
+    display: flex;
+}
+.twoTileShip{
+    height: 50px;
+    width: 100px;
+    background-color: green;
+    margin: 5px;
+    display: flex;
+}
+.threeTileShip{
+    height: 50px;
+    width: 150px;
+    background-color: rgb(218, 102, 26);
+    margin: 5px;
+    display: flex;
+}
+.fourTileShip{
+    height: 50px;
+    width: 200px;
+    background-color: rgb(116, 26, 93);
+    margin: 5px;
+    display: flex;
+}
+.fiveTileShip{
+    height: 50px;
+    width: 250px;
+    background-color: rgb(220, 231, 233);
+    margin: 5px;
+    display: flex;
+}
+.ship div{
+    height: 50px;
+    width: 50px;
+}

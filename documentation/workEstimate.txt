@@ -1,1 +1,5 @@
-
+Battleship.html:
+GraphicsUI.js: 5 hours
+ShipPlacement.js: 5 hours
+MainGame.js:
+Bugfixes/polish:
