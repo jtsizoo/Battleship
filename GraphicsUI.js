@@ -45,7 +45,17 @@ document.getElementById("top").appendChild(drawGrid());
 
 
 
-//this fucntion will draw the ship being placed onto grid for whichever player whos turn it is 
-function drawShipPlacement(shipPosition){
+//this fucntion will draw the ship being placed onto grid for whichever player whose turn it is 
+//arguments are for the grid depending on the player, the player, and the 
+
+function drawShipPlacement(grid,isP2,){
+    
+
+    //rotates the ship when user scrolls
+    document.addEventListener("scroll",rotateShip);
+
+    //when a user clicks on a grid will place the ship
+    document.addEventListener("click",placeShip);
+    
 
 }
