@@ -1,3 +1,5 @@
+let p1Ships = [];
+let p2Ships = [];
 //creates a table element and populates it with 11 rows and 11 cells per row
 function drawGrid()
 {
@@ -63,3 +65,23 @@ document.getElementById("top").appendChild(drawGrid());
 function drawShipPlacement(shipPosition){
 
 }
+
+function parseTileClick(tile){}
+
+function parseTileHover(tile){}
+
+function parseTileScroll(tile){}
+
+function moveShip(id, tile, isVertical){}
+
+function setShipProperties(id, opacity, color){}
+
+function setTileState(tile, isHit){}
+
+function switchWindow(id){}
+
+function updateCountdownText(text){}
+
+function setGameOverText(text){}
+
+function selectShipNumber(numShips){}
