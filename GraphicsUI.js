@@ -42,3 +42,10 @@ function drawGrid()
 }
 
 document.getElementById("top").appendChild(drawGrid());
+
+
+
+//this fucntion will draw the ship being placed onto grid for whichever player whos turn it is 
+function drawShipPlacement(shipPosition){
+
+}
