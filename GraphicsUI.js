@@ -1,7 +1,9 @@
 let p1Ships = [];
 let p2Ships = [];
-//creates a table element and populates it with 11 rows and 11 cells per row
-function drawGrid()
+
+//Creates a table element with an id equal to the given gridName and populates it with 11 rows 
+//and 11 cells per row.
+function drawGrid(gridName)
 {
     let columnLabelAlphabet = ['A','B','C','D','E','F','G','H','I','J'];
     
@@ -39,9 +41,24 @@ function drawGrid()
             }
             else
             {
-                //Creates a cell and gives it a unique id based on its coordinates.
+                //Creates a cell and gives it a unique id based on its coordinates and gridName.
+                //First three characters are the coordinates (i.e A01, C08, E10, etc.), and the
+                //rest of the id is the gridName.
                 let tile = document.createElement("td");
-                tile.setAttribute("id", [columnLabelAlphabet[j-1],((i+1).toString())].join(''));
+                let tileId;
+
+                if (i == 9) 
+                {
+                    tileId = [ columnLabelAlphabet[j-1], ((i+1).toString()), gridName ].join('');
+                }
+                else
+                {
+                    tileId = [ columnLabelAlphabet[j-1], '0', ((i+1).toString()), gridName ].join('');
+                }
+
+                tile.setAttribute("id", tileId);
+                tile.addEventListener('click', function() { parseTileClick(tileId); }, false);
+                tile.addEventListener('mouseover', function() { parseTileHover(tileId); }, false);
                 row.appendChild(tile);
             }
         }
@@ -53,26 +70,41 @@ function drawGrid()
     tableHeader.appendChild(columnLabelRow);
     grid.appendChild(tableHeader);
     grid.appendChild(tableBody);
+    grid.setAttribute("id", gridName);
 
     return grid;
 }
 
-document.getElementById("top").appendChild(drawGrid());
-
-
-
 //this fucntion will draw the ship being placed onto grid for whichever player whos turn it is 
-function drawShipPlacement(shipPosition){
+function drawShipPlacement(shipPosition)
+{
 
 }
 
-function parseTileClick(tile){}
+function parseTileClick(tile)
+{
+    console.log(tile);
+}
 
-function parseTileHover(tile){}
+function parseTileHover(tile)
+{
+    console.log(tile);
+}
 
-function parseTileScroll(tile){}
+function parseTileScroll(tile)
+{
 
-function moveShip(id, tile, isVertical){}
+}
+
+function moveShip(id, tile, isVertical)
+{
+    var tileRect = document.getElementById(tile).getBoundingClientRect();
+
+    document.getElementById(id).style.position = "absolute";
+    document.getElementById(id).style.top = tileRect.top - 2;
+    document.getElementById(id).style.left = tileRect.left - 2;
+    document.getElementById(id).style.zIndex = 100;
+}
 
 function setShipProperties(id, opacity, color){}
 
@@ -85,3 +117,13 @@ function updateCountdownText(text){}
 function setGameOverText(text){}
 
 function selectShipNumber(numShips){}
+
+//main function
+document.getElementById("top").appendChild(drawGrid("testGrid"));
+
+testShip = document.createElement("div");
+testShip.setAttribute("id", "testShip");
+testShip.setAttribute("class", "twoTileShip");
+document.getElementById("top").appendChild(testShip);
+
+moveShip("testShip", "C04testGrid", false);
