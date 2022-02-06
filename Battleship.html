@@ -1,17 +1,23 @@
-<HTML>
-<html lang = "en-US"></html>
-<meta charset="UTF-8">
-<title>BattleShip Project 1</title>
-<link rel="stylesheet" href="Battleship.css">
-    <Head>
-    <div id="top"></div>
-    <script type="text/javascript" src="GraphicsUI.js"></script>
-    <script type="text/javascript" src="ShipPlacement.js"></script>
-    </Head>
+<html>
+    <head>
+        <html lang = "en-US"></html>
+        <meta charset="UTF-8">
+        <title>BattleShip Project 1</title>
+        <link rel="stylesheet" href="Battleship.css">
+    </head>
 
-    <Body>
-        <button onClick="window.location.reload();">Reset Game</button>
-        <button id="Start">Start Game</button>
-    </Body>
-  </HTML>
+    <body>
+        <div id="newGame">
+            <button onClick="window.location.reload();">Reset Game</button>
+            <button id="Start">New Game</button>
+        </div>
+        <div id="shipNumPick"></div>
+        <div id="gameOver"></div>
+        <div id="p1View"></div>
+        <div id="p2View"></div>
+
+        <script type="text/javascript" src="GraphicsUI.js"></script>
+        <script type="text/javascript" src="ShipPlacement.js"></script>
+    </body>
+</html>
   

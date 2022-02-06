@@ -1,9 +1,26 @@
 let p1Ships = [];
 let p2Ships = [];
 
-//Creates a table element with an id equal to the given gridName and populates it with 11 rows 
+//Builds the UI.
+function createUI()
+{
+    document.getElementById("p1View").appendChild(drawGrid("p1HomeBoard", "homeBoard"));
+    document.getElementById("p1View").appendChild(drawGrid("p1AttackBoard", "attackBoard"));
+
+    document.getElementById("p2View").appendChild(drawGrid("p2HomeBoard", "homeBoard"));
+    document.getElementById("p2View").appendChild(drawGrid("p2AttackBoard", "attackBoard"));
+
+    testShip = document.createElement("div");
+    testShip.setAttribute("id", "testShip");
+    testShip.setAttribute("class", "twoTileShip");
+    document.getElementById("p1View").appendChild(testShip);
+
+    moveShip("testShip", "C04p1HomeBoard", false);
+}
+
+//Creates a table element with a given id and class and populates it with 11 rows 
 //and 11 cells per row.
-function drawGrid(gridName)
+function drawGrid(gridId, gridClass)
 {
     let columnLabelAlphabet = ['A','B','C','D','E','F','G','H','I','J'];
     
@@ -11,6 +28,22 @@ function drawGrid(gridName)
     let grid = document.createElement("table");
     let tableHeader = document.createElement("thead");
     let tableBody = document.createElement("tbody");
+
+    //Creates a row and label for the grid title.
+    let gridTitleRow = document.createElement("tr");
+    let gridTitleCell = document.createElement("th");
+    let gridTitleLabel = document.createElement("label");
+    if (gridClass == "homeBoard")
+    {
+        gridTitleLabel.textContent = "Home Board";
+    }
+    else if (gridClass == "attackBoard")
+    {
+        gridTitleLabel.textContent = "Attack Board";
+    }
+    gridTitleCell.appendChild(gridTitleLabel);
+    gridTitleCell.setAttribute("colspan", 11);
+    gridTitleRow.appendChild(gridTitleCell);
 
     //Creates a row for the column labels.
     let columnLabelRow = document.createElement("tr");
@@ -49,11 +82,11 @@ function drawGrid(gridName)
 
                 if (i == 9) 
                 {
-                    tileId = [ columnLabelAlphabet[j-1], ((i+1).toString()), gridName ].join('');
+                    tileId = [ columnLabelAlphabet[j-1], ((i+1).toString()), gridId ].join('');
                 }
                 else
                 {
-                    tileId = [ columnLabelAlphabet[j-1], '0', ((i+1).toString()), gridName ].join('');
+                    tileId = [ columnLabelAlphabet[j-1], '0', ((i+1).toString()), gridId ].join('');
                 }
 
                 tile.setAttribute("id", tileId);
@@ -67,10 +100,12 @@ function drawGrid(gridName)
         tableBody.appendChild(row);
     }
 
+    tableHeader.appendChild(gridTitleRow);
     tableHeader.appendChild(columnLabelRow);
     grid.appendChild(tableHeader);
     grid.appendChild(tableBody);
-    grid.setAttribute("id", gridName);
+    grid.setAttribute("id", gridId);
+    grid.setAttribute("class", gridClass);
 
     return grid;
 }
@@ -96,6 +131,8 @@ function parseTileScroll(tile)
 
 }
 
+//Takes in the id of the visual ship element, the destination tile id, and a boolean representing 
+//if the ship is vertical, and moves the ship element over the destination tile.
 function moveShip(id, tile, isVertical)
 {
     var tileRect = document.getElementById(tile).getBoundingClientRect();
@@ -106,24 +143,63 @@ function moveShip(id, tile, isVertical)
     document.getElementById(id).style.zIndex = 100;
 }
 
-function setShipProperties(id, opacity, color){}
+function setShipProperties(id, opacity, color)
+{
 
-function setTileState(tile, isHit){}
+}
 
-function switchWindow(id){}
+function setTileState(tile, isHit)
+{
 
-function updateCountdownText(text){}
+}
 
-function setGameOverText(text){}
+//Displays one of the four windows: p1View, p2View, gameOver, and shipNumPick.
+function switchWindow(id)
+{
+    if (id == "p1View")
+    {
+        document.getElementById("p2View").style.display = "none";
+        document.getElementById("gameOver").style.display = "none";
+        document.getElementById("shipNumPick").style.display = "none";
+        document.getElementById("p1View").style.display = "revert";
+    }
+    else if (id == "p2View")
+    {
+        document.getElementById("p1View").style.display = "none";
+        document.getElementById("gameOver").style.display = "none";
+        document.getElementById("shipNumPick").style.display = "none";
+        document.getElementById("p2View").style.display = "revert";
+    }
+    else if (id == "gameOver")
+    {
+        document.getElementById("p1View").style.display = "none";
+        document.getElementById("p2View").style.display = "none";
+        document.getElementById("shipNumPick").style.display = "none";
+        document.getElementById("gameOver").style.display = "revert";
+    }
+    else if (id == "shipNumPick")
+    {
+        document.getElementById("p1View").style.display = "none";
+        document.getElementById("p2View").style.display = "none";
+        document.getElementById("gameOver").style.display = "none";
+        document.getElementById("shipNumPick").style.display = "revert";
+    }
+}
 
-function selectShipNumber(numShips){}
+function updateCountdownText(text)
+{
 
-//main function
-document.getElementById("top").appendChild(drawGrid("testGrid"));
+}
 
-testShip = document.createElement("div");
-testShip.setAttribute("id", "testShip");
-testShip.setAttribute("class", "twoTileShip");
-document.getElementById("top").appendChild(testShip);
+function setGameOverText(text)
+{
 
-moveShip("testShip", "C04testGrid", false);
+}
+
+function selectShipNumber(numShips)
+{
+
+}
+
+createUI();
+switchWindow("p1View");
