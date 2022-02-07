@@ -19,12 +19,12 @@ function initializeShipPlacement(_numShips){
 //Helper function to begin placing ships for player 2.
 //Is called internally. Do not call from GraphicsUI.js
 function initializeP2Placement(){
+    isP2 = true;
     gameState = "p2Place";
     shipList = p2Ships;
     switchWindow("p2View");
     shipsRemaining = numShips;
     nextShip = initializeShip(shipsRemaining);
-    isP2 = true;
 }
 
 //Call when the user hovers over one of their own cells.
@@ -92,7 +92,7 @@ TODO implement
 */
 function isShipValid(ship){
     //if the ship goes off the bottom of the board
-    let rowNum = parseInt(ship.topLeft.substr(1));
+    let rowNum = parseInt(ship.topLeft.substr(1, 2));
     if(ship.isVertical && ship.length-1 + rowNum > 10){
         return false;
     }
@@ -112,7 +112,7 @@ function isShipValid(ship){
 
     //check if the ship collides with any existing ships
     for (const gridShip of shipList) {
-        let gridRow = parseInt(gridShip.topLeft.substr(1));
+        let gridRow = parseInt(gridShip.topLeft.substr(1, 2));
         let gridCol = gridShip.topLeft.charCodeAt(0) - "a".charCodeAt(0) + 1;
 
         let c = [gridRow, gridCol]; //start point of ship
@@ -136,9 +136,15 @@ function isShipValid(ship){
 function initializeShip(_length){
     ship = {
         length: _length,
-        topLeft: "a1",
+        topLeft: "a01",
         isVertical: false
     };
+
+    if(isP2){
+        ship.topLeft += "p2HomeBoard";
+    }else{
+        ship.topLeft += "p1HomeBoard";
+    }
 
     return ship;
     //moveShip(ship.length, ship.topLeft, ship.isVertical);
