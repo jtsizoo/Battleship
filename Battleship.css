@@ -1,74 +1,65 @@
 table {
-    background-color: #ADD8E6;
     border: 2px solid black;
     border-collapse: collapse;
   }
 
-th, td {
-    width: 50px;
-    height: 50px;
-    border: 2px solid black;
-}
-
-.Boards{
-    display: flex;
-}
-
 .homeBoard{
-      width: 500px;
-      height: 500px;
-      display: flex;
-      flex-wrap: wrap;
-      background-color: rgb(0, 89, 255);
+    float: left;
+    margin-right: 50px;
+    background-color: #ADD8E6;
 }
+
 .attackBoard{
-    width: 500px;
-    height: 500px;
-    display: flex;
-    flex-wrap: wrap;
-    background-color: rgb(25, 49, 94);
+    background-color: #ff9595;
 }
-.board div{
-    width: 50px;
-    height: 50px;
-    background-color:grey;
-  }
+
+th, td {
+    width: 40px;
+    height: 40px;
+    border: 2px solid black;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size:x-large;
+}
+
 .oneTileShip{
-    height: 50px;
-    width: 50px;
+    height: 40px;
+    width: 40px;
+    border: 2px solid black;
     background-color: rgb(192, 189, 26);
-    margin: 5px;
     display: flex;
 }
+
 .twoTileShip{
-    height: 50px;
-    width: 100px;
+    height: 40px;
+    width: 87px;
+    border: 2px solid black;
     background-color: green;
-    margin: 5px;
     display: flex;
 }
+
 .threeTileShip{
-    height: 50px;
-    width: 150px;
+    height: 40px;
+    width: 120px;
+    border: 2px solid black;
     background-color: rgb(218, 102, 26);
     margin: 5px;
     display: flex;
 }
+
 .fourTileShip{
-    height: 50px;
-    width: 200px;
+    height: 40px;
+    width: 160px;
+    border: 2px solid black;
     background-color: rgb(116, 26, 93);
     margin: 5px;
     display: flex;
 }
+
 .fiveTileShip{
-    height: 50px;
-    width: 250px;
+    height: 40px;
+    width: 200px;
+    border: 2px solid black;
     background-color: rgb(220, 231, 233);
     margin: 5px;
     display: flex;
-}
-.ship div{
-    height: 50px;
-    width: 50px;
 }
