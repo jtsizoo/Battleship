@@ -4,22 +4,31 @@ let p2Ships = [];
 //Builds the UI.
 function createUI()
 {
-    document.getElementById("p1View").appendChild(drawGrid("p1HomeBoard", "homeBoard"));
-    document.getElementById("p1View").appendChild(drawGrid("p1AttackBoard", "attackBoard"));
+    //Builds div where p1 boards are displayed.
+    let p1Boards = document.createElement("div");
+    p1Boards.appendChild(drawGrid("p1HomeBoard", "homeBoard"));
+    p1Boards.appendChild(drawGrid("p1AttackBoard", "attackBoard"));
+    document.getElementById("p1View").appendChild(p1Boards);
 
-    document.getElementById("p2View").appendChild(drawGrid("p2HomeBoard", "homeBoard"));
-    document.getElementById("p2View").appendChild(drawGrid("p2AttackBoard", "attackBoard"));
+    //Builds div where p1 ships that have yet to be placed are displayed.
+    let p1ShipsToPlace = document.createElement("div");
+    //[insert code here]
+    document.getElementById("p1View").appendChild(p1ShipsToPlace);
 
-    testShip = document.createElement("div");
-    testShip.setAttribute("id", "testShip");
-    testShip.setAttribute("class", "twoTileShip");
-    document.getElementById("p1View").appendChild(testShip);
+    //Builds div where p2 boards are displayed.
+    let p2Boards = document.createElement("div");
+    p2Boards.appendChild(drawGrid("p2HomeBoard", "homeBoard"));
+    p2Boards.appendChild(drawGrid("p2AttackBoard", "attackBoard"));
+    document.getElementById("p2View").appendChild(p2Boards);
 
-    moveShip("testShip", "C04p1HomeBoard", false);
+    //Builds div where p2 ships that have yet to be placed are displayed.
+    let p2ShipsToPlace = document.createElement("div");
+    //[insert code here]
+    document.getElementById("p1View").appendChild(p2ShipsToPlace);
 }
 
-//Creates a table element with a given id and class and populates it with 11 rows 
-//and 11 cells per row.
+//Creates a table element with a given id and class (class should be homeBoard or attackBoard)
+//and populates it with 11 rows and 11 cells per row.
 function drawGrid(gridId, gridClass)
 {
     let columnLabelAlphabet = ['A','B','C','D','E','F','G','H','I','J'];
@@ -118,7 +127,7 @@ function drawShipPlacement(shipPosition)
 
 function parseTileClick(tile)
 {
-    console.log(tile);
+    
 }
 
 
@@ -137,7 +146,7 @@ function drawShipPlacement(grid,isP2,){
 
 function parseTileHover(tile)
 {
-    console.log(tile);
+    
 }
 
 function parseTileScroll(tile)
@@ -147,52 +156,76 @@ function parseTileScroll(tile)
 
 //Takes in the id of the visual ship element, the destination tile id, and a boolean representing 
 //if the ship is vertical, and moves the ship element over the destination tile.
-function moveShip(id, tile, isVertical)
+function moveShip(shipId, tileId, isVertical)
 {
-    var tileRect = document.getElementById(tile).getBoundingClientRect();
+    var tileRect = document.getElementById(tileId).getBoundingClientRect();
 
-    document.getElementById(id).style.position = "absolute";
-    document.getElementById(id).style.top = tileRect.top - 2;
-    document.getElementById(id).style.left = tileRect.left - 2;
-    document.getElementById(id).style.zIndex = 100;
+    document.getElementById(shipId).style.position = "absolute";
+    document.getElementById(shipId).style.top = tileRect.top - 2;
+    document.getElementById(shipId).style.left = tileRect.left - 2;
+    document.getElementById(shipId).style.zIndex = 100;
 }
 
-function setShipProperties(id, opacity, color)
+//Sets the opacity and color of a given ship.
+function setShipProperties(shipId, opacity, color)
 {
 
 
 }
 
-function setTileState(tile, isHit)
+//[WIP] Takes in a tileId and a boolean reapresenting if that tile has been hit and changes the tile's
+//appearance accordingly.
+function setTileState(tileId, isHit)
 {
-
+    if (isHit == true)
+    {
+        if (tileId.substring(5) == "HomeBoard")
+        {
+            document.getElementById(tileId).style.backgroundColor = "#90b3be";
+        }
+        else if (tileId.substring(5) == "AttackBoard")
+        {
+            document.getElementById(tileId).style.backgroundColor = "#db8080";
+        }
+    }
+    else
+    {
+        if (tileId.substring(5) == "HomeBoard")
+        {
+            document.getElementById(tileId).style.backgroundColor = "#add8e6";
+        }
+        else if (tileId.substring(5) == "AttackBoard")
+        {
+            document.getElementById(tileId).style.backgroundColor = "#ff9595";
+        }
+    }
 }
 
 //Displays one of the four windows: p1View, p2View, gameOver, and shipNumPick.
-function switchWindow(id)
+function switchWindow(windowId)
 {
-    if (id == "p1View")
+    if (windowId == "p1View")
     {
         document.getElementById("p2View").style.display = "none";
         document.getElementById("gameOver").style.display = "none";
         document.getElementById("shipNumPick").style.display = "none";
         document.getElementById("p1View").style.display = "revert";
     }
-    else if (id == "p2View")
+    else if (windowId == "p2View")
     {
         document.getElementById("p1View").style.display = "none";
         document.getElementById("gameOver").style.display = "none";
         document.getElementById("shipNumPick").style.display = "none";
         document.getElementById("p2View").style.display = "revert";
     }
-    else if (id == "gameOver")
+    else if (windowId == "gameOver")
     {
         document.getElementById("p1View").style.display = "none";
         document.getElementById("p2View").style.display = "none";
         document.getElementById("shipNumPick").style.display = "none";
         document.getElementById("gameOver").style.display = "revert";
     }
-    else if (id == "shipNumPick")
+    else if (windowId == "shipNumPick")
     {
         document.getElementById("p1View").style.display = "none";
         document.getElementById("p2View").style.display = "none";
@@ -206,9 +239,12 @@ function updateCountdownText(text)
 
 }
 
+//Sets the text displayed in the gameOver window.
 function setGameOverText(text)
 {
-
+    let gameOverTextLabel = document.createElement("label");
+    gameOverTextLabel.textContent = text;
+    document.getElementById("gameOver").appendChild(gameOverTextLabel);
 }
 
 function selectShipNumber(numShips)

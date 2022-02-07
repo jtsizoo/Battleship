@@ -21,7 +21,7 @@ function initializeShipPlacement(_numShips){
 function initializeP2Placement(){
     gameState = "p2Place";
     shipList = p2Ships;
-    switchWindow("p2view");
+    switchWindow("p2View");
     shipsRemaining = numShips;
     nextShip = initializeShip(shipsRemaining);
 }
@@ -64,7 +64,7 @@ function attemptShipPlace(cell){
                 /*
                 TODO call countdown function
                 */
-                switchWindow("p1view");
+                switchWindow("p1View");
             }else{
                 initializeP2Placement();
             }
