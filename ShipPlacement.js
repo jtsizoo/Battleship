@@ -24,6 +24,7 @@ function initializeP2Placement(){
     switchWindow("p2View");
     shipsRemaining = numShips;
     nextShip = initializeShip(shipsRemaining);
+    isP2 = true;
 }
 
 //Call when the user hovers over one of their own cells.
@@ -44,13 +45,14 @@ function hoverCell(cell){
 //Will rotate the ship between horizontal and vertical
 function rotateShip(){
     nextShip.isVertical = !nextShip.isVertical;
-    moveShip(nextShip.length, cell, nextShip.isVertical);
+    moveShip(nextShip.length, nextShip.topLeft, nextShip.isVertical);
 }
 
 //Call when the user clicks a cell on their own board. 
 //Will attempt to place a ship, add it to the ships list if valid, 
 //and move to the next stage of the game if no more ships need placed.
 function attemptShipPlace(cell){
+    nextShip.topLeft = cell;
     moveShip(nextShip.length, cell, nextShip.isVertical);
 
     if(isShipValid(nextShip)){
@@ -79,7 +81,7 @@ function attemptShipPlace(cell){
 
 //helper method to place the ship and update the ship list.
 function placeShip(ship){
-    p1Ships.push(ship);
+    shipList.push(ship);
     //set the ship to be gray and opaque
     setShipProperties(ship.length, 1, "gray");
 }
@@ -133,12 +135,30 @@ function isShipValid(ship){
 
 function initializeShip(_length){
     ship = {
-        length = _length,
-        topLeft = "a1",
-        isVertical = false
+        length: _length,
+        topLeft: "a1",
+        isVertical: false
     };
 
     return ship;
     //moveShip(ship.length, ship.topLeft, ship.isVertical);
     //setShipProperties(ship.length, PREVIEW_OPACITY, "gray");
+}
+
+function initializeTestFunctions(){
+    moveShip = function(id, cell, vert){
+        console.log(id, cell, vert);
+    }
+
+    setShipProperties = function(id, op, co){
+        console.log(id, op, co);
+    }
+
+    switchWindow = function(id){
+        console.log("switching to",id);
+    }
+
+    p1Ships = [];
+    p2Ships = [];
+    gameState = "";
 }
