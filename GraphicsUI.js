@@ -119,12 +119,6 @@ function drawGrid(gridId, gridClass)
     return grid;
 }
 
-//this fucntion will draw the ship being placed onto grid for whichever player whos turn it is 
-function drawShipPlacement(shipPosition)
-{
-
-}
-
 function parseTileClick(tile)
 {
     
@@ -247,10 +241,19 @@ function setGameOverText(text)
     document.getElementById("gameOver").appendChild(gameOverTextLabel);
 }
 
-function selectShipNumber(numShips)
-{
-
+function selectShipNumber()
+{   
+    let numbers = [1,2,3,4,5];
+    let shipPick = document.getElementById("shipPick");
+    numbers.forEach((item) => {
+        let li = document.createElement("li");
+        li.innerText = item;
+        shipPick.appendChild(li);
+      });
 }
 
+
+selectShipNumber();
 createUI();
 switchWindow("p1View");
+}
