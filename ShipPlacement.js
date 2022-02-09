@@ -5,6 +5,7 @@ let isP2 = false;
 const PREVIEW_OPACITY = .5;
 let shipList = [];
 
+
 //Call when the user chooses how many ships to play with.
 //Starts the ship placement phase of the game, beginning with player 1.
 function initializeShipPlacement(_numShips){
