@@ -1,6 +1,6 @@
 let p1Ships = [];
 let p2Ships = [];
-
+let gameState = "numShipSelection";
 
 
 //Builds the UI.
