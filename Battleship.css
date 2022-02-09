@@ -1,0 +1,65 @@
+table {
+    border: 2px solid black;
+    border-collapse: collapse;
+  }
+
+.homeBoard{
+    float: left;
+    margin-right: 50px;
+    background-color: #add8e6;
+}
+
+.attackBoard{
+    background-color: #ff9595;
+}
+
+th, td {
+    width: 40px;
+    height: 40px;
+    border: 2px solid black;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size:x-large;
+}
+
+.oneTileShip{
+    height: 40px;
+    width: 40px;
+    border: 2px solid black;
+    background-color: rgb(192, 189, 26);
+    display: flex;
+}
+
+.twoTileShip{
+    height: 40px;
+    width: 87px;
+    border: 2px solid black;
+    background-color: green;
+    display: flex;
+}
+
+.threeTileShip{
+    height: 40px;
+    width: 120px;
+    border: 2px solid black;
+    background-color: rgb(218, 102, 26);
+    margin: 5px;
+    display: flex;
+}
+
+.fourTileShip{
+    height: 40px;
+    width: 160px;
+    border: 2px solid black;
+    background-color: rgb(116, 26, 93);
+    margin: 5px;
+    display: flex;
+}
+
+.fiveTileShip{
+    height: 40px;
+    width: 200px;
+    border: 2px solid black;
+    background-color: rgb(220, 231, 233);
+    margin: 5px;
+    display: flex;
+}
