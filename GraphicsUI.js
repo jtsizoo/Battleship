@@ -139,16 +139,6 @@ function rotateShipButton(){
     button.addEventListener("click",rotateShip);
 }
 
-
-//this fucntion will draw the ship being placed onto grid for whichever player whose turn it is 
-//arguments are for the grid depending on the player, the player, and the 
-function drawShipPlacement(grid,isP2,){
-    
-
-    //when a user clicks on a grid will place the ship
-    document.addEventListener("click",placeShip);
-    
-
 function parseTileHover(tile)
 {
     
@@ -235,9 +225,10 @@ function switchWindow(windowId)
     }
 }
 
+//Set the text in the countdown/transition section of the page.
 function updateCountdownText(text)
 {
-
+    document.getElementById("countdownText").textContent = text;
 }
 
 //Sets the text displayed in the gameOver window.
@@ -267,6 +258,5 @@ function selectShipNumber()
 selectShipNumber();
 createUI();
 switchWindow("p1View");
-}
 rotateShipButton();
 
