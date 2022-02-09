@@ -1,6 +1,5 @@
 let p1Ships = [];
 let p2Ships = [];
-let gameState = "NumShipSelecton";
 
 
 
@@ -153,10 +152,6 @@ function parseTileHover(tile)
     
 }
 
-function parseTileScroll(tile)
-{
-
-}
 
 //Takes in the id of the visual ship element, the destination tile id, and a boolean representing 
 //if the ship is vertical, and moves the ship element over the destination tile.
