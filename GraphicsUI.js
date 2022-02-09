@@ -1,6 +1,8 @@
 let p1Ships = [];
 let p2Ships = [];
 
+
+
 //Builds the UI.
 function createUI()
 {
@@ -124,15 +126,20 @@ function parseTileClick(tile)
     
 }
 
+// this function will call the rotate button in the index html file
+// arguments: 
+// may need to pass all ships into the arugments to rotate everything
+
+function rotateShipButton(){
+    let button = document.getElementById("rotateButton");
+    button.addEventListener("click",rotateShip);
+}
+
 
 //this fucntion will draw the ship being placed onto grid for whichever player whose turn it is 
 //arguments are for the grid depending on the player, the player, and the 
-
 function drawShipPlacement(grid,isP2,){
     
-
-    //rotates the ship when user scrolls
-    document.addEventListener("scroll",rotateShip);
 
     //when a user clicks on a grid will place the ship
     document.addEventListener("click",placeShip);
@@ -241,6 +248,7 @@ function setGameOverText(text)
     document.getElementById("gameOver").appendChild(gameOverTextLabel);
 }
 
+// needs fixing 
 function selectShipNumber()
 {   
     let numbers = [1,2,3,4,5];
@@ -251,9 +259,14 @@ function selectShipNumber()
         shipPick.appendChild(li);
       });
 }
+//
+
+
 
 
 selectShipNumber();
 createUI();
 switchWindow("p1View");
 }
+rotateShipButton();
+
