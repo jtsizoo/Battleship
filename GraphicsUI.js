@@ -1,5 +1,6 @@
 let p1Ships = [];
 let p2Ships = [];
+let gameState = "NumShipSelecton";
 
 
 
