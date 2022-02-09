@@ -128,7 +128,9 @@ function parseTileClick(tile)
 
 // this function will call the rotate button in the index html file
 // arguments: 
-// may need to pass all ships into the arugments to rotate everything
+
+// which player is playing, game state = ship rotate 
+
 
 function rotateShipButton(){
     let button = document.getElementById("rotateButton");
