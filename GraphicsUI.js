@@ -133,6 +133,8 @@ function parseTileClick(tile)
 
 
 function rotateShipButton(){
+    //check the game state and the player that is playing
+    //ie if the player is in the placement stage
     let button = document.getElementById("rotateButton");
     button.addEventListener("click",rotateShip);
 }
