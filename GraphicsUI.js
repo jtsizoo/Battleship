@@ -1,6 +1,5 @@
 let p1Ships = [];
 let p2Ships = [];
-let gameState = "NumShipSelecton";
 
 
 
@@ -129,9 +128,13 @@ function parseTileClick(tile)
 
 // this function will call the rotate button in the index html file
 // arguments: 
-// may need to pass all ships into the arugments to rotate everything
+
+// which player is playing, game state = ship rotate 
+
 
 function rotateShipButton(){
+    //check the game state and the player that is playing
+    //ie if the player is in the placement stage
     let button = document.getElementById("rotateButton");
     button.addEventListener("click",rotateShip);
 }
@@ -151,10 +154,6 @@ function parseTileHover(tile)
     
 }
 
-function parseTileScroll(tile)
-{
-
-}
 
 //Takes in the id of the visual ship element, the destination tile id, and a boolean representing 
 //if the ship is vertical, and moves the ship element over the destination tile.
