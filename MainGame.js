@@ -1,5 +1,9 @@
 let turn = 0; //p1 turn is represented by a 0, p2 turn is represented by a 1
+//create guessed boards, hit or miss
+//make array of 0's, 1's, 2's, no repeat guesses
 
+//send to discord all the functions that will need to be called
+//explain 3d array
 //creating ship objects for testing functionality
 const ship1 = {
     topLeft: "a1",
@@ -45,10 +49,13 @@ arr = [p1Ships, p2Ships];
 createCoordinateArray(p1Ships);
 createCoordinateArray(p2Ships);
 
+printCoordinateArray(p2Ships);
+
 guessCell("c6", arr[turn]); 
 guessCell("c6", arr[turn]); 
 
 //scans all components of the ship array to determine whether a guess is a hit or a miss
+//TODO---change hit/miss to call setTileState(tileID, hit/miss)
 function guessCell(cell, shipArray) { 
     let hit = false;
     for (let i = 0; i < shipArray.length; i++) {
@@ -63,7 +70,7 @@ function guessCell(cell, shipArray) {
         console.log("\nMiss!"); //need to change
     }
     switchTurns();
-    wait(10000);
+    //wait(10000);
 }
 
 function switchTurns() {
@@ -75,7 +82,7 @@ function switchTurns() {
     }
 }
 
-function wait(ms) {
+function wait(ms) { //TODO updatecountdowntext()
     var start = new Date().getTime();
     var end = start;
     while (end < start + ms) {
