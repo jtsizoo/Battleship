@@ -1,12 +1,28 @@
-let turn = 0;
+//this file controls the flow of the main game
+//the turn of the player is controlled by a turn index
+//if the index = 0, it's p1's turn
+//if the index = 1, it's p2's turn
+//the turn index is also used to access a 3D array, where the first array contains two 10x10 boards (a 2D array)
 
-//send to discord all the functions that will need to be called
-//explain 3d array
+let turn = 0; //game starts on p1's turn, p1 = 0
+
+let p1Hits = 0; //each player starts with 0 hits
+let p2Hits = 0;
+
+let maxHits = 0; //max number of hits possible is used to track how close players are to winning the game
+    for (i = 1; i <= numShips; i++) {
+        maxHits = maxHits + i;
+}
+
+let p1GuessedBoard = createEmptyBoard(); //two empty boards are created and stored in an array
+let p2GuessedBoard = createEmptyBoard(); //the default board is filled with 0's, indicating that a position hasn't been guessed
+arrGuessedBoard = [p1GuessedBoard, p2GuessedBoard];
+
 //creating ship objects for testing functionality
 const ship1 = {
     topLeft: "a01",
     isVertical: false,
-    length: 1
+    length: 2
 }
 
 const ship2 = {
@@ -45,34 +61,37 @@ let p2Ships = [ship4, ship5, ship6];
 createCoordinateArray(p1Ships);
 createCoordinateArray(p2Ships);
 
-let p1GuessedBoard = createEmptyBoard();
-let p2GuessedBoard = createEmptyBoard();
-
-arrPlayerShips = [p1Ships, p2Ships];
-arrGuessedBoard = [p1GuessedBoard, p2GuessedBoard];
-
-guessCell("bo1", arrPlayerShips[turn]);
-
 //scans all components of the ship array to determine whether a guess is a hit or a miss
-//TODO---change hit/miss to call setTileState(tileID, hit/miss)
-function guessCell(cell, shipArray) { 
+function guessCell(cell) { 
+    if (turn == 0) {
+        shipArray = p1Ships;
+    }
+    else if (turn == 1) {
+        shipArray = p2Ships;
+    }
+
     let isHit = false;
     for (let i = 0; i < shipArray.length; i++) {
         for (let j = 0; j < shipArray[i].length; j++) {
             if (shipArray[i].coordinateArray[j] == cell) {
                 isHit = true;
+                updateHitCounter();
                 updateGuessedBoard(cell, isHit);
+                callSetTileState(cell, isHit);
                 //console.log("Hit!");
             }
         }
     }
     if (isHit == false) {
         updateGuessedBoard(cell, isHit);
+        callSetTileState(cell, isHit);
         //console.log("Miss!"); 
     }
     switchTurns();
 }
 
+//updates the opponent's board
+//default = 0, hit = 1, miss = 2
 function updateGuessedBoard(cell, isHit) {
     let board = arrGuessedBoard[turn];
 
@@ -84,7 +103,7 @@ function updateGuessedBoard(cell, isHit) {
         char = nextChar(char);
         column++;
     }
-    if (board[row][column] != 0) { //0 = not guessed
+    if (board[row][column] == 0) { //0 = not guessed, this if statement filters out repeat guesses
         if (isHit) {
             board[row][column] = 1; //hit = 1
         }
@@ -94,16 +113,52 @@ function updateGuessedBoard(cell, isHit) {
     }
 }
 
-function switchTurns() {
+//creates a tileID that is passed to GraphicsUI.js through setTileState
+function callSetTileState(cell, isHit) {
     if (turn == 0) {
-        turn = 1;
+        let tileID_1 = cell + 'p1AttackBoard';
+        let tileID_2 = cell + 'p2HomeBoard';
+        setTileState(tileID_1, isHit);
+        setTileState(tileID_2, isHit);
     }
-    else {
-        turn = 0;
+    else if (turn == 1) {
+        let tileID_1 = cell + 'p1HomeBoard';
+        let tileID_2 = cell + 'p2AttackBoard';
+        setTileState(tileID_1, isHit);
+        setTileState(tileID_2, isHit);
     }
 }
 
-function wait(ms) { //TODO updatecountdowntext()
+//switches the turn index and updates the game state
+function switchTurns() {
+    if (turn == 0) {
+        turn = 1;
+        gameState = "p2Turn";
+    }
+    else {
+        turn = 0;
+        gameState = "p1Turn";
+    }
+}
+
+function updateHitCounter() {
+    if (turn == 0) {
+        p1Hits++;
+    }
+    else if (turn == 1) {
+        p2Hits++;
+    }
+
+    if (p1Hits == maxHits) {
+        //TODO---call setEndText
+    }
+    else if (p2Hits == maxHits) {
+        //TODO---callsetEndText
+    }
+}
+
+//stalls code execution for a certain number of ms
+function wait(ms) { 
     var start = new Date().getTime();
     var end = start;
     while (end < start + ms) {
@@ -111,6 +166,7 @@ function wait(ms) { //TODO updatecountdowntext()
     }
  }
 
+ //creates an empty 2D array that will contain information about the opponent's board
  function createEmptyBoard() {
      let board = [];
      for (let i = 0; i < 10; i++) {
@@ -145,7 +201,7 @@ function createCoordinateArray(shipArray) {
     }
 }
 
-//pass in a player's ship array and this will print the coordinates each ship occupies
+//pass in a player's ship array and this will print the coordinates each ship occupies, used for testing functionality
 function printCoordinateArray(shipArray) { 
     for (let i = 0; i < shipArray.length; i++) {
         console.log("SHIP OF LENGTH " + shipArray[i].length + " COORDINATES");
