@@ -134,13 +134,18 @@ function switchTurns() {
     if (turn == 0) {
         turn = 1;
         gameState = "p2Turn";
+        switchWindow(p2View);
+        updateTransitionTarget(p2View);
     }
     else {
         turn = 0;
         gameState = "p1Turn";
+        switchWindow(p1View);
+        updateTransitionTarget(p1View);
     }
 }
 
+//updates the total number of hits a player has
 function updateHitCounter() {
     if (turn == 0) {
         p1Hits++;
