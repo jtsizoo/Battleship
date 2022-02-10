@@ -11,12 +11,14 @@
             <button onClick="window.location.reload();" class="button-65">Reset Game</button>
             <button id="Start" class="button-65">New Game</button>
         </div>
+        <div>
+        </div>
         <div id="shipNumPick">
-            <button class="button-65">1</button>
-            <button class="button-65">2</button>
-            <button class="button-65">3</button>
-            <button class="button-65">4</button>
-            <button class="button-65">5</button>
+            <button class="button-65" onclick="createUI(1)" >1</button>
+            <button class="button-65" onclick="createUI(2)" >2</button>
+            <button class="button-65" onclick="createUI(3)" >3</button>
+            <button class="button-65" onclick="createUI(4)" >4</button>
+            <button class="button-65" onclick="createUI(5)" >5</button>
         </div>
         <div id="gameOver" style="display:none"></div>
         <div id="p1View" style="display:none"></div>
@@ -27,7 +29,6 @@
         <div id="p2View" style="display:none">
             <button id="rotateButton" class="button-65">Rotate Ships</button>
         </div>
-
         <script type="text/javascript" src="GraphicsUI.js"></script>
         <script type="text/javascript" src="ShipPlacement.js"></script>
         <script type="text/javascript" src="MainGame.js"></script>
