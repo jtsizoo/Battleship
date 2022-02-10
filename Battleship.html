@@ -7,8 +7,7 @@
     </head>
 
     <body>
-        <div id="newGame" style="display:none">
-            <button id="rotateButton" class="button-65">Rotate Ships</button>
+        <div id="newGame">
             <button onClick="window.location.reload();" class="button-65">Reset Game</button>
             <button id="Start" class="button-65">New Game</button>
         </div>
@@ -19,7 +18,9 @@
             <h1 id="transitionText">Switching Turns!</h1>
             <button id="nextPlayerButton" onclick="handleTransition()">Next Player</button>
         </div>
-        <div id="p2View" style="display:none"></div>
+        <div id="p2View">
+            <button id="rotateButton" class="button-65">Rotate Ships</button>
+        </div>
 
         <script type="text/javascript" src="ShipPlacement.js"></script>
         <script type="text/javascript" src="GraphicsUI.js"></script>

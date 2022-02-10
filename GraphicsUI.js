@@ -1,6 +1,5 @@
 let p1Ships = [];
 let p2Ships = [];
-let gameState = "numShipSelection";
 
 
 let currentWindow = "shipNumPick";
@@ -125,13 +124,49 @@ function drawGrid(gridId, gridClass)
 
 function parseTileClick(tile)
 {
-    
+    if(gameState == p1Place && tile.substring(3) == "p1HomeBoard"){
+        attemptShipPlace(tile)
+    }
+    else if(gameState == p2Place && tile.substring(3) == "p2HomeBoard"){
+        attemptShipPlace(tile)
+    }
+    else if(gameState == p1Turn && tile.substring(3) == "p1AttackBoard"){
+        guessCell(tile)
+    }
+    else if(gameState == p2Turn && tile.substring(3) == "p2AttackBoard"){
+        guessCell(tile)
+    }
+    else{
+        console.log("Incorrect Game State for clicking")
+    }
 }
 
 
+// this function will call the rotate button in the index html file
+// arguments: 
+// which player is playing, game state = ship rotate 
+function rotateShipButton(){
+    //check the game state and the player that is playing
+    //ie if the player is in the placement stage
+    let button = document.getElementById("rotateButton");
+    if(gameState == "numShipSelection"){
+    button.style.visibility = "visible";
+    button.addEventListener("click",rotateShip);   
+    } else{
+    button.style.visibility = "hidden";
+    // dont need this if we're hiding it from the view
+    //button.onclick(window.alert("Cannot place any more ships!"));
+    }
+}
+
 function parseTileHover(tile)
 {
-    
+    if(gameState == p1Place && tile.substring(3) == "p1HomeBoard"){
+        hoverCell(tile)
+    }
+    else if(gameState == p2Place && tile.substring(3) == "p2HomeBoard"){
+        hoverCell(tile)
+    }
 }
 
 
