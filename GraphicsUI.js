@@ -249,6 +249,3 @@ function setGameOverText(text)
 }
 
 
-createUI();
-switchWindow("shipNumPick");
-
