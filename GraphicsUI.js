@@ -3,8 +3,8 @@ let p2Ships = [];
 let gameState = "numShipSelection";
 
 
-//Builds the UI.
-function createUI()
+//Builds the UI taking in the number of ships as a parameter.
+function createUI(numberOfShips)
 {
     //Builds div where p1 boards are displayed.
     let p1Boards = document.createElement("div");
@@ -14,7 +14,7 @@ function createUI()
 
     //Builds div where p1 ships that have yet to be placed are displayed.
     let p1ShipsToPlace = document.createElement("div");
-    //[insert code here]
+    p1ShipsToPlace.appendChild(drawShips(numberOfShips, "p1"));
     document.getElementById("p1View").appendChild(p1ShipsToPlace);
 
     //Builds div where p2 boards are displayed.
@@ -25,7 +25,7 @@ function createUI()
 
     //Builds div where p2 ships that have yet to be placed are displayed.
     let p2ShipsToPlace = document.createElement("div");
-    //[insert code here]
+    p1ShipsToPlace.appendChild(drawShips(numberOfShips, "p2"));
     document.getElementById("p1View").appendChild(p2ShipsToPlace);
 }
 
@@ -33,7 +33,7 @@ function createUI()
 //and populates it with 11 rows and 11 cells per row.
 function drawGrid(gridId, gridClass)
 {
-    let columnLabelAlphabet = ['A','B','C','D','E','F','G','H','I','J'];
+    let columnLabelAlphabet = ['a','b','c','d','e','f','g','h','i','j'];
     
     //Creates a table and specifies its header and body.
     let grid = document.createElement("table");
@@ -119,6 +119,41 @@ function drawGrid(gridId, gridClass)
     grid.setAttribute("class", gridClass);
 
     return grid;
+}
+
+//Creates the inventory box containing the ships to be placed. Takes in an int representing the 
+//number of ships to draw (should be between 1 and 5) and a string representing which player the 
+//ships belong to (should be "p1" or "p2")
+function drawShips(numberOfShips, player)
+{
+    let shipInventoryBox = document.createElement("div");
+    shipInventoryBox.setAttribute("class", "shipInventoryBox");
+    
+    for (let i = 0; i < numberOfShips; i++)
+    {
+        let ship = document.createElement("div");
+        let shipClass = "";
+        
+        switch (i)
+        {
+            case 0:
+                shipClass = "oneTileShip";
+            case 1:
+                shipClass = "twoTileShip";
+            case 2:
+                shipClass = "threeTileShip";
+            case 3:
+                shipClass = "fourTileShip";
+            case 4:
+                shipClass = "fiveTileShip";
+        }
+
+        ship.setAttribute("class", shipClass);
+        ship.setAttribute("id", [player, shipClass].join());
+        shipInventoryBox.appendChild(ship);
+    }
+
+    return (shipInventoryBox);
 }
 
 function parseTileClick(tile)
