@@ -19,7 +19,7 @@ let p2GuessedBoard = createEmptyBoard(); //the default board is filled with 0's,
 arrGuessedBoard = [p1GuessedBoard, p2GuessedBoard];
 
 //creating ship objects for testing functionality
-const ship1 = {
+/*const ship1 = {
     topLeft: "a01",
     isVertical: false,
     length: 2
@@ -56,7 +56,7 @@ const ship6 = {
 }
 
 let p1Ships = [ship1, ship2, ship3];
-let p2Ships = [ship4, ship5, ship6];
+let p2Ships = [ship4, ship5, ship6];*/
 
 createCoordinateArray(p1Ships);
 createCoordinateArray(p2Ships);
