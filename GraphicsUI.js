@@ -213,7 +213,7 @@ function rotateShipButton(){
     let button = document.getElementById("rotateButton");
     if(gameState == "numShipSelection"){
     button.style.visibility = "visible";
-    button.addEventListener("click",rotateShip);   
+    button.addEventListener("click",rotateShip);
     } else{
     button.style.visibility = "hidden";
     // dont need this if we're hiding it from the view
@@ -247,8 +247,8 @@ function moveShip(shipId, tileId, isVertical)
 //Sets the opacity and color of a given ship.
 function setShipProperties(shipId, opacity, color)
 {
-
-
+    document.getElementById(shipId).style.opacity = opacity;
+    document.getElementById(shipId).style.color = color;
 }
 
 //[WIP] Takes in a tileId and a boolean reapresenting if that tile has been hit and changes the tile's
@@ -309,5 +309,3 @@ function setGameOverText(text)
     document.getElementById("gameOver").appendChild(gameOverTextLabel);
 }
 
-createUI(5);
-switchWindow("p1View");

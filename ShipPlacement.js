@@ -9,6 +9,7 @@ let shipList = [];
 //Call when the user chooses how many ships to play with.
 //Starts the ship placement phase of the game, beginning with player 1.
 function initializeShipPlacement(_numShips){
+    switchWindow("p1View");
     gameState = "p1Place";
     isP2 = false;
     numShips = _numShips;
@@ -32,21 +33,21 @@ function initializeP2Placement(){
 //Will render a preview of the next ship to place. Red if invalid, Gray if valid.
 function hoverCell(cell){
     nextShip.topLeft = cell;
-    moveShip(nextShip.length, cell, nextShip.isVertical);
+    moveShip(getShipID(nextShip.length), cell, nextShip.isVertical);
 
     if(isShipValid(nextShip)){
-        setShipProperties(nextShip.length, PREVIEW_OPACITY, "gray");
+        setShipProperties(getShipID(nextShip.length), PREVIEW_OPACITY, "gray");
     }else{
         //invalid placement, make ship red
-        setShipProperties(nextShip.length, PREVIEW_OPACITY, "red");
+        setShipProperties(getShipID(nextShip.length), PREVIEW_OPACITY, "red");
     }
 }
 
-//Call when the user scrolls
+//Call when the user clicks the rotate ship button
 //Will rotate the ship between horizontal and vertical
 function rotateShip(){
     nextShip.isVertical = !nextShip.isVertical;
-    moveShip(nextShip.length, nextShip.topLeft, nextShip.isVertical);
+    moveShip(getShipID(nextShip.length), nextShip.topLeft, nextShip.isVertical);
 }
 
 //Call when the user clicks a cell on their own board. 
@@ -54,7 +55,7 @@ function rotateShip(){
 //and move to the next stage of the game if no more ships need placed.
 function attemptShipPlace(cell){
     nextShip.topLeft = cell;
-    moveShip(nextShip.length, cell, nextShip.isVertical);
+    moveShip(getShipID(nextShip.length), cell, nextShip.isVertical);
 
     if(isShipValid(nextShip)){
         placeShip(nextShip);
@@ -63,10 +64,8 @@ function attemptShipPlace(cell){
             if(isP2){
 
                 gameState = "p1Turn";
-                switchWindow("countdown");
-                /*
-                TODO call countdown function
-                */
+                switchWindow("transition");
+                setTransitionTarget("p1View");
                 switchWindow("p1View");
             }else{
                 initializeP2Placement();
@@ -75,7 +74,7 @@ function attemptShipPlace(cell){
             startCell = nextShip.topLeft;
             nextShip = initializeShip(shipsRemaining);
             nextShip.topLeft = startCell;
-            moveShip(nextShip.length, startCell, nextShip.isVertical);
+            moveShip(getShipID(nextShip.length), startCell, nextShip.isVertical);
         }
     }
 }
@@ -84,7 +83,7 @@ function attemptShipPlace(cell){
 function placeShip(ship){
     shipList.push(ship);
     //set the ship to be gray and opaque
-    setShipProperties(ship.length, 1, "gray");
+    setShipProperties(getShipID(nextShip.length), 1, "gray");
 }
 
 //Helper function to determine if a ship placement is valid.
@@ -168,4 +167,12 @@ function initializeTestFunctions(){
     p1Ships = [];
     p2Ships = [];
     gameState = "";
+}
+
+function getShipID(length){
+    if(isP2){
+        return "p2-"+length+"TileShip";
+    }else{
+        return "p1-"+length+"TileShip";
+    }
 }
