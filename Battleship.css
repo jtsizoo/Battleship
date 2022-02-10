@@ -21,6 +21,11 @@ th, td {
     font-size:x-large;
 }
 
+.shipInventoryBox {
+  margin: 5px;
+  border: 2px solid black;
+}
+
 .oneTileShip{
     height: 40px;
     width: 40px;
@@ -64,6 +69,15 @@ th, td {
     display: flex;
 }
 
+.shipInventoryBoxHeading {
+  border: 2px solid black;
+  padding: 5px;
+}
+
+.shipBox {
+  border: 2px solid black;
+  padding: 5px;
+}
 
 #newGame{
     display: flex;

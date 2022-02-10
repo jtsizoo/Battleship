@@ -5,6 +5,7 @@ let gameState = "numShipSelection";
 
 let currentWindow = "shipNumPick";
 let transitionTarget = "p1View";
+
 //Builds the UI taking in the number of ships as a parameter.
 function createUI(numberOfShips)
 {
@@ -27,8 +28,10 @@ function createUI(numberOfShips)
 
     //Builds div where p2 ships that have yet to be placed are displayed.
     let p2ShipsToPlace = document.createElement("div");
-    p1ShipsToPlace.appendChild(drawShips(numberOfShips, "p2"));
-    document.getElementById("p1View").appendChild(p2ShipsToPlace);
+    p2ShipsToPlace.appendChild(drawShips(numberOfShips, "p2"));
+    document.getElementById("p2View").appendChild(p2ShipsToPlace);
+
+    initializeShipPlacement(numberOfShips);
 }
 
 //Creates a table element with a given id and class (class should be homeBoard or attackBoard)
@@ -125,35 +128,58 @@ function drawGrid(gridId, gridClass)
 
 //Creates the inventory box containing the ships to be placed. Takes in an int representing the 
 //number of ships to draw (should be between 1 and 5) and a string representing which player the 
-//ships belong to (should be "p1" or "p2")
+//ships belong to (should be "p1" or "p2").
 function drawShips(numberOfShips, player)
 {
     let shipInventoryBox = document.createElement("div");
     shipInventoryBox.setAttribute("class", "shipInventoryBox");
+
+    let shipBox = document.createElement("div");
+    shipBox.setAttribute("class", "shipBox");
+
+    let shipInventoryBoxHeading = document.createElement("div");
+    shipInventoryBoxHeading.setAttribute("class", "shipInventoryBoxHeading");
+    let shipInventoryBoxLabel = document.createElement("label");
+    shipInventoryBox.textContent = "Ship Inventory";
+    shipInventoryBoxHeading.appendChild(shipInventoryBoxLabel);
     
     for (let i = 0; i < numberOfShips; i++)
     {
         let ship = document.createElement("div");
         let shipClass = "";
+        let shipId = "";
         
         switch (i)
         {
             case 0:
                 shipClass = "oneTileShip";
+                shipId = [player, "1TileShip"].join("-");
+                break;
             case 1:
                 shipClass = "twoTileShip";
+                shipId = [player, "2TileShip"].join("-");
+                break;
             case 2:
                 shipClass = "threeTileShip";
+                shipId = [player, "3TileShip"].join("-");
+                break;
             case 3:
                 shipClass = "fourTileShip";
+                shipId = [player, "4TileShip"].join("-");
+                break;
             case 4:
                 shipClass = "fiveTileShip";
+                shipId = [player, "5TileShip"].join("-");
+                break;
         }
 
         ship.setAttribute("class", shipClass);
-        ship.setAttribute("id", [player, shipClass].join());
-        shipInventoryBox.appendChild(ship);
+        ship.setAttribute("id", shipId);
+        shipBox.appendChild(ship);
     }
+
+    shipInventoryBox.appendChild(shipInventoryBoxHeading);
+    shipInventoryBox.appendChild(shipBox);
 
     return (shipInventoryBox);
 }
@@ -283,7 +309,5 @@ function setGameOverText(text)
     document.getElementById("gameOver").appendChild(gameOverTextLabel);
 }
 
-
-createUI();
-switchWindow("shipNumPick");
-
+createUI(5);
+switchWindow("p1View");
