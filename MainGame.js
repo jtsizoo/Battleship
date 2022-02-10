@@ -1,76 +1,97 @@
-let turn = 0; //p1 turn is represented by a 0, p2 turn is represented by a 1
-//create guessed boards, hit or miss
-//make array of 0's, 1's, 2's, no repeat guesses
+let turn = 0;
 
 //send to discord all the functions that will need to be called
 //explain 3d array
 //creating ship objects for testing functionality
 const ship1 = {
-    topLeft: "a1",
-    vertical: false,
+    topLeft: "a01",
+    isVertical: false,
     length: 1
 }
 
 const ship2 = {
-    topLeft: "c4",
-    vertical: true,
+    topLeft: "c04",
+    isVertical: true,
     length: 5
 }
 
 const ship3 = {
-    topLeft: "f6",
-    vertical: true,
+    topLeft: "f06",
+    isVertical: true,
     length: 3
 }
 
 const ship4 = {
-    topLeft: "a1",
-    vertical: false,
+    topLeft: "a01",
+    isVertical: false,
     length: 2
 }
 
 const ship5 = {
-    topLeft: "e3",
-    vertical: true,
+    topLeft: "e07",
+    isVertical: true,
     length: 4
 }
 
 const ship6 = {
-    topLeft: "f5",
-    vertical: false,
+    topLeft: "f05",
+    isVertical: false,
     length: 3
 }
 
 let p1Ships = [ship1, ship2, ship3];
 let p2Ships = [ship4, ship5, ship6];
 
-arr = [p1Ships, p2Ships];
-
 createCoordinateArray(p1Ships);
 createCoordinateArray(p2Ships);
 
-printCoordinateArray(p2Ships);
+let p1GuessedBoard = createEmptyBoard();
+let p2GuessedBoard = createEmptyBoard();
 
-guessCell("c6", arr[turn]); 
-guessCell("c6", arr[turn]); 
+arrPlayerShips = [p1Ships, p2Ships];
+arrGuessedBoard = [p1GuessedBoard, p2GuessedBoard];
+
+guessCell("bo1", arrPlayerShips[turn]);
 
 //scans all components of the ship array to determine whether a guess is a hit or a miss
 //TODO---change hit/miss to call setTileState(tileID, hit/miss)
 function guessCell(cell, shipArray) { 
-    let hit = false;
+    let isHit = false;
     for (let i = 0; i < shipArray.length; i++) {
         for (let j = 0; j < shipArray[i].length; j++) {
             if (shipArray[i].coordinateArray[j] == cell) {
-                hit = true;
-                console.log("\nHit!"); //need to change
+                isHit = true;
+                updateGuessedBoard(cell, isHit);
+                //console.log("Hit!");
             }
         }
     }
-    if (hit == false) {
-        console.log("\nMiss!"); //need to change
+    if (isHit == false) {
+        updateGuessedBoard(cell, isHit);
+        //console.log("Miss!"); 
     }
     switchTurns();
-    //wait(10000);
+}
+
+function updateGuessedBoard(cell, isHit) {
+    let board = arrGuessedBoard[turn];
+
+    let row = cell[2] - 1;
+    let column = 0;
+
+    let char = 'a'; //converts the letter column of 'cell' coordinate into an int
+    while (char != cell[0]) {
+        char = nextChar(char);
+        column++;
+    }
+    if (board[row][column] != 0) { //0 = not guessed
+        if (isHit) {
+            board[row][column] = 1; //hit = 1
+        }
+        else {
+            board[row][column] = 2; //miss = 2
+        }    
+    }
 }
 
 function switchTurns() {
@@ -90,19 +111,35 @@ function wait(ms) { //TODO updatecountdowntext()
     }
  }
 
+ function createEmptyBoard() {
+     let board = [];
+     for (let i = 0; i < 10; i++) {
+         board[i] = [];
+         for (let j = 0; j < 10; j++) {
+             board[i][j] = 0;
+         }
+     }
+     return board;
+ }
+
 //takes a player's ship array and turns the information of top left, orientation, and length for each ship into board coordinates
 function createCoordinateArray(shipArray) {
     for (let m = 0; m < shipArray.length; m++) {
         shipArray[m].coordinateArray = [];
         shipArray[m].coordinateArray[0] = shipArray[m].topLeft;
-        if (shipArray[m].vertical == false) {
+        if (shipArray[m].isVertical == false) {
             for (i = 1; i < shipArray[m].length; i++) {
-                shipArray[m].coordinateArray[i] = nextChar(shipArray[m].coordinateArray[i-1][0]) + shipArray[m].topLeft[1];
+                shipArray[m].coordinateArray[i] = nextChar(shipArray[m].coordinateArray[i-1][0]) + shipArray[m].topLeft[1] + shipArray[m].topLeft[2];
             }
         }
-        else if (shipArray[m].vertical == true) {
+        else if (shipArray[m].isVertical == true) {
             for (i = 1; i < shipArray[m].length; i++) {
-                shipArray[m].coordinateArray[i] = shipArray[m].topLeft[0] + nextChar(shipArray[m].coordinateArray[i-1][1]);
+                if (shipArray[m].coordinateArray[i-1][2] == 9) {
+                    shipArray[m].coordinateArray[i] = shipArray[m].topLeft[0] + 1 + 0;
+                }
+                else {
+                    shipArray[m].coordinateArray[i] = shipArray[m].topLeft[0] + shipArray[m].topLeft[1] + nextChar(shipArray[m].coordinateArray[i-1][2]);
+                }
             }
         }
     }
