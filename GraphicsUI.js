@@ -186,8 +186,8 @@ function moveShip(shipId, tileId, isVertical)
 //Sets the opacity and color of a given ship.
 function setShipProperties(shipId, opacity, color)
 {
-
-
+    document.getElementById(shipId).style.opacity = opacity;
+    document.getElementById(shipId).style.color = color;
 }
 
 //[WIP] Takes in a tileId and a boolean reapresenting if that tile has been hit and changes the tile's
