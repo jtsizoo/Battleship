@@ -36,7 +36,7 @@ function hoverCell(cell){
     moveShip(getShipID(nextShip.length), cell, nextShip.isVertical);
 
     if(isShipValid(nextShip)){
-        setShipProperties(getShipID(nextShip.length), PREVIEW_OPACITY, "gray");
+        setShipProperties(getShipID(nextShip.length), PREVIEW_OPACITY, "");
     }else{
         //invalid placement, make ship red
         setShipProperties(getShipID(nextShip.length), PREVIEW_OPACITY, "red");
@@ -83,7 +83,7 @@ function attemptShipPlace(cell){
 function placeShip(ship){
     shipList.push(ship);
     //set the ship to be gray and opaque
-    setShipProperties(getShipID(nextShip.length), 1, "gray");
+    setShipProperties(getShipID(nextShip.length), 1, "");
 }
 
 //Helper function to determine if a ship placement is valid.

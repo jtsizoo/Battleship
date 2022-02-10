@@ -175,6 +175,7 @@ function drawShips(numberOfShips, player)
 
         ship.setAttribute("class", shipClass);
         ship.setAttribute("id", shipId);
+        ship.style.pointerEvents = "none";
         shipBox.appendChild(ship);
     }
 
@@ -242,13 +243,23 @@ function moveShip(shipId, tileId, isVertical)
     document.getElementById(shipId).style.top = tileRect.top - 2;
     document.getElementById(shipId).style.left = tileRect.left - 2;
     document.getElementById(shipId).style.zIndex = 100;
+
+    //set pivot point to top left cell
+    let length = parseInt(shipId[3]);
+    let xPivotPercent = 100/(2*length);
+    document.getElementById(shipId).style.transformOrigin = xPivotPercent+"% 50%";
+    if(isVertical){
+        document.getElementById(shipId).style.transform = "rotate(90deg)";
+    }else{
+        document.getElementById(shipId).style.transform = "rotate(0deg)";
+    }
 }
 
 //Sets the opacity and color of a given ship.
 function setShipProperties(shipId, opacity, color)
 {
     document.getElementById(shipId).style.opacity = opacity;
-    document.getElementById(shipId).style.color = color;
+    document.getElementById(shipId).style.backgroundColor = color;
 }
 
 //[WIP] Takes in a tileId and a boolean reapresenting if that tile has been hit and changes the tile's
