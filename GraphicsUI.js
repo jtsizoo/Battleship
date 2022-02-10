@@ -136,9 +136,12 @@ function rotateShipButton(){
     //ie if the player is in the placement stage
     let button = document.getElementById("rotateButton");
     if(gameState == "numShipSelection"){
+    button.style.visibility = "visible";
     button.addEventListener("click",rotateShip);   
     } else{
-    button.onclick(window.alert("Cannot place any more ships!"));
+    button.style.visibility = "hidden";
+    // dont need this if we're hiding it from the view
+    //button.onclick(window.alert("Cannot place any more ships!"));
     }
 }
 
