@@ -142,7 +142,7 @@ function switchTurns() {
         turn = 0;
         gameState = "p1Turn";
         switchWindow(p1View);
-        updateTransitionTarget(p2View);
+        updateTransitionTarget(p1View);
     }
 }
 
