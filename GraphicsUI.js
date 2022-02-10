@@ -235,6 +235,10 @@ function updateTransitionTarget(windowId){
     transitionTarget = windowId;
 }
 
+function handleTransition(){
+    switchWindow(transitionTarget);
+}
+
 //Sets the text displayed in the gameOver window.
 function setGameOverText(text)
 {
