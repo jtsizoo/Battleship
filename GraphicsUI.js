@@ -1,5 +1,6 @@
 let p1Ships = [];
 let p2Ships = [];
+let gameState = "numShipSelection";
 
 
 let currentWindow = "shipNumPick";
@@ -268,6 +269,10 @@ function updateCountdownText(text)
 
 function updateTransitionTarget(windowId){
     transitionTarget = windowId;
+}
+
+function handleTransition(){
+    switchWindow(transitionTarget);
 }
 
 //Sets the text displayed in the gameOver window.
