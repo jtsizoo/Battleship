@@ -150,10 +150,13 @@ function rotateShipButton(){
     //check the game state and the player that is playing
     //ie if the player is in the placement stage
     let button = document.getElementById("rotateButton");
+    let shipnumButton = document.getElementById("shipNumPick");
     if(gameState == "numShipSelection"){
     button.style.visibility = "visible";
+    shipnumButton.style.visibility = "visible";
     button.addEventListener("click",rotateShip);   
     } else{
+    shipnumButton.style.visibility = "hidden";
     button.style.visibility = "hidden";
     // dont need this if we're hiding it from the view
     //button.onclick(window.alert("Cannot place any more ships!"));
