@@ -145,6 +145,7 @@ function switchTurns() {
     }
 }
 
+//updates the total number of hits a player has
 function updateHitCounter() {
     if (turn == 0) {
         p1Hits++;
