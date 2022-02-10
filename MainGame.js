@@ -130,14 +130,19 @@ function callSetTileState(cell, isHit) {
 }
 
 //switches the turn index and updates the game state
+//TODO---call switch window, set transition target to p1view or p2view
 function switchTurns() {
     if (turn == 0) {
         turn = 1;
         gameState = "p2Turn";
+        switchWindow(p2View);
+        updateTransitionTarget(p2View);
     }
     else {
         turn = 0;
         gameState = "p1Turn";
+        switchWindow(p1View);
+        updateTransitionTarget(p2View);
     }
 }
 
