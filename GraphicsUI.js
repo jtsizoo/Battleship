@@ -127,7 +127,6 @@ function parseTileClick(tile)
 
 // this function will call the rotate button in the index html file
 // arguments: 
-
 // which player is playing, game state = ship rotate 
 function rotateShipButton(){
     //check the game state and the player that is playing
