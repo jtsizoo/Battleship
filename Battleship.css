@@ -4,8 +4,8 @@ table {
   }
   header.page-header {
     display: relative;
-    height: 200px;
-    min-width: 200px;
+    height: 50px;
+    min-width: 50px;
     text-align: center;
     color: rgb(41, 82, 196);
    
