@@ -5,8 +5,9 @@ let gameState = "numShipSelection";
 
 let currentWindow = "shipNumPick";
 let transitionTarget = "p1View";
-//Builds the UI.
-function createUI()
+
+//Builds the UI taking in the number of ships as a parameter.
+function createUI(numberOfShips)
 {
     //Builds div where p1 boards are displayed.
     let p1Boards = document.createElement("div");
@@ -16,7 +17,7 @@ function createUI()
 
     //Builds div where p1 ships that have yet to be placed are displayed.
     let p1ShipsToPlace = document.createElement("div");
-    //[insert code here]
+    p1ShipsToPlace.appendChild(drawShips(numberOfShips, "p1"));
     document.getElementById("p1View").appendChild(p1ShipsToPlace);
 
     //Builds div where p2 boards are displayed.
@@ -27,15 +28,17 @@ function createUI()
 
     //Builds div where p2 ships that have yet to be placed are displayed.
     let p2ShipsToPlace = document.createElement("div");
-    //[insert code here]
-    document.getElementById("p1View").appendChild(p2ShipsToPlace);
+    p2ShipsToPlace.appendChild(drawShips(numberOfShips, "p2"));
+    document.getElementById("p2View").appendChild(p2ShipsToPlace);
+
+    initializeShipPlacement(numberOfShips);
 }
 
 //Creates a table element with a given id and class (class should be homeBoard or attackBoard)
 //and populates it with 11 rows and 11 cells per row.
 function drawGrid(gridId, gridClass)
 {
-    let columnLabelAlphabet = ['A','B','C','D','E','F','G','H','I','J'];
+    let columnLabelAlphabet = ['a','b','c','d','e','f','g','h','i','j'];
     
     //Creates a table and specifies its header and body.
     let grid = document.createElement("table");
@@ -123,18 +126,76 @@ function drawGrid(gridId, gridClass)
     return grid;
 }
 
+//Creates the inventory box containing the ships to be placed. Takes in an int representing the 
+//number of ships to draw (should be between 1 and 5) and a string representing which player the 
+//ships belong to (should be "p1" or "p2").
+function drawShips(numberOfShips, player)
+{
+    let shipInventoryBox = document.createElement("div");
+    shipInventoryBox.setAttribute("class", "shipInventoryBox");
+
+    let shipBox = document.createElement("div");
+    shipBox.setAttribute("class", "shipBox");
+
+    let shipInventoryBoxHeading = document.createElement("div");
+    shipInventoryBoxHeading.setAttribute("class", "shipInventoryBoxHeading");
+    let shipInventoryBoxLabel = document.createElement("label");
+    shipInventoryBox.textContent = "Ship Inventory";
+    shipInventoryBoxHeading.appendChild(shipInventoryBoxLabel);
+    
+    for (let i = 0; i < numberOfShips; i++)
+    {
+        let ship = document.createElement("div");
+        let shipClass = "";
+        let shipId = "";
+        
+        switch (i)
+        {
+            case 0:
+                shipClass = "oneTileShip";
+                shipId = [player, "1TileShip"].join("-");
+                break;
+            case 1:
+                shipClass = "twoTileShip";
+                shipId = [player, "2TileShip"].join("-");
+                break;
+            case 2:
+                shipClass = "threeTileShip";
+                shipId = [player, "3TileShip"].join("-");
+                break;
+            case 3:
+                shipClass = "fourTileShip";
+                shipId = [player, "4TileShip"].join("-");
+                break;
+            case 4:
+                shipClass = "fiveTileShip";
+                shipId = [player, "5TileShip"].join("-");
+                break;
+        }
+
+        ship.setAttribute("class", shipClass);
+        ship.setAttribute("id", shipId);
+        shipBox.appendChild(ship);
+    }
+
+    shipInventoryBox.appendChild(shipInventoryBoxHeading);
+    shipInventoryBox.appendChild(shipBox);
+
+    return (shipInventoryBox);
+}
+
 function parseTileClick(tile)
 {
-    if(gameState == p1Place && tile.substring(3) == "p1HomeBoard"){
+    if(gameState == "p1Place" && tile.substring(3) == "p1HomeBoard"){
         attemptShipPlace(tile)
     }
-    else if(gameState == p2Place && tile.substring(3) == "p2HomeBoard"){
+    else if(gameState == "p2Place" && tile.substring(3) == "p2HomeBoard"){
         attemptShipPlace(tile)
     }
-    else if(gameState == p1Turn && tile.substring(3) == "p1AttackBoard"){
+    else if(gameState == "p1Turn" && tile.substring(3) == "p1AttackBoard"){
         guessCell(tile)
     }
-    else if(gameState == p2Turn && tile.substring(3) == "p2AttackBoard"){
+    else if(gameState == "p2Turn" && tile.substring(3) == "p2AttackBoard"){
         guessCell(tile)
     }
     else{
@@ -162,10 +223,10 @@ function rotateShipButton(){
 
 function parseTileHover(tile)
 {
-    if(gameState == p1Place && tile.substring(3) == "p1HomeBoard"){
+    if(gameState == "p1Place" && tile.substring(3) == "p1HomeBoard"){
         hoverCell(tile)
     }
-    else if(gameState == p2Place && tile.substring(3) == "p2HomeBoard"){
+    else if(gameState == "p2Place" && tile.substring(3) == "p2HomeBoard"){
         hoverCell(tile)
     }
 }
@@ -247,5 +308,4 @@ function setGameOverText(text)
     gameOverTextLabel.textContent = text;
     document.getElementById("gameOver").appendChild(gameOverTextLabel);
 }
-
 
