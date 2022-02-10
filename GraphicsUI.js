@@ -2,6 +2,8 @@ let p1Ships = [];
 let p2Ships = [];
 
 
+let currentWindow = "shipNumPick";
+let transitionTarget = "p1View";
 //Builds the UI.
 function createUI()
 {
@@ -125,6 +127,7 @@ function parseTileClick(tile)
     
 }
 
+
 // this function will call the rotate button in the index html file
 // arguments: 
 // which player is playing, game state = ship rotate 
@@ -195,40 +198,19 @@ function setTileState(tileId, isHit)
 //Displays one of the four windows: p1View, p2View, gameOver, and shipNumPick.
 function switchWindow(windowId)
 {
-    if (windowId == "p1View")
-    {
-        document.getElementById("p2View").style.display = "none";
-        document.getElementById("gameOver").style.display = "none";
-        document.getElementById("shipNumPick").style.display = "none";
-        document.getElementById("p1View").style.display = "revert";
-    }
-    else if (windowId == "p2View")
-    {
-        document.getElementById("p1View").style.display = "none";
-        document.getElementById("gameOver").style.display = "none";
-        document.getElementById("shipNumPick").style.display = "none";
-        document.getElementById("p2View").style.display = "revert";
-    }
-    else if (windowId == "gameOver")
-    {
-        document.getElementById("p1View").style.display = "none";
-        document.getElementById("p2View").style.display = "none";
-        document.getElementById("shipNumPick").style.display = "none";
-        document.getElementById("gameOver").style.display = "revert";
-    }
-    else if (windowId == "shipNumPick")
-    {
-        document.getElementById("p1View").style.display = "none";
-        document.getElementById("p2View").style.display = "none";
-        document.getElementById("gameOver").style.display = "none";
-        document.getElementById("shipNumPick").style.display = "revert";
-    }
+    document.getElementById(currentWindow).style.display = "none";
+    document.getElementById(windowId).style.display = "inline";
+    currentWindow = windowId;
 }
 
 //Set the text in the countdown/transition section of the page.
 function updateCountdownText(text)
 {
     document.getElementById("countdownText").textContent = text;
+}
+
+function updateTransitionTarget(windowId){
+    transitionTarget = windowId;
 }
 
 //Sets the text displayed in the gameOver window.
@@ -239,24 +221,7 @@ function setGameOverText(text)
     document.getElementById("gameOver").appendChild(gameOverTextLabel);
 }
 
-// needs fixing 
-function selectShipNumber()
-{   
-    let numbers = [1,2,3,4,5];
-    let shipPick = document.getElementById("shipPick");
-    numbers.forEach((item) => {
-        let li = document.createElement("li");
-        li.innerText = item;
-        shipPick.appendChild(li);
-      });
-}
-//
 
-
-
-
-selectShipNumber();
 createUI();
-switchWindow("p1View");
-rotateShipButton();
+switchWindow("shipNumPick");
 
