@@ -64,10 +64,8 @@ function attemptShipPlace(cell){
             if(isP2){
 
                 gameState = "p1Turn";
-                switchWindow("countdown");
-                /*
-                TODO call countdown function
-                */
+                switchWindow("transition");
+                setTransitionTarget("p1View");
                 switchWindow("p1View");
             }else{
                 initializeP2Placement();
