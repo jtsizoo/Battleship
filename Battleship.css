@@ -2,7 +2,14 @@ table {
     border: 2px solid black;
     border-collapse: collapse;
   }
-
+  header.page-header {
+    display: relative;
+    height: 200px;
+    min-width: 200px;
+    text-align: center;
+    color: rgb(41, 82, 196);
+   
+}
 .homeBoard{
     float: left;
     margin-right: 50px;
