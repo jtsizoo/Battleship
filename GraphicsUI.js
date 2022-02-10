@@ -1,6 +1,5 @@
 let p1Ships = [];
 let p2Ships = [];
-let gameState = "numShipSelection";
 
 
 //Builds the UI.
@@ -130,13 +129,15 @@ function parseTileClick(tile)
 // arguments: 
 
 // which player is playing, game state = ship rotate 
-
-
 function rotateShipButton(){
     //check the game state and the player that is playing
     //ie if the player is in the placement stage
     let button = document.getElementById("rotateButton");
-    button.addEventListener("click",rotateShip);
+    if(gameState == "numShipSelection"){
+    button.addEventListener("click",rotateShip);   
+    } else{
+    button.onclick(window.alert("Cannot place any more ships!"));
+    }
 }
 
 function parseTileHover(tile)
