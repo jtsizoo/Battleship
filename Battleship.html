@@ -21,13 +21,16 @@
             <button class="button-65" onclick="createUI(5)" >5</button>
         </div>
         <div id="gameOver" style="display:none"></div>
-        <div id="p1View" style="display:none"></div>
+        <div id="p1View" style="display:none">
+            <button id="p1RotateButton" class="button-65" onclick="rotateShip()">Rotate Ships</button>
+        
+        </div>
         <div id="transition" style="display:none">
             <h1 id="transitionText">Switching Turns!</h1>
             <button id="nextPlayerButton" onclick="handleTransition()">Next Player</button>
         </div>
         <div id="p2View" style="display:none">
-            <button id="rotateButton" class="button-65">Rotate Ships</button>
+            <button id="p2RotateButton" class="button-65" onclick="rotateShip()">Rotate Ships</button>
         </div>
         <script type="text/javascript" src="GraphicsUI.js"></script>
         <script type="text/javascript" src="ShipPlacement.js"></script>
