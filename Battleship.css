@@ -38,6 +38,7 @@ th, td {
     width: 40px;
     border: 2px solid black;
     background-color: rgb(192, 189, 26);
+    margin: 5px;
     display: flex;
 }
 
@@ -46,6 +47,7 @@ th, td {
     width: 87px;
     border: 2px solid black;
     background-color: green;
+    margin: 5px;
     display: flex;
 }
 
@@ -77,13 +79,17 @@ th, td {
 }
 
 .shipInventoryBoxHeading {
-  border: 2px solid black;
-  padding: 5px;
+  border-bottom: 2px solid black;
 }
 
 .shipBox {
-  border: 2px solid black;
   padding: 5px;
+}
+
+.shipInventoryBoxLabel {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: x-large;
+  margin: 5px;
 }
 
 #newGame{
