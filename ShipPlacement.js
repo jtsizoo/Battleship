@@ -9,6 +9,7 @@ let shipList = [];
 //Call when the user chooses how many ships to play with.
 //Starts the ship placement phase of the game, beginning with player 1.
 function initializeShipPlacement(_numShips){
+    switchWindow("p1View");
     gameState = "p1Place";
     isP2 = false;
     numShips = _numShips;
@@ -42,7 +43,7 @@ function hoverCell(cell){
     }
 }
 
-//Call when the user scrolls
+//Call when the user clicks the rotate ship button
 //Will rotate the ship between horizontal and vertical
 function rotateShip(){
     nextShip.isVertical = !nextShip.isVertical;
