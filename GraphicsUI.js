@@ -1,8 +1,9 @@
 let p1Ships = [];
 let p2Ships = [];
-let gameState = "numShipSelection";
 
 
+let currentWindow = "shipNumPick";
+let transitionTarget = "p1View";
 //Builds the UI taking in the number of ships as a parameter.
 function createUI(numberOfShips)
 {
@@ -158,25 +159,49 @@ function drawShips(numberOfShips, player)
 
 function parseTileClick(tile)
 {
-    
+    if(gameState == p1Place && tile.substring(3) == "p1HomeBoard"){
+        attemptShipPlace(tile)
+    }
+    else if(gameState == p2Place && tile.substring(3) == "p2HomeBoard"){
+        attemptShipPlace(tile)
+    }
+    else if(gameState == p1Turn && tile.substring(3) == "p1AttackBoard"){
+        guessCell(tile)
+    }
+    else if(gameState == p2Turn && tile.substring(3) == "p2AttackBoard"){
+        guessCell(tile)
+    }
+    else{
+        console.log("Incorrect Game State for clicking")
+    }
 }
+
 
 // this function will call the rotate button in the index html file
 // arguments: 
-
 // which player is playing, game state = ship rotate 
-
-
 function rotateShipButton(){
     //check the game state and the player that is playing
     //ie if the player is in the placement stage
     let button = document.getElementById("rotateButton");
-    button.addEventListener("click",rotateShip);
+    if(gameState == "numShipSelection"){
+    button.style.visibility = "visible";
+    button.addEventListener("click",rotateShip);   
+    } else{
+    button.style.visibility = "hidden";
+    // dont need this if we're hiding it from the view
+    //button.onclick(window.alert("Cannot place any more ships!"));
+    }
 }
 
 function parseTileHover(tile)
 {
-    
+    if(gameState == p1Place && tile.substring(3) == "p1HomeBoard"){
+        hoverCell(tile)
+    }
+    else if(gameState == p2Place && tile.substring(3) == "p2HomeBoard"){
+        hoverCell(tile)
+    }
 }
 
 
@@ -230,40 +255,19 @@ function setTileState(tileId, isHit)
 //Displays one of the four windows: p1View, p2View, gameOver, and shipNumPick.
 function switchWindow(windowId)
 {
-    if (windowId == "p1View")
-    {
-        document.getElementById("p2View").style.display = "none";
-        document.getElementById("gameOver").style.display = "none";
-        document.getElementById("shipNumPick").style.display = "none";
-        document.getElementById("p1View").style.display = "revert";
-    }
-    else if (windowId == "p2View")
-    {
-        document.getElementById("p1View").style.display = "none";
-        document.getElementById("gameOver").style.display = "none";
-        document.getElementById("shipNumPick").style.display = "none";
-        document.getElementById("p2View").style.display = "revert";
-    }
-    else if (windowId == "gameOver")
-    {
-        document.getElementById("p1View").style.display = "none";
-        document.getElementById("p2View").style.display = "none";
-        document.getElementById("shipNumPick").style.display = "none";
-        document.getElementById("gameOver").style.display = "revert";
-    }
-    else if (windowId == "shipNumPick")
-    {
-        document.getElementById("p1View").style.display = "none";
-        document.getElementById("p2View").style.display = "none";
-        document.getElementById("gameOver").style.display = "none";
-        document.getElementById("shipNumPick").style.display = "revert";
-    }
+    document.getElementById(currentWindow).style.display = "none";
+    document.getElementById(windowId).style.display = "inline";
+    currentWindow = windowId;
 }
 
 //Set the text in the countdown/transition section of the page.
 function updateCountdownText(text)
 {
     document.getElementById("countdownText").textContent = text;
+}
+
+function updateTransitionTarget(windowId){
+    transitionTarget = windowId;
 }
 
 //Sets the text displayed in the gameOver window.
@@ -274,24 +278,7 @@ function setGameOverText(text)
     document.getElementById("gameOver").appendChild(gameOverTextLabel);
 }
 
-// needs fixing 
-function selectShipNumber()
-{   
-    let numbers = [1,2,3,4,5];
-    let shipPick = document.getElementById("shipPick");
-    numbers.forEach((item) => {
-        let li = document.createElement("li");
-        li.innerText = item;
-        shipPick.appendChild(li);
-      });
-}
-//
 
-
-
-
-selectShipNumber();
 createUI();
-switchWindow("p1View");
-rotateShipButton();
+switchWindow("shipNumPick");
 
