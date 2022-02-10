@@ -140,7 +140,8 @@ function drawShips(numberOfShips, player)
     let shipInventoryBoxHeading = document.createElement("div");
     shipInventoryBoxHeading.setAttribute("class", "shipInventoryBoxHeading");
     let shipInventoryBoxLabel = document.createElement("label");
-    shipInventoryBox.textContent = "Ship Inventory";
+    shipInventoryBoxLabel.textContent = "Ship Inventory";
+    shipInventoryBoxLabel.setAttribute("class", "shipInventoryBoxLabel");
     shipInventoryBoxHeading.appendChild(shipInventoryBoxLabel);
     
     for (let i = 0; i < numberOfShips; i++)
