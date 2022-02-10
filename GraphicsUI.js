@@ -124,7 +124,21 @@ function drawGrid(gridId, gridClass)
 
 function parseTileClick(tile)
 {
-    
+    if(gameState == p1Place && tile.substring(3) == "p1HomeBoard"){
+        attemptShipPlace(tile)
+    }
+    else if(gameState == p2Place && tile.substring(3) == "p2HomeBoard"){
+        attemptShipPlace(tile)
+    }
+    else if(gameState == p1Turn && tile.substring(3) == "p1AttackBoard"){
+        guessCell(tile)
+    }
+    else if(gameState == p2Turn && tile.substring(3) == "p2AttackBoard"){
+        guessCell(tile)
+    }
+    else{
+        console.log("Incorrect Game State for clicking")
+    }
 }
 
 
@@ -147,7 +161,12 @@ function rotateShipButton(){
 
 function parseTileHover(tile)
 {
-    
+    if(gameState == p1Place && tile.substring(3) == "p1HomeBoard"){
+        hoverCell(tile)
+    }
+    else if(gameState == p2Place && tile.substring(3) == "p2HomeBoard"){
+        hoverCell(tile)
+    }
 }
 
 
