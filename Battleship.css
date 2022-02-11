@@ -31,8 +31,8 @@ th, td {
 }
 
 .shipInventoryBox {
-  margin: 5px;
-  border: 2px solid black;
+    margin: 5px;
+    border: 2px solid black;
 }
 
 .oneTileShip{
@@ -181,7 +181,7 @@ th, td {
     font-size: 15px;
     font-weight: 500;
     /*height: 50px;*/
-    margin-top: 40%;
+    margin-top: 50px;
     letter-spacing: normal;
     line-height: 1.5;
     outline: none;
