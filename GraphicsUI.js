@@ -186,6 +186,8 @@ function drawShips(numberOfShips, player)
     return (shipInventoryBox);
 }
 
+//function called when the user clicks a tile.
+//first checks if the player should be clicking the tile at the current stage of the game, then calls the corresponding handler
 function parseTileClick(tile)
 {
     if(gameState == "p1Place" && tile.substring(3) == "p1HomeBoard"){
@@ -223,6 +225,8 @@ function rotateShipButton(){
     }
 }
 
+//function called when the user hovers over a tile.
+//first checks if the game needs to do anything to handle the hover, then calls the corresponding handler.
 function parseTileHover(tile)
 {
     if(gameState == "p1Place" && tile.substring(3) == "p1HomeBoard"){
@@ -241,8 +245,8 @@ function moveShip(shipId, tileId, isVertical)
     var tileRect = document.getElementById(tileId).getBoundingClientRect();
 
     document.getElementById(shipId).style.position = "absolute";
-    document.getElementById(shipId).style.top = tileRect.top - 2;
-    document.getElementById(shipId).style.left = tileRect.left - 2;
+    document.getElementById(shipId).style.top = tileRect.top - 2 + window.scrollY;
+    document.getElementById(shipId).style.left = tileRect.left - 2 + window.scrollX;
     document.getElementById(shipId).style.zIndex = 100;
 
     //set pivot point to top left cell
@@ -351,4 +355,8 @@ function setGameOverText(text)
 
 function hideElement(id){
     document.getElementById(id).style.display = "none";
+}
+
+function showInstruction(text){
+    document.getElementById("transitionText").textContent = text;
 }
