@@ -178,10 +178,10 @@ function updateHitCounter() {
     }
 
     if (p1Hits == maxHits) {
-        //TODO---call setEndText
+        setGameOverText("Player 1 Wins!");
     }
     else if (p2Hits == maxHits) {
-        //TODO---callsetEndText
+        setGameOverText("Player 2 Wins!");
     }
 }
 
