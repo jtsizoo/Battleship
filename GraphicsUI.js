@@ -245,8 +245,8 @@ function moveShip(shipId, tileId, isVertical)
     var tileRect = document.getElementById(tileId).getBoundingClientRect();
 
     document.getElementById(shipId).style.position = "absolute";
-    document.getElementById(shipId).style.top = tileRect.top - 2;
-    document.getElementById(shipId).style.left = tileRect.left - 2;
+    document.getElementById(shipId).style.top = tileRect.top - 2 + window.scrollY;
+    document.getElementById(shipId).style.left = tileRect.left - 2 + window.scrollX;
     document.getElementById(shipId).style.zIndex = 100;
 
     //set pivot point to top left cell
