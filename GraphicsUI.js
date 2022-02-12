@@ -13,7 +13,7 @@ function createUI(numberOfShips)
     let p1Boards = document.createElement("div");
     p1Boards.appendChild(drawGrid("p1HomeBoard", "homeBoard"));
     p1Boards.appendChild(drawGrid("p1AttackBoard", "attackBoard"));
-    document.getElementById("p1View").appendChild(p1Boards);
+    document.getElementById("p1View").insertBefore(p1Boards, document.getElementById("p1RotateButton"));
 
     //Builds div where p1 ships that have yet to be placed are displayed.
     let p1ShipsToPlace = document.createElement("div");
@@ -24,7 +24,7 @@ function createUI(numberOfShips)
     let p2Boards = document.createElement("div");
     p2Boards.appendChild(drawGrid("p2HomeBoard", "homeBoard"));
     p2Boards.appendChild(drawGrid("p2AttackBoard", "attackBoard"));
-    document.getElementById("p2View").appendChild(p2Boards);
+    document.getElementById("p2View").insertBefore(p2Boards, document.getElementById("p2RotateButton"));
 
     //Builds div where p2 ships that have yet to be placed are displayed.
     let p2ShipsToPlace = document.createElement("div");
