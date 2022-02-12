@@ -318,7 +318,7 @@ function setGameOverText(text)
 {
     let gameOverTextLabel = document.createElement("label");
     gameOverTextLabel.textContent = text;
-    document.getElementById("gameOver").appendChild(gameOverTextLabel);
+    document.getElementById("gameOver ").appendChild(gameOverTextLabel);
 }
 
 function hideElement(id){
