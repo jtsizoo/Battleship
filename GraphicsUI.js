@@ -299,10 +299,10 @@ function switchWindow(windowId)
     currentWindow = windowId;
 }
 
-//Set the text in the countdown/transition section of the page.
-function updateCountdownText(text)
+//Set the text in the transition section of the page.
+function updateTransitionText(text)
 {
-    document.getElementById("countdownText").textContent = text;
+    document.getElementById("transitionText").textContent = text;
 }
 
 function updateTransitionTarget(windowId){

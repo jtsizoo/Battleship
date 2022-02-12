@@ -66,11 +66,10 @@ function attemptShipPlace(cell){
                 //generate the coordinates occupied by the ships (declaration in MainGame.js)
                 createCoordinateArray(p1Ships);
                 createCoordinateArray(p2Ships);
-                
+
                 gameState = "p1Turn";
                 switchWindow("transition");
                 updateTransitionTarget("p1View");
-                switchWindow("p1View");
             }else{
                 initializeP2Placement();
             }

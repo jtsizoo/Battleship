@@ -12,6 +12,15 @@ table {
     letter-spacing: -1px;
    
 }
+.transition-message{
+    display: relative;
+    height: 50px;
+    min-width: 50px;
+    text-align: center;
+    color: rgb(23, 64, 151);
+    font-size: 3.5em;
+    letter-spacing: -1px;
+}
 .homeBoard{
     float: left;
     margin-right: 50px;
@@ -221,3 +230,4 @@ th, td {
       width: 176px;
     }
   }
+
