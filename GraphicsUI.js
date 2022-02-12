@@ -324,3 +324,7 @@ function setGameOverText(text)
 function hideElement(id){
     document.getElementById(id).style.display = "none";
 }
+
+function showInstruction(text){
+    document.getElementById("transitionText").textContent = text;
+}
