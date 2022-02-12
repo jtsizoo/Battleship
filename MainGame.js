@@ -210,7 +210,7 @@ function wait(ms) {
 function createCoordinateArray(shipArray) {
     for (let m = 0; m < shipArray.length; m++) {
         shipArray[m].coordinateArray = [];
-        shipArray[m].coordinateArray[0] = shipArray[m].topLeft;
+        shipArray[m].coordinateArray[0] = shipArray[m].topLeft.substr(0, 3);
         if (shipArray[m].isVertical == false) {
             for (i = 1; i < shipArray[m].length; i++) {
                 shipArray[m].coordinateArray[i] = nextChar(shipArray[m].coordinateArray[i-1][0]) + shipArray[m].topLeft[1] + shipArray[m].topLeft[2];
