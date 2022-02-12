@@ -88,6 +88,10 @@ function guessCell(cell) {
                 updateHitCounter();
                 updateGuessedBoard(cell, isHit);
                 callSetTileState(cell, isHit);
+                if (isOver) {
+                    endGame();
+                    return;
+                }
                 //console.log("Hit!");
             }
         }
@@ -183,12 +187,28 @@ function updateHitCounter() {
     else if (turn == 1) {
         p2Hits++;
     }
+}
 
-    if (p1Hits == maxHits) {
-        setGameOverText("Player 1 Wins!");
+//checks if the game is over
+function isOver() {
+    if (p1Hits == maxHits || p2Hits == maxHits) {
+        return true;
     }
-    else if (p2Hits == maxHits) {
+    else {
+        return false;
+    }
+}
+
+//ends the game
+function endGame() {
+    gameState = "end";
+    if (turn == 0) {
+        setGameOverText("Player 1 Wins!");
+        switchWindow("gameOver");
+    }
+    else if (turn == 1) {
         setGameOverText("Player 2 Wins!");
+        switchWindow("gameOver");
     }
 }
 
