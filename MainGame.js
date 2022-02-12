@@ -90,6 +90,7 @@ function guessCell(cell) {
                 callSetTileState(cell, isHit);
                 if (isOver) {
                     endGame();
+                    return;
                 }
                 //console.log("Hit!");
             }
