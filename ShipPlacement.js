@@ -66,9 +66,9 @@ function attemptShipPlace(cell){
                 //hide the rotate ship buttons
                 hideElement("p1RotateButton");
                 hideElement("p2RotateButton");
-                //generate the coordinates occupied by the ships (declaration in MainGame.js)
-                createCoordinateArray(p1Ships);
-                createCoordinateArray(p2Ships);
+
+                //initialize the main (attacking) stage of the game
+                initializeGame();
 
                 gameState = "p1Turn";
                 switchWindow("transition");
