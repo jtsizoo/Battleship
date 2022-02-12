@@ -305,17 +305,38 @@ function drawHitMark(tileId)
     hitMarkLabel.setAttribute("class", "hitMarkLabel");
     hitMarkLabel.textContent = "X";
     hitMark.appendChild(hitMarkLabel);
+
+    let targetTileId = tileId;
+    var tileRect = document.getElementById(tileId).getBoundingClientRect();
     
     if (tileId.substring(3) == "p1HomeBoard" || tileId.substring(3) == "p1AttackBoard")
     {
         document.getElementById("p1View").appendChild(hitMark);
+
+        if (tileRect.top == 0)
+        {
+            targetTileId = [tileId.substring(0,3), "p2HomeBoard"].join("");
+        }
+        else
+        {
+            targetTileId = tileId;
+        }
     }
     else if (tileId.substring(3) == "p2HomeBoard" || tileId.substring(3) == "p2AttackBoard")
     {
         document.getElementById("p2View").appendChild(hitMark);
+
+        if (tileRect.top == 0)
+        {
+            targetTileId = [tileId.substring(0,3), "p1HomeBoard"].join("");
+        }
+        else
+        {
+            targetTileId = tileId;
+        }
     }
 
-    var tileRect = document.getElementById(tileId).getBoundingClientRect();
+    tileRect = document.getElementById(targetTileId).getBoundingClientRect();
 
     hitMark.style.position = "absolute";
     hitMark.style.top = tileRect.top;
