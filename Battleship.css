@@ -84,6 +84,23 @@ th, td {
     display: flex;
 }
 
+.hitMark {
+  height: 34px;
+  width: 34px;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  display: flex;
+}
+
+.hitMarkLabel {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: x-large;
+  font-weight: bolder;
+  text-align: center;
+  color: red;
+}
+
 .shipInventoryBoxHeading {
   border-bottom: 2px solid black;
 }

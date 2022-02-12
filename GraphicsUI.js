@@ -263,7 +263,7 @@ function setShipProperties(shipId, opacity, color)
     document.getElementById(shipId).style.backgroundColor = color;
 }
 
-//[WIP] Takes in a tileId and a boolean reapresenting if that tile has been hit and changes the tile's
+//Takes in a tileId and a boolean reapresenting if that tile has been hit and changes the tile's
 //appearance accordingly.
 function setTileState(tileId, isHit)
 {
@@ -271,24 +271,52 @@ function setTileState(tileId, isHit)
     {
         if (tileId.substring(5) == "HomeBoard")
         {
-            document.getElementById(tileId).style.backgroundColor = "#90b3be";
+            drawHitMark(tileId);
         }
         else if (tileId.substring(5) == "AttackBoard")
         {
-            document.getElementById(tileId).style.backgroundColor = "#db8080";
+            drawHitMark(tileId);
         }
     }
     else
     {
         if (tileId.substring(5) == "HomeBoard")
         {
-            document.getElementById(tileId).style.backgroundColor = "#add8e6";
+            document.getElementById(tileId).style.backgroundColor = "#7a98a1";
         }
         else if (tileId.substring(5) == "AttackBoard")
         {
-            document.getElementById(tileId).style.backgroundColor = "#ff9595";
+            document.getElementById(tileId).style.backgroundColor = "#c06f6f";
         }
     }
+}
+
+//Creates an X that is placed over the given tile.
+function drawHitMark(tileId)
+{
+    let hitMark = document.createElement("div");
+    hitMark.setAttribute("class", "hitMark");
+
+    let hitMarkLabel = document.createElement("label");
+    hitMarkLabel.setAttribute("class", "hitMarkLabel");
+    hitMarkLabel.textContent = "X";
+    hitMark.appendChild(hitMarkLabel);
+    
+    if (tileId.substring(3) == "p1HomeBoard" || tileId.substring(3) == "p1AttackBoard")
+    {
+        document.getElementById("p1View").appendChild(hitMark);
+    }
+    else if (tileId.substring(3) == "p2HomeBoard" || tileId.substring(3) == "p2AttackBoard")
+    {
+        document.getElementById("p2View").appendChild(hitMark);
+    }
+
+    var tileRect = document.getElementById(tileId).getBoundingClientRect();
+
+    hitMark.style.position = "absolute";
+    hitMark.style.top = tileRect.top;
+    hitMark.style.left = tileRect.left;
+    hitMark.style.zIndex = 1000;
 }
 
 //Displays one of the four windows: p1View, p2View, gameOver, and shipNumPick.
