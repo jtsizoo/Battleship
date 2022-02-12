@@ -21,10 +21,10 @@
         <div id="gameOver" style="display:none"></div>
         <div id="p1View" style="display:none">
             <button id="p1RotateButton" class="button-65" onclick="rotateShip()">Rotate Ships</button>
-        
         </div>
         <div id="transition" style="display:none">
             <h1 id="transitionText" class = "transition-message">Switching Turns!</h1>
+            <h2 id="transitionText" class = "transition-message">Pass to next player</h2>
             <button id="nextPlayerButton" class = "button-65" onclick="handleTransition()">Next Player</button>
         </div>
         <div id="p2View" style="display:none">
@@ -32,7 +32,6 @@
         </div>
         <div id="newGame">
             <button onClick="window.location.reload();" class="bottom-button">Reset Game</button>
-            <button id="Start" class="bottom-button">New Game</button>
         </div>
         <script type="text/javascript" src="GraphicsUI.js"></script>
         <script type="text/javascript" src="ShipPlacement.js"></script>
