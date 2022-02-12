@@ -63,13 +63,16 @@ let p2Ships = [ship4, ship5, ship6];*/
 
 //scans all components of the ship array to determine whether a guess is a hit or a miss
 function guessCell(cell) { 
+    cell = cell.substr(0, 3);
     if (turn == 0) {
         shipArray = p1Ships;
     }
     else if (turn == 1) {
         shipArray = p2Ships;
     }
-
+    if (isGuessed(cell)) {
+        return;
+    }
     let isHit = false;
     for (let i = 0; i < shipArray.length; i++) {
         for (let j = 0; j < shipArray[i].length; j++) {
@@ -88,6 +91,26 @@ function guessCell(cell) {
         //console.log("Miss!"); 
     }
     switchTurns();
+}
+
+//checks whether or not a cell has been guessed
+function isGuessed(cell) {
+    let board = arrGuessedBoard[turn];
+
+    let row = cell[2] - 1;
+    let column = 0;
+
+    let char = 'a'; //converts the letter column of 'cell' coordinate into an int
+    while (char != cell[0]) {
+        char = nextChar(char);
+        column++;
+    }
+    if (board[row][column] == 0) {
+        return false;
+    }
+    else {
+        return true;
+    }
 }
 
 //updates the opponent's board
