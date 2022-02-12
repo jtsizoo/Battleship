@@ -58,8 +58,8 @@ const ship6 = {
 let p1Ships = [ship1, ship2, ship3];
 let p2Ships = [ship4, ship5, ship6];*/
 
-createCoordinateArray(p1Ships);
-createCoordinateArray(p2Ships);
+//createCoordinateArray(p1Ships);
+//createCoordinateArray(p2Ships);
 
 //scans all components of the ship array to determine whether a guess is a hit or a miss
 function guessCell(cell) { 
