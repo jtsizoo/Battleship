@@ -10,9 +10,6 @@ let p1Hits = 0; //each player starts with 0 hits
 let p2Hits = 0;
 
 let maxHits = 0; //max number of hits possible is used to track how close players are to winning the game
-    for (i = 1; i <= numShips; i++) {
-        maxHits = maxHits + i;
-}
 
 let p1GuessedBoard = createEmptyBoard(); //two empty boards are created and stored in an array
 let p2GuessedBoard = createEmptyBoard(); //the default board is filled with 0's, indicating that a position hasn't been guessed
@@ -60,6 +57,16 @@ let p2Ships = [ship4, ship5, ship6];*/
 
 //createCoordinateArray(p1Ships);
 //createCoordinateArray(p2Ships);
+
+//initializes the game according to the player's ship number and placement
+function initializeGame() {
+    for (i = 1; i <= numShips; i++) {
+        maxHits = maxHits + i;
+    }
+
+    createCoordinateArray(p1Ships);
+    createCoordinateArray(p2Ships);
+}
 
 //scans all components of the ship array to determine whether a guess is a hit or a miss
 function guessCell(cell) { 
