@@ -186,6 +186,8 @@ function drawShips(numberOfShips, player)
     return (shipInventoryBox);
 }
 
+//function called when the user clicks a tile.
+//first checks if the player should be clicking the tile at the current stage of the game, then calls the corresponding handler
 function parseTileClick(tile)
 {
     if(gameState == "p1Place" && tile.substring(3) == "p1HomeBoard"){
@@ -223,6 +225,8 @@ function rotateShipButton(){
     }
 }
 
+//function called when the user hovers over a tile.
+//first checks if the game needs to do anything to handle the hover, then calls the corresponding handler.
 function parseTileHover(tile)
 {
     if(gameState == "p1Place" && tile.substring(3) == "p1HomeBoard"){
@@ -318,7 +322,7 @@ function setGameOverText(text)
 {
     let gameOverTextLabel = document.createElement("label");
     gameOverTextLabel.textContent = text;
-    document.getElementById("gameOver ").appendChild(gameOverTextLabel);
+    document.getElementById("gameOver").appendChild(gameOverTextLabel);
 }
 
 function hideElement(id){
