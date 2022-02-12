@@ -357,6 +357,10 @@ function hideElement(id){
     document.getElementById(id).style.display = "none";
 }
 
-function setInstruction(text){
-    document.getElementById("instructionText").textContent = text;
+function setInstruction(text, player){
+    if(player == 1){
+        document.getElementById("p1instructionText").textContent = text;
+    }else{
+        document.getElementById("p2instructionText").textContent = text;
+    }
 }
