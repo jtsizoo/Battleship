@@ -61,16 +61,18 @@ function attemptShipPlace(cell){
         placeShip(nextShip);
         shipsRemaining--;
         if(shipsRemaining == 0){
-            if(isP2){
+            if(isP2){//Time to start the main game
 
-                //generate the coordinates occupied by the ships (declaration in MainGame.js)
-                createCoordinateArray(p1Ships);
-                createCoordinateArray(p2Ships);
-                
+                //hide the rotate ship buttons
+                hideElement("p1RotateButton");
+                hideElement("p2RotateButton");
+
+                //initialize the main (attacking) stage of the game
+                initializeGame();
+
                 gameState = "p1Turn";
                 switchWindow("transition");
                 updateTransitionTarget("p1View");
-                switchWindow("p1View");
             }else{
                 initializeP2Placement();
             }
@@ -155,6 +157,7 @@ function initializeShip(_length){
     //setShipProperties(ship.length, PREVIEW_OPACITY, "gray");
 }
 
+//Create test functions to test ShipPlacement without the other files.
 function initializeTestFunctions(){
     moveShip = function(id, cell, vert){
         console.log(id, cell, vert);
@@ -173,6 +176,7 @@ function initializeTestFunctions(){
     gameState = "";
 }
 
+//get the ID of the ship with the given length.
 function getShipID(length){
     if(isP2){
         return "p2-"+length+"TileShip";
@@ -180,3 +184,4 @@ function getShipID(length){
         return "p1-"+length+"TileShip";
     }
 }
+

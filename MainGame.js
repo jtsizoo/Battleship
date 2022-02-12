@@ -10,9 +10,6 @@ let p1Hits = 0; //each player starts with 0 hits
 let p2Hits = 0;
 
 let maxHits = 0; //max number of hits possible is used to track how close players are to winning the game
-    for (i = 1; i <= numShips; i++) {
-        maxHits = maxHits + i;
-}
 
 let p1GuessedBoard = createEmptyBoard(); //two empty boards are created and stored in an array
 let p2GuessedBoard = createEmptyBoard(); //the default board is filled with 0's, indicating that a position hasn't been guessed
@@ -61,6 +58,16 @@ let p2Ships = [ship4, ship5, ship6];*/
 //createCoordinateArray(p1Ships);
 //createCoordinateArray(p2Ships);
 
+//initializes the game according to the player's ship number and placement
+function initializeGame() {
+    for (i = 1; i <= numShips; i++) {
+        maxHits = maxHits + i;
+    }
+
+    createCoordinateArray(p1Ships);
+    createCoordinateArray(p2Ships);
+}
+
 //scans all components of the ship array to determine whether a guess is a hit or a miss
 function guessCell(cell) { 
     cell = cell.substr(0, 3);
@@ -97,7 +104,7 @@ function guessCell(cell) {
 function isGuessed(cell) {
     let board = arrGuessedBoard[turn];
 
-    let row = cell[2] - 1;
+    let row = parseInt(cell[1] + cell[2]) - 1;
     let column = 0;
 
     let char = 'a'; //converts the letter column of 'cell' coordinate into an int
@@ -118,7 +125,7 @@ function isGuessed(cell) {
 function updateGuessedBoard(cell, isHit) {
     let board = arrGuessedBoard[turn];
 
-    let row = cell[2] - 1;
+    let row = parseInt(cell[1] + cell[2]) - 1;
     let column = 0;
 
     let char = 'a'; //converts the letter column of 'cell' coordinate into an int
@@ -178,10 +185,10 @@ function updateHitCounter() {
     }
 
     if (p1Hits == maxHits) {
-        //TODO---call setEndText
+        setGameOverText("Player 1 Wins!");
     }
     else if (p2Hits == maxHits) {
-        //TODO---callsetEndText
+        setGameOverText("Player 2 Wins!");
     }
 }
 
@@ -210,7 +217,7 @@ function wait(ms) {
 function createCoordinateArray(shipArray) {
     for (let m = 0; m < shipArray.length; m++) {
         shipArray[m].coordinateArray = [];
-        shipArray[m].coordinateArray[0] = shipArray[m].topLeft;
+        shipArray[m].coordinateArray[0] = shipArray[m].topLeft.substr(0, 3);
         if (shipArray[m].isVertical == false) {
             for (i = 1; i < shipArray[m].length; i++) {
                 shipArray[m].coordinateArray[i] = nextChar(shipArray[m].coordinateArray[i-1][0]) + shipArray[m].topLeft[1] + shipArray[m].topLeft[2];
