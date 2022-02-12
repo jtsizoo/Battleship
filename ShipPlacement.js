@@ -9,6 +9,10 @@ let shipList = [];
 //Call when the user chooses how many ships to play with.
 //Starts the ship placement phase of the game, beginning with player 1.
 function initializeShipPlacement(_numShips){
+    //set the instruction text for each player
+    setInstruction("Player 1, place your ships!", 1);
+    setInstruction("Player 2, place your ships!", 2);
+
     switchWindow("p1View");
     gameState = "p1Place";
     isP2 = false;

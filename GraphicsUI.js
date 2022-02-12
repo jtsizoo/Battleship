@@ -378,6 +378,10 @@ function hideElement(id){
     document.getElementById(id).style.display = "none";
 }
 
-function showInstruction(text){
-    document.getElementById("transitionText").textContent = text;
+function setInstruction(text, player){
+    if(player == 1){
+        document.getElementById("p1InstructionText").textContent = text;
+    }else{
+        document.getElementById("p2InstructionText").textContent = text;
+    }
 }
