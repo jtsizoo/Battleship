@@ -23,11 +23,11 @@ table {
 }
 
 th, td {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 34px;
     border: 2px solid black;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-size:x-large;
+    font-size: large;
 }
 
 .shipInventoryBox {
@@ -36,47 +36,42 @@ th, td {
 }
 
 .oneTileShip{
-    height: 40px;
-    width: 40px;
+    height: 32px;
+    width: 33px;
     border: 2px solid black;
     background-color: rgb(192, 189, 26);
-    margin: 5px;
     display: flex;
 }
 
 .twoTileShip{
-    height: 40px;
-    width: 87px;
+    height: 32px;
+    width: 67px;
     border: 2px solid black;
     background-color: green;
-    margin: 5px;
     display: flex;
 }
 
 .threeTileShip{
-    height: 40px;
-    width: 120px;
+    height: 32px;
+    width: 101px;
     border: 2px solid black;
     background-color: rgb(218, 102, 26);
-    margin: 5px;
     display: flex;
 }
 
 .fourTileShip{
-    height: 40px;
-    width: 160px;
+    height: 32px;
+    width: 135px;
     border: 2px solid black;
     background-color: rgb(116, 26, 93);
-    margin: 5px;
     display: flex;
 }
 
 .fiveTileShip{
-    height: 40px;
-    width: 200px;
+    height: 32px;
+    width: 169px;
     border: 2px solid black;
     background-color: rgb(220, 231, 233);
-    margin: 5px;
     display: flex;
 }
 
@@ -90,7 +85,7 @@ th, td {
 
 .shipInventoryBoxLabel {
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  font-size: x-large;
+  font-size: large;
   margin: 5px;
 }
 
