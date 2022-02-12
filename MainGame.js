@@ -88,7 +88,7 @@ function guessCell(cell) {
                 updateHitCounter();
                 updateGuessedBoard(cell, isHit);
                 callSetTileState(cell, isHit);
-                if (isOver) {
+                if (isOver()) {
                     endGame();
                     return;
                 }
