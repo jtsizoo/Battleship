@@ -63,6 +63,9 @@ function attemptShipPlace(cell){
         if(shipsRemaining == 0){
             if(isP2){
 
+                //hide the rotate ship buttons
+                hideElement("p1RotateButton");
+                hideElement("p2RotateButton");
                 //generate the coordinates occupied by the ships (declaration in MainGame.js)
                 createCoordinateArray(p1Ships);
                 createCoordinateArray(p2Ships);
@@ -179,3 +182,4 @@ function getShipID(length){
         return "p1-"+length+"TileShip";
     }
 }
+

@@ -321,3 +321,6 @@ function setGameOverText(text)
     document.getElementById("gameOver").appendChild(gameOverTextLabel);
 }
 
+function hideElement(id){
+    document.getElementById(id).style.display = "none";
+}
