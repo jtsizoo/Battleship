@@ -72,10 +72,10 @@ function initializeGame() {
 function guessCell(cell) { 
     cell = cell.substr(0, 3);
     if (turn == 0) {
-        shipArray = p1Ships;
+        shipArray = p2Ships;
     }
     else if (turn == 1) {
-        shipArray = p2Ships;
+        shipArray = p1Ships;
     }
     if (isGuessed(cell)) {
         return;
