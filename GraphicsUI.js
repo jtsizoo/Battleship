@@ -359,8 +359,8 @@ function hideElement(id){
 
 function setInstruction(text, player){
     if(player == 1){
-        document.getElementById("p1instructionText").textContent = text;
+        document.getElementById("p1InstructionText").textContent = text;
     }else{
-        document.getElementById("p2instructionText").textContent = text;
+        document.getElementById("p2InstructionText").textContent = text;
     }
 }
