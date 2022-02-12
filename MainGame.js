@@ -97,7 +97,7 @@ function guessCell(cell) {
 function isGuessed(cell) {
     let board = arrGuessedBoard[turn];
 
-    let row = cell[2] - 1;
+    let row = parseInt(cell[1] + cell[2]) - 1;
     let column = 0;
 
     let char = 'a'; //converts the letter column of 'cell' coordinate into an int
