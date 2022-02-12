@@ -65,7 +65,7 @@ function attemptShipPlace(cell){
 
                 gameState = "p1Turn";
                 switchWindow("transition");
-                setTransitionTarget("p1View");
+                updateTransitionTarget("p1View");
                 switchWindow("p1View");
             }else{
                 initializeP2Placement();
