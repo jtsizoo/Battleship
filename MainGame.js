@@ -135,13 +135,13 @@ function switchTurns() {
         turn = 1;
         gameState = "p2Turn";
         switchWindow("transition");
-        updateTransitionTarget(p2View);
+        updateTransitionTarget("p2View");
     }
     else {
         turn = 0;
         gameState = "p1Turn";
         switchWindow("transition");
-        updateTransitionTarget(p1View);
+        updateTransitionTarget("p1View");
     }
 }
 
