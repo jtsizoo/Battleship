@@ -329,6 +329,6 @@ function hideElement(id){
     document.getElementById(id).style.display = "none";
 }
 
-function showInstruction(text){
-    document.getElementById("transitionText").textContent = text;
+function setInstruction(text){
+    document.getElementById("instructionText").textContent = text;
 }

@@ -12,6 +12,13 @@ table {
     letter-spacing: -1px;
    
 }
+.instruction{
+  text-align: left;
+  color: rgb(23, 64, 151);
+  font-size: 1.5em;
+  letter-spacing: -1px;
+}
+
 .transition-message{
     display: relative;
     height: 50px;
