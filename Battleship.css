@@ -12,6 +12,7 @@ table {
     letter-spacing: -1px;
    
 }
+
 .instruction{
   text-align: left;
   color: rgb(23, 64, 151);
@@ -19,6 +20,15 @@ table {
   letter-spacing: -1px;
 }
 
+.gameOverMessage{
+  display: relative;
+  height: 50px;
+  min-width: 50px;
+  text-align: center;
+  color: rgb(23, 64, 151);
+  font-size: 3.2em;
+  letter-spacing: -1px;
+}
 .transition-message{
     display: relative;
     height: 50px;
