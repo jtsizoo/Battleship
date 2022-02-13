@@ -44,12 +44,17 @@ function guessCell(cell) {
     let isHit = false;
     for (let i = 0; i < shipArray.length; i++) {
         for (let j = 0; j < shipArray[i].length; j++) {
-            if (shipArray[i].coordinateArray[j] == cell) { //if a cell guessed is a hit, we update the hit counter, update the board the player is attacking logically and visually, and check if the game is over
+            if (shipArray[i].coordinateArray[j] == cell) { //if a cell guessed is a hit, we update the hit counter, update the board the player is attacking logically and visually, update transition text accordingly, check if the game is over
                 isHit = true;
                 updateHitCounter();
                 updateGuessedBoard(cell, isHit);
                 callSetTileState(cell, isHit);
-                updateTransitionText("Hit!");
+                if (turn == 0) {
+                    updateTransitionText("Hit!\nPlayer 1, look away! It's Player 2's turn!");
+                }
+                else if (turn == 1) {
+                    updateTransitionText("Hit!\nPlayer 2, look away! It's Player 1's turn!");
+                }
                 if (isOver()) {
                     endGame();
                     return;
@@ -58,10 +63,15 @@ function guessCell(cell) {
             }
         }
     }
-    if (isHit == false) { //if the guess is a miss, we update the guessed board, and set the tile state to a miss
+    if (isHit == false) { //if the guess is a miss, we update the guessed board, set the tile state to a miss, and update transition text accordingly
         updateGuessedBoard(cell, isHit);
         callSetTileState(cell, isHit);
-        updateTransitionText("Miss!");
+        if (turn == 0) {
+            updateTransitionText("Miss!\nPlayer 1, look away! It's Player 2's turn!");
+        }
+        else if (turn == 1) {
+            updateTransitionText("Miss!\nPlayer 2, look away! It's Player 1's turn!");
+        }
         //console.log("Miss!"); 
     }
     switchTurns(); //switch turns at the end of each guess
@@ -133,14 +143,12 @@ function switchTurns() {
         gameState = "p2Turn";
         switchWindow("transition");
         updateTransitionTarget("p2View");
-        updateTransitionText("Player 1, look away! It's Player 2's turn.");
     }
     else {
         turn = 0;
         gameState = "p1Turn";
         switchWindow("transition");
         updateTransitionTarget("p1View");
-        updateTransitionText("Player 2, look away! It's Player 1's turn.");
     }
 }
 
@@ -177,7 +185,7 @@ function endGame() {
     }
 }
 
-//stalls code execution for a certain number of ms
+//stalls code execution for a certain number of ms (not used currently)
 function wait(ms) { 
     var start = new Date().getTime();
     var end = start;
