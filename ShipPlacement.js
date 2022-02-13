@@ -40,7 +40,7 @@ function hoverCell(cell){
     moveShip(getShipID(nextShip.length), cell, nextShip.isVertical);
 
     if(isShipValid(nextShip)){
-        setShipProperties(getShipID(nextShip.length), PREVIEW_OPACITY, "");
+        setShipProperties(getShipID(nextShip.length), PREVIEW_OPACITY, "");//setting the color to "" makes it the default color from Battleship.css
     }else{
         //invalid placement, make ship red
         setShipProperties(getShipID(nextShip.length), PREVIEW_OPACITY, "red");
@@ -75,6 +75,7 @@ function attemptShipPlace(cell){
                 initializeGame();
 
                 gameState = "p1Turn";
+                updateTransitionText("Player 1, get ready to make a guess. Player 2, get out of here!");
                 switchWindow("transition");
                 updateTransitionTarget("p1View");
             }else{
@@ -92,8 +93,8 @@ function attemptShipPlace(cell){
 //helper method to place the ship and update the ship list.
 function placeShip(ship){
     shipList.push(ship);
-    //set the ship to be gray and opaque
-    setShipProperties(getShipID(nextShip.length), 1, "");
+    //set the ship to be the default color and opaque
+    setShipProperties(getShipID(nextShip.length), 1, "");//
 }
 
 //Helper function to determine if a ship placement is valid.
