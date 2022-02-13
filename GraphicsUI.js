@@ -298,25 +298,43 @@ function setTileState(tileId, isHit)
 //Creates an X that is placed over the given tile.
 function drawHitMark(tileId)
 {
+    //Creates div for hitMark and appends a label to it
     let hitMark = document.createElement("div");
     hitMark.setAttribute("class", "hitMark");
-
     let hitMarkLabel = document.createElement("label");
     hitMarkLabel.setAttribute("class", "hitMarkLabel");
     hitMarkLabel.textContent = "X";
     hitMark.appendChild(hitMarkLabel);
+
+    var tileRect = document.getElementById(tileId).getBoundingClientRect();
     
+    //Appends the hitMark div to the window corresponding to which player board the tile belongs to.
+    //If the window is not currently visible, sets tileId to the corresponding tile of the currently
+    //visible window.
     if (tileId.substring(3) == "p1HomeBoard" || tileId.substring(3) == "p1AttackBoard")
     {
         document.getElementById("p1View").appendChild(hitMark);
+
+        //Coordinates of a window that is not visible are (0,0).
+        if (tileRect.top == 0)
+        {
+            tileId = [tileId.substring(0,3), "p2HomeBoard"].join("");
+        }
     }
     else if (tileId.substring(3) == "p2HomeBoard" || tileId.substring(3) == "p2AttackBoard")
     {
         document.getElementById("p2View").appendChild(hitMark);
+
+        //Coordinates of a window that is not visible are (0,0).
+        if (tileRect.top == 0)
+        {
+            tileId = [tileId.substring(0,3), "p1HomeBoard"].join("");
+        }
     }
 
-    var tileRect = document.getElementById(tileId).getBoundingClientRect();
+    tileRect = document.getElementById(tileId).getBoundingClientRect();
 
+    //Moves the hitMark div to the location tileRect.
     hitMark.style.position = "absolute";
     hitMark.style.top = tileRect.top;
     hitMark.style.left = tileRect.left;
@@ -357,6 +375,10 @@ function hideElement(id){
     document.getElementById(id).style.display = "none";
 }
 
-function setInstruction(text){
-    document.getElementById("instructionText").textContent = text;
+function setInstruction(text, player){
+    if(player == 1){
+        document.getElementById("p1InstructionText").textContent = text;
+    }else{
+        document.getElementById("p2InstructionText").textContent = text;
+    }
 }
