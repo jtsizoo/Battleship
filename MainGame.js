@@ -13,50 +13,8 @@ let maxHits = 0; //max number of hits possible is used to track how close player
 
 let p1GuessedBoard = createEmptyBoard(); //two empty boards are created and stored in an array
 let p2GuessedBoard = createEmptyBoard(); //the default board is filled with 0's, indicating that a position hasn't been guessed
-arrGuessedBoard = [p1GuessedBoard, p2GuessedBoard];
-
-//creating ship objects for testing functionality
-/*const ship1 = {
-    topLeft: "a01",
-    isVertical: false,
-    length: 2
-}
-
-const ship2 = {
-    topLeft: "c04",
-    isVertical: true,
-    length: 5
-}
-
-const ship3 = {
-    topLeft: "f06",
-    isVertical: true,
-    length: 3
-}
-
-const ship4 = {
-    topLeft: "a01",
-    isVertical: false,
-    length: 2
-}
-
-const ship5 = {
-    topLeft: "e07",
-    isVertical: true,
-    length: 4
-}
-
-const ship6 = {
-    topLeft: "f05",
-    isVertical: false,
-    length: 3
-}
-
-let p1Ships = [ship1, ship2, ship3];
-let p2Ships = [ship4, ship5, ship6];*/
-
-//createCoordinateArray(p1Ships);
-//createCoordinateArray(p2Ships);
+arrGuessedBoard = [p1GuessedBoard, p2GuessedBoard]; //arrGuessedBoard is an array containing both of the empty player boards
+//this array is accessed using arrGuessedBoard[turn], so the functions below don't have to specify which player's board they'd like to access
 
 //initializes the game according to the player's ship number and placement
 function initializeGame() {
@@ -73,24 +31,25 @@ function initializeGame() {
 
 //scans all components of the ship array to determine whether a guess is a hit or a miss
 function guessCell(cell) { 
-    cell = cell.substr(0, 3);
-    if (turn == 0) {
+    cell = cell.substr(0, 3); //cell = "e04", for example
+    if (turn == 0) { //if it's p1's turn, we are scanning p2's ships, and vice versa
         shipArray = p2Ships;
     }
     else if (turn == 1) {
         shipArray = p1Ships;
     }
-    if (isGuessed(cell)) {
+    if (isGuessed(cell)) { //controls repeat guesses, the turn isn't switched until the player guesses a new cell
         return;
     }
     let isHit = false;
     for (let i = 0; i < shipArray.length; i++) {
         for (let j = 0; j < shipArray[i].length; j++) {
-            if (shipArray[i].coordinateArray[j] == cell) {
+            if (shipArray[i].coordinateArray[j] == cell) { //if a cell guessed is a hit, we update the hit counter, update the board the player is attacking logically and visually, and check if the game is over
                 isHit = true;
                 updateHitCounter();
                 updateGuessedBoard(cell, isHit);
                 callSetTileState(cell, isHit);
+                updateTransitionText("Hit!");
                 if (isOver()) {
                     endGame();
                     return;
@@ -99,12 +58,13 @@ function guessCell(cell) {
             }
         }
     }
-    if (isHit == false) {
+    if (isHit == false) { //if the guess is a miss, we update the guessed board, and set the tile state to a miss
         updateGuessedBoard(cell, isHit);
         callSetTileState(cell, isHit);
+        updateTransitionText("Miss!");
         //console.log("Miss!"); 
     }
-    switchTurns();
+    switchTurns(); //switch turns at the end of each guess
 }
 
 //checks whether or not a cell has been guessed
@@ -166,19 +126,21 @@ function callSetTileState(cell, isHit) {
     }
 }
 
-//switches the turn index and updates the game state
+//switches the turn index, updates the game state, and calls some graphics functions that changes the screen's visuals
 function switchTurns() {
     if (turn == 0) {
         turn = 1;
         gameState = "p2Turn";
         switchWindow("transition");
         updateTransitionTarget("p2View");
+        updateTransitionText("Player 1, look away! It's Player 2's turn.");
     }
     else {
         turn = 0;
         gameState = "p1Turn";
         switchWindow("transition");
         updateTransitionTarget("p1View");
+        updateTransitionText("Player 2, look away! It's Player 1's turn.");
     }
 }
 
@@ -269,7 +231,7 @@ function printCoordinateArray(shipArray) {
     }
 }
 
-//increments a character, used for creating coordinate arrays
+//increments a character, used for creating coordinate arrays by concactenating strings
 function nextChar(c) {
     return String.fromCharCode(c.charCodeAt(0) + 1);
 }
