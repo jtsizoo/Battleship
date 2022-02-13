@@ -98,9 +98,6 @@ function placeShip(ship){
 }
 
 //Helper function to determine if a ship placement is valid.
-/*
-TODO implement
-*/
 function isShipValid(ship){
     //if the ship goes off the bottom of the board
     let rowNum = parseInt(ship.topLeft.substr(1, 2));
@@ -144,6 +141,7 @@ function isShipValid(ship){
     return true;
 }
 
+//creates a ship object with the given length and returns it
 function initializeShip(_length){
     ship = {
         length: _length,
