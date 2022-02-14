@@ -355,13 +355,16 @@ function updateTransitionText(text)
     document.getElementById("transitionText").textContent = text;
 }
 
+//sets the transitionTarget to whatever string is passed in the argument
 function updateTransitionTarget(windowId){
     transitionTarget = windowId;
 }
 
+//calls the switchWindow function
 function handleTransition(){
     switchWindow(transitionTarget);
 }
+
 
 //Sets the text displayed in the gameOver window.
 function setGameOverText(text)
@@ -371,10 +374,12 @@ function setGameOverText(text)
     document.getElementById("gameOver").appendChild(gameOverTextLabel);
 }
 
+//used to hide and element by passing in the HTML id of that element
 function hideElement(id){
     document.getElementById(id).style.display = "none";
 }
 
+//checks the player the game is on then updates the text corresponding to whether they are in the place ships state or main game functionality
 function setInstruction(text, player){
     if(player == 1){
         document.getElementById("p1InstructionText").textContent = text;
