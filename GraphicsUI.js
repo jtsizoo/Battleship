@@ -4,7 +4,8 @@ let gameState = "numShipSelection";
 
 let numShipsChoice = 0;
 let numShipsChosen = false;
-let specialShotChoice = 0;
+let p1SpecShot = 0;
+let p2SpecShot = 0;
 let specialShotChosen = false;
 let opponent = "";
 let opponentChosen = false;
@@ -21,7 +22,8 @@ function setNumShipsChoice(ships) {
 }
 
 function setSpecialShot(count) {
-    specialShotChoice = count;
+    p1SpecShot = count;
+    p2SpecShot = count;
     specialShotChosen = true;
 }
 
@@ -400,6 +402,16 @@ function updateTransitionText(text)
 //sets the transitionTarget to whatever string is passed in the argument
 function updateTransitionTarget(windowId){
     transitionTarget = windowId;
+    if(windowId == "p1View")
+    {
+        document.getElementById("specShotBtn").style.display = "block";
+        document.getElementById("specShotTitle").textContent = "Number of special shots remaining: " + p1SpecShot;
+    }
+    else if(windowId == "p2View")
+    {
+        document.getElementById("specShotBtn").style.display = "block";
+        document.getElementById("specShotTitle").textContent = "Number of special shots remaining: " + p2SpecShot;
+    }
 }
 
 //calls the switchWindow function
