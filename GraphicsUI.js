@@ -2,36 +2,78 @@ let p1Ships = [];
 let p2Ships = [];
 let gameState = "numShipSelection";
 
+let numShipsChoice = 0;
+let numShipsChosen = false;
+let specialShotChoice = 0;
+let specialShotChosen = false;
+let opponent = "";
+let opponentChosen = false;
+let difficulty = ""
+let difficultyChosen = false;
+
 
 let currentWindow = "shipNumPick";
 let transitionTarget = "p1View";
 
+function setNumShipsChoice(ships) {
+    numShipsChoice = ships;
+    numShipsChosen = true;
+}
+
+function setSpecialShot(count) {
+    specialShotChoice = count;
+    specialShotChosen = true;
+}
+
+function setOpponent(op) {
+    opponent = op;
+    opponentChosen = true;
+}
+
+function setDifficulty(chooseDifficult) {
+    difficulty = chooseDifficult;
+    difficultyChosen = true;
+}
+
+function showDifficulty() {
+    document.getElementById("selectDifficulty").style.display = "flex";
+}
+
 //Builds the UI taking in the number of ships as a parameter.
-function createUI(numberOfShips)
+function createUI()
 {
-    //Builds div where p1 boards are displayed.
-    let p1Boards = document.createElement("div");
-    p1Boards.appendChild(drawGrid("p1HomeBoard", "homeBoard"));
-    p1Boards.appendChild(drawGrid("p1AttackBoard", "attackBoard"));
-    document.getElementById("p1View").insertBefore(p1Boards, document.getElementById("p1RotateButton"));
+    if(specialShotChosen == true && numShipsChosen == true && ((opponentChosen == true && opponent == "AI" && difficultyChosen == true) || (opponentChosen == true && opponent == "Human")))
+    {
+        hideElement("selectDifficulty");
+        hideElement("chooseOp");
+        hideElement("specialShot");
+        hideElement("startGame");
 
-    //Builds div where p1 ships that have yet to be placed are displayed.
-    let p1ShipsToPlace = document.createElement("div");
-    p1ShipsToPlace.appendChild(drawShips(numberOfShips, "p1"));
-    document.getElementById("p1View").appendChild(p1ShipsToPlace);
-
-    //Builds div where p2 boards are displayed.
-    let p2Boards = document.createElement("div");
-    p2Boards.appendChild(drawGrid("p2HomeBoard", "homeBoard"));
-    p2Boards.appendChild(drawGrid("p2AttackBoard", "attackBoard"));
-    document.getElementById("p2View").insertBefore(p2Boards, document.getElementById("p2RotateButton"));
-
-    //Builds div where p2 ships that have yet to be placed are displayed.
-    let p2ShipsToPlace = document.createElement("div");
-    p2ShipsToPlace.appendChild(drawShips(numberOfShips, "p2"));
-    document.getElementById("p2View").appendChild(p2ShipsToPlace);
-
-    initializeShipPlacement(numberOfShips);
+        numberOfShips = numShipsChoice;
+        //Builds div where p1 boards are displayed.
+        let p1Boards = document.createElement("div");
+        p1Boards.appendChild(drawGrid("p1HomeBoard", "homeBoard"));
+        p1Boards.appendChild(drawGrid("p1AttackBoard", "attackBoard"));
+        document.getElementById("p1View").insertBefore(p1Boards, document.getElementById("p1RotateButton"));
+    
+        //Builds div where p1 ships that have yet to be placed are displayed.
+        let p1ShipsToPlace = document.createElement("div");
+        p1ShipsToPlace.appendChild(drawShips(numberOfShips, "p1"));
+        document.getElementById("p1View").appendChild(p1ShipsToPlace);
+    
+        //Builds div where p2 boards are displayed.
+        let p2Boards = document.createElement("div");
+        p2Boards.appendChild(drawGrid("p2HomeBoard", "homeBoard"));
+        p2Boards.appendChild(drawGrid("p2AttackBoard", "attackBoard"));
+        document.getElementById("p2View").insertBefore(p2Boards, document.getElementById("p2RotateButton"));
+    
+        //Builds div where p2 ships that have yet to be placed are displayed.
+        let p2ShipsToPlace = document.createElement("div");
+        p2ShipsToPlace.appendChild(drawShips(numberOfShips, "p2"));
+        document.getElementById("p2View").appendChild(p2ShipsToPlace);
+    
+        initializeShipPlacement(numberOfShips);
+    }
 }
 
 //Creates a table element with a given id and class (class should be homeBoard or attackBoard)
