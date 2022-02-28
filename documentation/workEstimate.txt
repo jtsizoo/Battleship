@@ -1,8 +1,0 @@
-Battleship.html: 2 hours
-GraphicsUI.js: 7 hours
-ShipPlacement.js: 5 hours
-MainGame.js: 10 hours
-Bugfixes/polish: 3 hours
-Battleship.css 0.5 hour
-
-total: 27.5 person hours
