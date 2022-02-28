@@ -12,16 +12,40 @@
         <div>
         </div>
         <div id="shipNumPick">
-            <button class="button-65" onclick="createUI(1)" >1</button>
-            <button class="button-65" onclick="createUI(2)" >2</button>
-            <button class="button-65" onclick="createUI(3)" >3</button>
-            <button class="button-65" onclick="createUI(4)" >4</button>
-            <button class="button-65" onclick="createUI(5)" >5</button>
+            <h2>Choose a number of ships</h2>
+            <button class="button-65" onclick="setNumShipsChoice(1)" >1</button>
+            <button class="button-65" onclick="setNumShipsChoice(2)" >2</button>
+            <button class="button-65" onclick="setNumShipsChoice(3)" >3</button>
+            <button class="button-65" onclick="setNumShipsChoice(4)" >4</button>
+            <button class="button-65" onclick="setNumShipsChoice(5)" >5</button>
+        </div>
+        <div id="specialShot">
+            <h2>Choose a number of special shots</h2>
+            <button class="button-65" onclick="setSpecialShot(1)" >1</button>
+            <button class="button-65" onclick="setSpecialShot(2)" >2</button>
+            <button class="button-65" onclick="setSpecialShot(3)" >3</button>
+        </div>
+        <div id="chooseOp">
+            <h2>Choose opponent</h2>
+            <button class="button-65" onclick="setOpponent('Human'); hideElement('selectDifficulty')" >Human</button>
+            <button class="button-65" onclick="setOpponent('AI'); showDifficulty()" >AI</button>
+        </div>
+        <div id="selectDifficulty">
+            <h2>Select a difficulty</h2>
+            <button class="button-65" onclick="setDifficulty('Easy')" >Easy</button>
+            <button class="button-65" onclick="setDifficulty('Medium')" >Medium</button>
+            <button class="button-65" onclick="setDifficulty('Hard')" >Hard</button>
+        </div>
+        <div id="startGame">
+            <h2>Once each option has been selected, start the game</h2>
+            <button class="button-65" onclick="createUI()">Start Game</button>
         </div>
         <div id="gameOver" style="display:none" class ="gameOverMessage"></div>
         <div id="p1View" style="display:none">
-            <button id="p1RotateButton" class="button-65" onclick="rotateShip()">Rotate Ships</button>
             <p id = "p1InstructionText" class = "instruction">Place ships on the Home board</p>
+            <button id="p1RotateButton" class="button-65" onclick="rotateShip()">Rotate Ships</button>
+            <h2 id="specShotTitle"></h2>
+            <button id="specShotBtn" class="button-65" onclick="rotateShip()">Fire special shot</button>
         </div>
         <div id="transition" style="display:none">
             <h1 id="transitionText" class = "transition-message">Switching Turns!</h1>
