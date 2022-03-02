@@ -31,4 +31,4 @@
  *	-Cycle through where ships are located and just hits until the ships are sunk
  *	-Should probably put in a check to ensure a hit ship is sunk until moving on to next ship (this would be the most efficient/skilled AI version of a player)
  *
- * /
+ */
