@@ -83,6 +83,11 @@ th, td {
     font-size: large;
 }
 
+.firePreview {
+  background-color: gray;
+  opacity: .4;
+}
+
 .shipInventoryBox {
     margin: 5px;
     border: 2px solid black;
