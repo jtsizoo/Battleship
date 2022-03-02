@@ -52,6 +52,7 @@ function createUI()
         hideElement("startGame");
 
         numberOfShips = numShipsChoice;
+        
         //Builds div where p1 boards are displayed.
         let p1Boards = document.createElement("div");
         p1Boards.appendChild(drawGrid("p1HomeBoard", "homeBoard"));
@@ -377,11 +378,14 @@ function drawHitMark(tileId)
     }
 
     tileRect = document.getElementById(tileId).getBoundingClientRect();
-
+    console.log(tileRect);
     //Moves the hitMark div to the location tileRect.
     hitMark.style.position = "absolute";
-    hitMark.style.top = tileRect.top;
-    hitMark.style.left = tileRect.left;
+    console.log(tileRect.top);
+    if(tileId.substring(3) == "p1HomeBoard") hitMark.style.top = (tileRect.top - 75);
+    else if(tileId.substring(3) == "p2HomeBoard") hitMark.style.top = (tileRect.top +75 ); 
+    else hitMark.style.top = (tileRect.top);
+    hitMark.style.left = tileRect.left + 10 ;
     hitMark.style.zIndex = 1000;
 }
 
