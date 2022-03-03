@@ -80,6 +80,7 @@ function createUI()
         p2ShipsToPlace.appendChild(drawShips(numberOfShips, "p2"));
         document.getElementById("p2View").appendChild(p2ShipsToPlace);
 
+        setBigShotHover()
         initializeShipPlacement(numberOfShips);
     }
 }
@@ -156,23 +157,22 @@ function drawGrid(gridId, gridClass)
                 }
 
                 tile.setAttribute("id", tileId);
+
                 tile.addEventListener('click', function() { parseTileClick(tileId); }, false);
 
-                if(gridClass == "attackBoard")
+                if(gridClass == "homeBoard")
                 {
-                  tile.addEventListener('mouseover', shotHover(tile), false);
-                  tile.addEventListener('mouseout', shotEndHover(tile), false);
-
-                } else {
                   tile.addEventListener('mouseover', function() { parseTileHover(tileId); }, false);
+                } else {
+                  tile.setAttribute("class", "attackTile")
                 }
                 row.appendChild(tile);
             }
         }
-
         //Appends each row to the table body.
         tableBody.appendChild(row);
     }
+    //
 
     tableHeader.appendChild(gridTitleRow);
     tableHeader.appendChild(columnLabelRow);
@@ -184,28 +184,36 @@ function drawGrid(gridId, gridClass)
     return grid;
 }
 
+function setBigShotHover() {
+  let tiles = document.getElementsByClassName("attackTile")
+  for (let i = 0; i < tiles.length; i++) {
+    console.log(tiles[i])
+    tiles[i].addEventListener('mouseover', function() {
+      if (fireSpecShot) {
+        let tileIds = getNeighborCells(tiles[i].id)
+        for (let j = 0; j < tileIds.length; j++) {
+          neighbor = document.getElementById(tileIds[j])
+          neighbor.classList.add('firePreview');
+        }
+      } else {
+        tiles[i].classList.add('firePreview');
+      }
+    }, false);
+    tiles[i].addEventListener('mouseout', function() {
+      if (fireSpecShot) {
 
-function shotHover(tile) {
-  if (fireSpecShot) {
-    let tiles = getNeighborCells(tile)
-    for (let tile in tiles) {
-      tile.classList.add('firePreview');
-    }
-  } else {
-    tile.classList.add('firePreview');
+        let tileIds = getNeighborCells(tiles[i].id)
+
+        for (let j = 0; j < tileIds.length; j++) {
+          neighbor = document.getElementById(tileIds[j])
+          neighbor.classList.remove('firePreview');
+        }
+      } else {
+        tiles[i].classList.remove('firePreview');
+      }
+    }, false);
   }
 
-}
-
-function shotEndHover(tile) {
-  if (fireSpecShot) {
-    let tiles = getNeighborCells(tile)
-    for (let tile in tiles) {
-      tile.classList.remove('firePreview');
-    }
-  } else {
-    tile.classList.remove('firePreview');
-  }
 }
 
 //Creates the inventory box containing the ships to be placed. Takes in an int representing the
@@ -299,7 +307,6 @@ function getNeighborCells(cell) {
             }
         }
     }
-    console.log(cells)
     return cells;
 }
 
@@ -316,7 +323,7 @@ function parseTileClick(tile)
     else if(gameState == "p1Turn" && tile.substring(3) == "p1AttackBoard"){
         if (specialShotChosen && p1SpecShot > 0) {
             cells = getNeighborCells(tile);
-            guessCells(tile)
+            guessCells(cells)
         } else {
             guessCell(tile)
         }
@@ -325,7 +332,7 @@ function parseTileClick(tile)
     else if(gameState == "p2Turn" && tile.substring(3) == "p2AttackBoard"){
         if (specialShotChosen && p2SpecShot > 0) {
             cells = getNeighborCells(tile);
-            guessCells(tile)
+            guessCells(cells)
         } else {
            guessCell(tile)
         }

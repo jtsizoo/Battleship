@@ -91,7 +91,6 @@ function guessCell(cell) {
 }
 
 function guessCells(cells) {
-    console.log(p1Ships)
     let isHit = false;
     let isSunk = false;
     if (turn == 0) { //if it's p1's turn, we are scanning p2's ships, and vice versa
@@ -102,9 +101,10 @@ function guessCells(cells) {
         shipArray = p1Ships;
         p2SpecShot--;
     }
-    for (let cell of cells) {
-        cell = cell.substr(0, 3); //cell = "e04", for example
-
+    console.log(cells)
+    for (let i = 0; i < cells.length; i++) {
+        let cell = cells[i].substring(0, 3); //cell = "e04", for example
+        console.log(cell)
         if (isGuessed(cell)) { //controls repeat guesses, the turn isn't switched until the player guesses a new cell
             continue;
         }
