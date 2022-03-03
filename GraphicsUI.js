@@ -183,7 +183,7 @@ function drawGrid(gridId, gridClass)
 }
 
 
-function bigShotHover(tile) {
+function shotHover(tile) {
   if (fireSpecShot) {
     let tiles = getNeighborCells(tile)
     for (let tile in tiles) {
@@ -195,7 +195,7 @@ function bigShotHover(tile) {
 
 }
 
-function bigShotEndHover(tile) {
+function shotEndHover(tile) {
   if (fireSpecShot) {
     let tiles = getNeighborCells(tile)
     for (let tile in tiles) {
