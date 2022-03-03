@@ -47,10 +47,6 @@ function hoverCell(cell){
     }
 }
 
-function hoverAttackCell(cell) {
-    
-}
-
 //Call when the user clicks the rotate ship button
 //Will rotate the ship between horizontal and vertical
 function rotateShip(){

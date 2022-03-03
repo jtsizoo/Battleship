@@ -16,6 +16,8 @@ let difficultyChosen = false;
 let currentWindow = "shipNumPick";
 let transitionTarget = "p1View";
 
+let columnLabelAlphabet = ['a','b','c','d','e','f','g','h','i','j'];
+
 function setNumShipsChoice(ships) {
     numShipsChoice = ships;
     numShipsChosen = true;
@@ -83,7 +85,7 @@ function createUI()
 //and populates it with 11 rows and 11 cells per row.
 function drawGrid(gridId, gridClass)
 {
-    let columnLabelAlphabet = ['a','b','c','d','e','f','g','h','i','j'];
+    
     
     //Creates a table and specifies its header and body.
     let grid = document.createElement("table");
@@ -238,6 +240,33 @@ function drawShips(numberOfShips, player)
     return (shipInventoryBox);
 }
 
+function getNeighborCells(cell) {
+    let gridId = cel.substring(3)
+    cell = cell.substring(0, 3)
+    let cells = []
+    let startCol = columnLabelAlphabet.indexOf(cell[0])
+    let endCol = startCol+1
+    if (startCol > 0) {
+        startCol -= 1
+    }
+    let startRow = parseInt(cell.substring(1, 3))
+    endRow = startRow+1
+    if (startRow > 0) {
+        startRow -= 1
+    }
+    for (let i = startRow; i <= endCol; i++) {
+        for (let j = startCol; j <= startCol; j++) {
+            if (i == 10) {
+                cells.push([columnLabelAlphabet[j], i.toString(), gridId].join(''))
+            } else {
+                cells.push([columnLabelAlphabet[j], "0", gridId].join(''))
+            }
+        }
+    }
+    console.log(cells);
+    return cells;
+}
+
 //function called when the user clicks a tile.
 //first checks if the player should be clicking the tile at the current stage of the game, then calls the corresponding handler
 function parseTileClick(tile)
@@ -249,16 +278,31 @@ function parseTileClick(tile)
         attemptShipPlace(tile)
     }
     else if(gameState == "p1Turn" && tile.substring(3) == "p1AttackBoard"){
-        guessCell(tile)
+        if (specialShotChosen && p1SpecShot > 0) {
+            cells = getNeighborCells(tile);
+            guessCells(tile)
+        } else {
+            guessCell(tile) 
+        }
+        
     }
     else if(gameState == "p2Turn" && tile.substring(3) == "p2AttackBoard"){
-        guessCell(tile)
+        if (specialShotChosen && p2SpecShot > 0) {
+            cells = getNeighborCells(tile);
+            guessCells(tile)
+        } else {
+           guessCell(tile) 
+        }
     }
     else{
         console.log("Incorrect Game State for clicking")
     }
 }
 
+
+function initSpecShot() {
+    specialShotChosen = !specialShotChosen
+}
 
 // this function will call the rotate button in the index html file
 // arguments: 
@@ -286,12 +330,6 @@ function parseTileHover(tile)
     }
     else if(gameState == "p2Place" && tile.substring(3) == "p2HomeBoard"){
         hoverCell(tile)
-    }
-    else if(gameState == "p1Turn" && tile.substring(3) == "p1AttackBoard"){
-        hoverAttackCell(tile)
-    }
-    else if(gameState == "p2Turn" && tile.substring(3) == "p2AttackBoard"){
-        hoverAttackCell(tile)
     }
 }
 
