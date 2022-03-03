@@ -52,6 +52,7 @@ function createUI()
         hideElement("startGame");
 
         numberOfShips = numShipsChoice;
+        
         //Builds div where p1 boards are displayed.
         let p1Boards = document.createElement("div");
         p1Boards.appendChild(drawGrid("p1HomeBoard", "homeBoard"));
@@ -152,6 +153,11 @@ function drawGrid(gridId, gridClass)
                 tile.setAttribute("id", tileId);
                 tile.addEventListener('click', function() { parseTileClick(tileId); }, false);
                 tile.addEventListener('mouseover', function() { parseTileHover(tileId); }, false);
+                if(gridClass == "attackBoard")
+                {
+                    tile.addEventListener('mouseover', function() { tile.classList.add('firePreview'); }, false);
+                    tile.addEventListener('mouseout', function() { tile.classList.remove('firePreview'); }, false);
+                }
                 row.appendChild(tile);
             }
         }
@@ -169,6 +175,8 @@ function drawGrid(gridId, gridClass)
 
     return grid;
 }
+
+
 
 //Creates the inventory box containing the ships to be placed. Takes in an int representing the 
 //number of ships to draw (should be between 1 and 5) and a string representing which player the 
@@ -383,11 +391,14 @@ function drawHitMark(tileId)
     }
 
     tileRect = document.getElementById(tileId).getBoundingClientRect();
-
+    console.log(tileRect);
     //Moves the hitMark div to the location tileRect.
     hitMark.style.position = "absolute";
-    hitMark.style.top = tileRect.top;
-    hitMark.style.left = tileRect.left;
+    console.log(tileRect.top);
+    if(tileId.substring(3) == "p1HomeBoard") hitMark.style.top = (tileRect.top - 75);
+    else if(tileId.substring(3) == "p2HomeBoard") hitMark.style.top = (tileRect.top +75 ); 
+    else hitMark.style.top = (tileRect.top);
+    hitMark.style.left = tileRect.left + 10 ;
     hitMark.style.zIndex = 1000;
 }
 

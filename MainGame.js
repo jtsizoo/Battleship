@@ -45,15 +45,27 @@ function guessCell(cell) {
     for (let i = 0; i < shipArray.length; i++) {
         for (let j = 0; j < shipArray[i].length; j++) {
             if (shipArray[i].coordinateArray[j] == cell) { //if a cell guessed is a hit, we update the hit counter, update the board the player is attacking logically and visually, update transition text accordingly, check if the game is over
+ 
                 isHit = true;
                 updateHitCounter();
-                updateGuessedBoard(cell, isHit);
+                updateGuessedBoard(cell, isHit, shipArray[i]);
                 callSetTileState(cell, isHit);
+                let isSunk = checkSunk(shipArray[i]);
                 if (turn == 0) {
-                    updateTransitionText("Hit!\nPlayer 1, look away! It's Player 2's turn!");
+                    if(isSunk) {
+                        updateTransitionText("Sunk!\nPlayer 1, look away! It's Player 2's turn!");
+                    } 
+                    else {
+                        updateTransitionText("Hit!\nPlayer 1, look away! It's Player 2's turn!");
+                    } 
                 }
                 else if (turn == 1) {
-                    updateTransitionText("Hit!\nPlayer 2, look away! It's Player 1's turn!");
+                    if(isSunk) {
+                        updateTransitionText("Sunk!\nPlayer 2, look away! It's Player 1's turn!");
+                    } 
+                    else {
+                        updateTransitionText("Hit!\nPlayer 2, look away! It's Player 1's turn!");
+                    }
                 }
                 if (isOver()) {
                     endGame();
@@ -64,7 +76,7 @@ function guessCell(cell) {
         }
     }
     if (isHit == false) { //if the guess is a miss, we update the guessed board, set the tile state to a miss, and update transition text accordingly
-        updateGuessedBoard(cell, isHit);
+        updateGuessedBoard(cell, isHit, shipArray[i]);
         callSetTileState(cell, isHit);
         if (turn == 0) {
             updateTransitionText("Miss!\nPlayer 1, look away! It's Player 2's turn!");
@@ -75,6 +87,23 @@ function guessCell(cell) {
         //console.log("Miss!"); 
     }
     switchTurns(); //switch turns at the end of each guess
+}
+
+function checkSunk(ship) {
+    let count = 0;
+    let guessedBoard =  arrGuessedBoard[turn];
+
+    for (let i = 0; i < 10; i++) {
+        for (let j = 0; j < 10; j++) {
+            if(guessedBoard[i][j] == ship.length) {
+                count++;
+            }
+            if(count == ship.length) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 //checks whether or not a cell has been guessed
@@ -98,8 +127,8 @@ function isGuessed(cell) {
 }
 
 //updates the opponent's board
-//default = 0, hit = 1, miss = 2
-function updateGuessedBoard(cell, isHit) {
+//default = 0, hit = ship number, miss = -1
+function updateGuessedBoard(cell, isHit, ship) {
     let board = arrGuessedBoard[turn];
 
     let row = parseInt(cell[1] + cell[2]) - 1;
@@ -112,10 +141,10 @@ function updateGuessedBoard(cell, isHit) {
     }
     if (board[row][column] == 0) { //0 = not guessed, this if statement filters out repeat guesses
         if (isHit) {
-            board[row][column] = 1; //hit = 1
+            board[row][column] = ship.length; //hit = ship Number (between 1 and 5)
         }
         else {
-            board[row][column] = 2; //miss = 2
+            board[row][column] = -1; //miss = -1
         }    
     }
 }
@@ -205,6 +234,18 @@ function wait(ms) {
      }
      return board;
  }
+
+ //helper to sink ships
+ function createCoordinateBoard() {
+    let board = [];
+    for (let i = 0; i < 10; i++) {
+        board[i] = [];
+        for (let j = 0; j < 10; j++) {
+            board[i][j] = 0;
+        }
+    }
+    return board;
+}
 
 //takes a player's ship array and turns the information of top left, orientation, and length for each ship into board coordinates
 function createCoordinateArray(shipArray) {
