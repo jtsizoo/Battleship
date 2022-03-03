@@ -14,6 +14,7 @@ let opponentChosen = false;
 let difficulty = ""
 let difficultyChosen = false;
 
+let fireSpecShot = false;
 
 let currentWindow = "shipNumPick";
 let transitionTarget = "p1View";
@@ -28,6 +29,7 @@ function setNumShipsChoice(ships) {
 function setSpecialShot(count) {
     p1SpecShot = count;
     p2SpecShot = count;
+    specialShotChosen = true;
 }
 
 function setOpponent(op) {
@@ -49,11 +51,9 @@ function createUI()
 {
     if(specialShotChosen == true && numShipsChosen == true && ((opponentChosen == true && opponent == "AI" && difficultyChosen == true) || (opponentChosen == true && opponent == "Human")))
     {
-        specialShotChosen = false;
         hideElement("selectDifficulty");
         hideElement("chooseOp");
-        hideElement("specialShot");used
-cs 448 proj 2 — repo
+        hideElement("specialShot");
         hideElement("startGame");
 
         numberOfShips = numShipsChoice;
@@ -160,14 +160,8 @@ function drawGrid(gridId, gridClass)
                 tile.addEventListener('mouseover', function() { parseTileHover(tileId); }, false);
                 if(gridClass == "attackBoard")
                 {
-                    if (specialShotChosen) {
-                      let tiles = getNeighborCells(tile)
-                      tile.addEventListener('mouseover', bigShotHover(tiles), false);
-                      tile.addEventListener('mouseout', bigShotEndHover(tiles), false);
-                    } else {
-                      tile.addEventListener('mouseover', function() { tile.classList.add('firePreview'); }, false);
-                      tile.addEventListener('mouseout', function() { tile.classList.remove('firePreview'); }, false);
-                    }
+                  tile.addEventListener('mouseover', shotHover(tile), false);
+                  tile.addEventListener('mouseout', shotEndHover(tile), false);
 
                 }
                 row.appendChild(tile);
@@ -189,14 +183,25 @@ function drawGrid(gridId, gridClass)
 }
 
 
-function bigShotHover(tiles) {
-  for (let tile in tiles) {
+function bigShotHover(tile) {
+  if (fireSpecShot) {
+    let tiles = getNeighborCells(tile)
+    for (let tile in tiles) {
+      tile.classList.add('firePreview');
+    }
+  } else {
     tile.classList.add('firePreview');
   }
+
 }
 
-function bigShotEndHover(tiles) {
-  for (let tile in tiles) {
+function bigShotEndHover(tile) {
+  if (fireSpecShot) {
+    let tiles = getNeighborCells(tile)
+    for (let tile in tiles) {
+      tile.classList.remove('firePreview');
+    }
+  } else {
     tile.classList.remove('firePreview');
   }
 }
@@ -330,7 +335,7 @@ function parseTileClick(tile)
 
 
 function initSpecShot() {
-    specialShotChosen = !specialShotChosen
+    fireSpecShot = !fireSpecShot
 }
 
 // this function will call the rotate button in the index html file

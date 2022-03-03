@@ -31,7 +31,7 @@ function initializeGame() {
 
 
 //scans all components of the ship array to determine whether a guess is a hit or a miss
-function guessCell(cell) { 
+function guessCell(cell) {
     cell = cell.substr(0, 3); //cell = "e04", for example
     if (turn == 0) { //if it's p1's turn, we are scanning p2's ships, and vice versa
         shipArray = p2Ships;
@@ -46,7 +46,7 @@ function guessCell(cell) {
     for (let i = 0; i < shipArray.length; i++) {
         for (let j = 0; j < shipArray[i].length; j++) {
             if (shipArray[i].coordinateArray[j] == cell) { //if a cell guessed is a hit, we update the hit counter, update the board the player is attacking logically and visually, update transition text accordingly, check if the game is over
- 
+
                 isHit = true;
                 updateHitCounter();
                 updateGuessedBoard(cell, isHit, shipArray[i]);
@@ -55,15 +55,15 @@ function guessCell(cell) {
                 if (turn == 0) {
                     if(isSunk) {
                         updateTransitionText("Sunk!\nPlayer 1, look away! It's Player 2's turn!");
-                    } 
+                    }
                     else {
                         updateTransitionText("Hit!\nPlayer 1, look away! It's Player 2's turn!");
-                    } 
+                    }
                 }
                 else if (turn == 1) {
                     if(isSunk) {
                         updateTransitionText("Sunk!\nPlayer 2, look away! It's Player 1's turn!");
-                    } 
+                    }
                     else {
                         updateTransitionText("Hit!\nPlayer 2, look away! It's Player 1's turn!");
                     }
@@ -85,7 +85,7 @@ function guessCell(cell) {
         else if (turn == 1) {
             updateTransitionText("Miss!\nPlayer 2, look away! It's Player 1's turn!");
         }
-        //console.log("Miss!"); 
+        //console.log("Miss!");
     }
     switchTurns(); //switch turns at the end of each guess
 }
@@ -104,11 +104,11 @@ function guessCells(cells) {
     }
     for (let cell of cells) {
         cell = cell.substr(0, 3); //cell = "e04", for example
-        
+
         if (isGuessed(cell)) { //controls repeat guesses, the turn isn't switched until the player guesses a new cell
             continue;
         }
-        
+
         for (let i = 0; i < shipArray.length; i++) {
             for (let j = 0; j < shipArray[i].length; j++) {
                 if (shipArray[i].coordinateArray[j] == cell) { //if a cell guessed is a hit, we update the hit counter, update the board the player is attacking logically and visually, update transition text accordingly, check if the game is over
@@ -130,15 +130,15 @@ function guessCells(cells) {
         if (turn == 0) {
             if(isSunk) {
                 updateTransitionText("Sunk!\nPlayer 1, look away! It's Player 2's turn!");
-            } 
+            }
             else {
                 updateTransitionText("Hit!\nPlayer 1, look away! It's Player 2's turn!");
-            } 
+            }
         }
         else if (turn == 1) {
             if(isSunk) {
                 updateTransitionText("Sunk!\nPlayer 2, look away! It's Player 1's turn!");
-            } 
+            }
             else {
                 updateTransitionText("Hit!\nPlayer 2, look away! It's Player 1's turn!");
             }
@@ -155,7 +155,7 @@ function guessCells(cells) {
             updateTransitionText("Miss!\nPlayer 2, look away! It's Player 1's turn!");
         }
     }
-    specialShotChosen = false
+    fireSpecShot = false
     switchTurns(); //switch turns at the end of each guess
 }
 
@@ -215,7 +215,7 @@ function updateGuessedBoard(cell, isHit, ship) {
         }
         else {
             board[row][column] = -1; //miss = -1
-        }    
+        }
     }
 }
 
@@ -285,7 +285,7 @@ function endGame() {
 }
 
 //stalls code execution for a certain number of ms (not used currently)
-function wait(ms) { 
+function wait(ms) {
     var start = new Date().getTime();
     var end = start;
     while (end < start + ms) {
@@ -341,7 +341,7 @@ function createCoordinateArray(shipArray) {
 }
 
 //pass in a player's ship array and this will print the coordinates each ship occupies, used for testing functionality
-function printCoordinateArray(shipArray) { 
+function printCoordinateArray(shipArray) {
     for (let i = 0; i < shipArray.length; i++) {
         console.log("SHIP OF LENGTH " + shipArray[i].length + " COORDINATES");
         for (let j = 0; j < shipArray[i].length; j++) {
