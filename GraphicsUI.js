@@ -160,8 +160,15 @@ function drawGrid(gridId, gridClass)
                 tile.addEventListener('mouseover', function() { parseTileHover(tileId); }, false);
                 if(gridClass == "attackBoard")
                 {
-                    tile.addEventListener('mouseover', function() { tile.classList.add('firePreview'); }, false);
-                    tile.addEventListener('mouseout', function() { tile.classList.remove('firePreview'); }, false);
+                    if (specialShotChosen) {
+                      let tiles = getNeighborCells(tile)
+                      tile.addEventListener('mouseover', bigShotHover(tiles), false);
+                      tile.addEventListener('mouseout', bigShotEndHover(tiles), false);
+                    } else {
+                      tile.addEventListener('mouseover', function() { tile.classList.add('firePreview'); }, false);
+                      tile.addEventListener('mouseout', function() { tile.classList.remove('firePreview'); }, false);
+                    }
+
                 }
                 row.appendChild(tile);
             }
@@ -182,6 +189,17 @@ function drawGrid(gridId, gridClass)
 }
 
 
+function bigShotHover(tiles) {
+  for (let tile in tiles) {
+    tile.classList.add('firePreview');
+  }
+}
+
+function bigShotEndHover(tiles) {
+  for (let tile in tiles) {
+    tile.classList.remove('firePreview');
+  }
+}
 
 //Creates the inventory box containing the ships to be placed. Takes in an int representing the
 //number of ships to draw (should be between 1 and 5) and a string representing which player the
