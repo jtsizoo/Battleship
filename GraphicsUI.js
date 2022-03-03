@@ -49,6 +49,7 @@ function createUI()
 {
     if(specialShotChosen == true && numShipsChosen == true && ((opponentChosen == true && opponent == "AI" && difficultyChosen == true) || (opponentChosen == true && opponent == "Human")))
     {
+        specialShotChosen = false;
         hideElement("selectDifficulty");
         hideElement("chooseOp");
         hideElement("specialShot");used
@@ -145,7 +146,7 @@ function drawGrid(gridId, gridClass)
                 let tile = document.createElement("td");
                 let tileId;
 
-                if (i == 9) olumnLabelAlphabet
+                if (i == 9)
                 {
                     tileId = [ columnLabelAlphabet[j-1], ((i+1).toString()), gridId ].join('');
                 }
@@ -243,7 +244,7 @@ function drawShips(numberOfShips, player)
 }
 
 function getNeighborCells(cell) {
-    let gridId = cel.substring(3)
+    let gridId = cell.substring(3)
     cell = cell.substring(0, 3)
 
     let cells = []
@@ -273,7 +274,7 @@ function getNeighborCells(cell) {
             }
         }
     }
-    console.log(cells);
+    console.log(cells)
     return cells;
 }
 
