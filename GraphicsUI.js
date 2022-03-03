@@ -157,12 +157,14 @@ function drawGrid(gridId, gridClass)
 
                 tile.setAttribute("id", tileId);
                 tile.addEventListener('click', function() { parseTileClick(tileId); }, false);
-                tile.addEventListener('mouseover', function() { parseTileHover(tileId); }, false);
+
                 if(gridClass == "attackBoard")
                 {
                   tile.addEventListener('mouseover', shotHover(tile), false);
                   tile.addEventListener('mouseout', shotEndHover(tile), false);
 
+                } else {
+                  tile.addEventListener('mouseover', function() { parseTileHover(tileId); }, false);
                 }
                 row.appendChild(tile);
             }
