@@ -1,3 +1,5 @@
+
+
 let p1Ships = [];
 let p2Ships = [];
 let gameState = "numShipSelection";
@@ -26,7 +28,6 @@ function setNumShipsChoice(ships) {
 function setSpecialShot(count) {
     p1SpecShot = count;
     p2SpecShot = count;
-    specialShotChosen = true;
 }
 
 function setOpponent(op) {
@@ -50,7 +51,8 @@ function createUI()
     {
         hideElement("selectDifficulty");
         hideElement("chooseOp");
-        hideElement("specialShot");
+        hideElement("specialShot");used
+cs 448 proj 2 — repo
         hideElement("startGame");
 
         numberOfShips = numShipsChoice;
@@ -243,23 +245,31 @@ function drawShips(numberOfShips, player)
 function getNeighborCells(cell) {
     let gridId = cel.substring(3)
     cell = cell.substring(0, 3)
+
     let cells = []
     let startCol = columnLabelAlphabet.indexOf(cell[0])
-    let endCol = startCol+1
+    let endCol = startCol
+    if (startCol < 9) {
+      endCol = startCol+1
+    }
     if (startCol > 0) {
         startCol -= 1
     }
+
     let startRow = parseInt(cell.substring(1, 3))
-    endRow = startRow+1
-    if (startRow > 0) {
+    let endRow = startRow
+    if (endRow < 10) {
+      endRow = startRow+1
+    }
+    if (startRow > 1) {
         startRow -= 1
     }
-    for (let i = startRow; i <= endCol; i++) {
-        for (let j = startCol; j <= endRow; j++) {
+    for (let i = startRow; i <= endRow; i++) {
+        for (let j = startCol; j <= endCol; j++) {
             if (i == 10) {
                 cells.push([columnLabelAlphabet[j], i.toString(), gridId].join(''))
             } else {
-                cells.push([columnLabelAlphabet[j], "0", gridId].join(''))
+                cells.push([columnLabelAlphabet[j], "0", i.toString(), gridId].join(''))
             }
         }
     }
