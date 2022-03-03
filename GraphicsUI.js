@@ -48,6 +48,7 @@ function createUI()
 {
     if(specialShotChosen == true && numShipsChosen == true && ((opponentChosen == true && opponent == "AI" && difficultyChosen == true) || (opponentChosen == true && opponent == "Human")))
     {
+        specialShotChosen = false;
         hideElement("selectDifficulty");
         hideElement("chooseOp");
         hideElement("specialShot");
@@ -241,29 +242,38 @@ function drawShips(numberOfShips, player)
 }
 
 function getNeighborCells(cell) {
-    let gridId = cel.substring(3)
+    let gridId = cell.substring(3)
     cell = cell.substring(0, 3)
-    let cells = []
+    let cells = [];
     let startCol = columnLabelAlphabet.indexOf(cell[0])
-    let endCol = startCol+1
+    let endCol = startCol
+    if(startCol < 9) {
+        let endCol = startCol+1
+    }
     if (startCol > 0) {
         startCol -= 1
     }
+
     let startRow = parseInt(cell.substring(1, 3))
-    endRow = startRow+1
-    if (startRow > 0) {
+    let endRow = startRow
+    if(endRow < 10)
+    {
+        endRow = startRow + 1
+    }
+    if (startRow > 1) {
         startRow -= 1
     }
-    for (let i = startRow; i <= endCol; i++) {
-        for (let j = startCol; j <= startCol; j++) {
+    for (let i = startRow; i <= endRow; i++) {
+        for (let j = startCol; j <= endCol; j++) {
+            console.log(columnLabelAlphabet[j]);
             if (i == 10) {
                 cells.push([columnLabelAlphabet[j], i.toString(), gridId].join(''))
             } else {
-                cells.push([columnLabelAlphabet[j], "0", gridId].join(''))
+                cells.push([columnLabelAlphabet[j], "0", i.toString(), gridId].join(''))
             }
         }
     }
-    console.log(cells);
+    console.log(cells)
     return cells;
 }
 
