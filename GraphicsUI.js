@@ -55,29 +55,29 @@ function createUI()
         hideElement("startGame");
 
         numberOfShips = numShipsChoice;
-        
+
         //Builds div where p1 boards are displayed.
         let p1Boards = document.createElement("div");
         p1Boards.appendChild(drawGrid("p1HomeBoard", "homeBoard"));
         p1Boards.appendChild(drawGrid("p1AttackBoard", "attackBoard"));
         document.getElementById("p1View").insertBefore(p1Boards, document.getElementById("p1RotateButton"));
-    
+
         //Builds div where p1 ships that have yet to be placed are displayed.
         let p1ShipsToPlace = document.createElement("div");
         p1ShipsToPlace.appendChild(drawShips(numberOfShips, "p1"));
         document.getElementById("p1View").appendChild(p1ShipsToPlace);
-    
+
         //Builds div where p2 boards are displayed.
         let p2Boards = document.createElement("div");
         p2Boards.appendChild(drawGrid("p2HomeBoard", "homeBoard"));
         p2Boards.appendChild(drawGrid("p2AttackBoard", "attackBoard"));
         document.getElementById("p2View").insertBefore(p2Boards, document.getElementById("p2RotateButton"));
-    
+
         //Builds div where p2 ships that have yet to be placed are displayed.
         let p2ShipsToPlace = document.createElement("div");
         p2ShipsToPlace.appendChild(drawShips(numberOfShips, "p2"));
         document.getElementById("p2View").appendChild(p2ShipsToPlace);
-    
+
         initializeShipPlacement(numberOfShips);
     }
 }
@@ -86,8 +86,8 @@ function createUI()
 //and populates it with 11 rows and 11 cells per row.
 function drawGrid(gridId, gridClass)
 {
-    
-    
+
+
     //Creates a table and specifies its header and body.
     let grid = document.createElement("table");
     let tableHeader = document.createElement("thead");
@@ -144,7 +144,7 @@ function drawGrid(gridId, gridClass)
                 let tile = document.createElement("td");
                 let tileId;
 
-                if (i == 9) 
+                if (i == 9)
                 {
                     tileId = [ columnLabelAlphabet[j-1], ((i+1).toString()), gridId ].join('');
                 }
@@ -181,8 +181,8 @@ function drawGrid(gridId, gridClass)
 
 
 
-//Creates the inventory box containing the ships to be placed. Takes in an int representing the 
-//number of ships to draw (should be between 1 and 5) and a string representing which player the 
+//Creates the inventory box containing the ships to be placed. Takes in an int representing the
+//number of ships to draw (should be between 1 and 5) and a string representing which player the
 //ships belong to (should be "p1" or "p2").
 function drawShips(numberOfShips, player)
 {
@@ -198,13 +198,13 @@ function drawShips(numberOfShips, player)
     shipInventoryBoxLabel.textContent = "Ship Inventory";
     shipInventoryBoxLabel.setAttribute("class", "shipInventoryBoxLabel");
     shipInventoryBoxHeading.appendChild(shipInventoryBoxLabel);
-    
+
     for (let i = 0; i < numberOfShips; i++)
     {
         let ship = document.createElement("div");
         let shipClass = "";
         let shipId = "";
-        
+
         switch (i)
         {
             case 0:
@@ -292,16 +292,16 @@ function parseTileClick(tile)
             cells = getNeighborCells(tile);
             guessCells(tile)
         } else {
-            guessCell(tile) 
+            guessCell(tile)
         }
-        
+
     }
     else if(gameState == "p2Turn" && tile.substring(3) == "p2AttackBoard"){
         if (specialShotChosen && p2SpecShot > 0) {
             cells = getNeighborCells(tile);
             guessCells(tile)
         } else {
-           guessCell(tile) 
+           guessCell(tile)
         }
     }
     else{
@@ -315,8 +315,8 @@ function initSpecShot() {
 }
 
 // this function will call the rotate button in the index html file
-// arguments: 
-// which player is playing, game state = ship rotate 
+// arguments:
+// which player is playing, game state = ship rotate
 function rotateShipButton(){
     //check the game state and the player that is playing
     //ie if the player is in the placement stage
@@ -344,7 +344,7 @@ function parseTileHover(tile)
 }
 
 
-//Takes in the id of the visual ship element, the destination tile id, and a boolean representing 
+//Takes in the id of the visual ship element, the destination tile id, and a boolean representing
 //if the ship is vertical, and moves the ship element over the destination tile.
 function moveShip(shipId, tileId, isVertical)
 {
@@ -413,7 +413,7 @@ function drawHitMark(tileId)
     hitMark.appendChild(hitMarkLabel);
 
     var tileRect = document.getElementById(tileId).getBoundingClientRect();
-    
+
     //Appends the hitMark div to the window corresponding to which player board the tile belongs to.
     //If the window is not currently visible, sets tileId to the corresponding tile of the currently
     //visible window.
@@ -444,7 +444,7 @@ function drawHitMark(tileId)
     hitMark.style.position = "absolute";
     console.log(tileRect.top);
     if(tileId.substring(3) == "p1HomeBoard") hitMark.style.top = (tileRect.top - 75);
-    else if(tileId.substring(3) == "p2HomeBoard") hitMark.style.top = (tileRect.top +75 ); 
+    else if(tileId.substring(3) == "p2HomeBoard") hitMark.style.top = (tileRect.top +75 );
     else hitMark.style.top = (tileRect.top);
     hitMark.style.left = tileRect.left + 10 ;
     hitMark.style.zIndex = 1000;
