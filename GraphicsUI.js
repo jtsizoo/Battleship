@@ -279,6 +279,12 @@ function parseTileHover(tile)
     else if(gameState == "p2Place" && tile.substring(3) == "p2HomeBoard"){
         hoverCell(tile)
     }
+    else if(gameState == "p1Turn" && tile.substring(3) == "p1AttackBoard"){
+        hoverAttackCell(tile)
+    }
+    else if(gameState == "p2Turn" && tile.substring(3) == "p2AttackBoard"){
+        hoverAttackCell(tile)
+    }
 }
 
 
