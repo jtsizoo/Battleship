@@ -80,7 +80,7 @@ function createUI()
         p2ShipsToPlace.appendChild(drawShips(numberOfShips, "p2"));
         document.getElementById("p2View").appendChild(p2ShipsToPlace);
 
-        setBigShotHover()
+        setBigShotHover();
         initializeShipPlacement(numberOfShips);
     }
 }
@@ -186,34 +186,59 @@ function drawGrid(gridId, gridClass)
 
 function setBigShotHover() {
   let tiles = document.getElementsByClassName("attackTile")
-  for (let i = 0; i < tiles.length; i++) {
-    console.log(tiles[i])
-    tiles[i].addEventListener('mouseover', function() {
-      if (fireSpecShot) {
-        let tileIds = getNeighborCells(tiles[i].id)
-        for (let j = 0; j < tileIds.length; j++) {
-          neighbor = document.getElementById(tileIds[j])
-          neighbor.classList.add('firePreview');
-        }
-      } else {
-        tiles[i].classList.add('firePreview');
-      }
-    }, false);
-    tiles[i].addEventListener('mouseout', function() {
-      if (fireSpecShot) {
-
-        let tileIds = getNeighborCells(tiles[i].id)
-
-        for (let j = 0; j < tileIds.length; j++) {
-          neighbor = document.getElementById(tileIds[j])
-          neighbor.classList.remove('firePreview');
-        }
-      } else {
-        tiles[i].classList.remove('firePreview');
-      }
-    }, false);
+    for (let i = 0; i < tiles.length-100; i++) {
+        tiles[i].addEventListener('mouseover', function() {
+          if (fireSpecShot && p1SpecShot > 0) {
+            let tileIds = getNeighborCells(tiles[i].id)
+            for (let j = 0; j < tileIds.length; j++) {
+              neighbor = document.getElementById(tileIds[j])
+              neighbor.classList.add('firePreview');
+            }
+          } else {
+            tiles[i].classList.add('firePreview');
+          }
+        }, false);
+        tiles[i].addEventListener('mouseout', function() {
+          if (fireSpecShot && p1SpecShot) {
+    
+            let tileIds = getNeighborCells(tiles[i].id)
+    
+            for (let j = 0; j < tileIds.length; j++) {
+              neighbor = document.getElementById(tileIds[j])
+              neighbor.classList.remove('firePreview');
+            }
+          } else {
+            tiles[i].classList.remove('firePreview');
+          }
+        }, false);
   }
 
+    for (let i = tiles.length-100; i < tiles.length; i++) {
+        tiles[i].addEventListener('mouseover', function() {
+          if (fireSpecShot && p2SpecShot > 0) {
+            let tileIds = getNeighborCells(tiles[i].id)
+            for (let j = 0; j < tileIds.length; j++) {
+              neighbor = document.getElementById(tileIds[j])
+              neighbor.classList.add('firePreview');
+            }
+          } else {
+            tiles[i].classList.add('firePreview');
+          }
+        }, false);
+        tiles[i].addEventListener('mouseout', function() {
+          if (fireSpecShot && p2SpecShot > 0) {
+    
+            let tileIds = getNeighborCells(tiles[i].id)
+    
+            for (let j = 0; j < tileIds.length; j++) {
+              neighbor = document.getElementById(tileIds[j])
+              neighbor.classList.remove('firePreview');
+            }
+          } else {
+            tiles[i].classList.remove('firePreview');
+          }
+        }, false);
+      }
 }
 
 //Creates the inventory box containing the ships to be placed. Takes in an int representing the
@@ -321,7 +346,7 @@ function parseTileClick(tile)
         attemptShipPlace(tile)
     }
     else if(gameState == "p1Turn" && tile.substring(3) == "p1AttackBoard"){
-        if (specialShotChosen && p1SpecShot > 0) {
+        if (fireSpecShot && p1SpecShot > 0) {
             cells = getNeighborCells(tile);
             guessCells(cells)
         } else {
@@ -330,7 +355,7 @@ function parseTileClick(tile)
 
     }
     else if(gameState == "p2Turn" && tile.substring(3) == "p2AttackBoard"){
-        if (specialShotChosen && p2SpecShot > 0) {
+        if (fireSpecShot && p2SpecShot > 0) {
             cells = getNeighborCells(tile);
             guessCells(cells)
         } else {
@@ -472,10 +497,8 @@ function drawHitMark(tileId)
     }
 
     tileRect = document.getElementById(tileId).getBoundingClientRect();
-    console.log(tileRect);
     //Moves the hitMark div to the location tileRect.
     hitMark.style.position = "absolute";
-    console.log(tileRect.top);
     if(tileId.substring(3) == "p1HomeBoard") hitMark.style.top = (tileRect.top - 75);
     else if(tileId.substring(3) == "p2HomeBoard") hitMark.style.top = (tileRect.top +75 );
     else hitMark.style.top = (tileRect.top);
@@ -502,13 +525,13 @@ function updateTransitionTarget(windowId){
     transitionTarget = windowId;
     if(windowId == "p1View")
     {
-        document.getElementById("specShotBtn").style.display = "block";
-        document.getElementById("specShotTitle").textContent = "Number of special shots remaining: " + p1SpecShot;
+        document.getElementById("specShotBtn1").style.display = "block";
+        document.getElementById("specShotTitle1").textContent = "Number of special shots remaining: " + p1SpecShot;
     }
     else if(windowId == "p2View")
     {
-        document.getElementById("specShotBtn").style.display = "block";
-        document.getElementById("specShotTitle").textContent = "Number of special shots remaining: " + p2SpecShot;
+        document.getElementById("specShotBtn2").style.display = "block";
+        document.getElementById("specShotTitle2").textContent = "Number of special shots remaining: " + p2SpecShot;
     }
 }
 

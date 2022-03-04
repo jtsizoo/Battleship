@@ -13,7 +13,8 @@ table {
    
 }
 
-#specShotBtn {
+#specShotBtn1,
+#specShotBtn2 {
   display: none;
 }
 
