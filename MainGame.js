@@ -11,6 +11,9 @@ let p2Hits = 0;
 
 let maxHits = 0; //max number of hits possible is used to track how close players are to winning the game
 
+let targetShip = 0; //tracking variable for Medium AI
+let targetLoci = ""; //tracking variable for Medium AI
+
 let p1GuessedBoard = createEmptyBoard(); //two empty boards are created and stored in an array
 let p2GuessedBoard = createEmptyBoard(); //the default board is filled with 0's, indicating that a position hasn't been guessed
 arrGuessedBoard = [p1GuessedBoard, p2GuessedBoard]; //arrGuessedBoard is an array containing both of the empty player boards
@@ -46,7 +49,10 @@ function guessCell(cell) {
     for (let i = 0; i < shipArray.length; i++) {
         for (let j = 0; j < shipArray[i].length; j++) {
             if (shipArray[i].coordinateArray[j] == cell) { //if a cell guessed is a hit, we update the hit counter, update the board the player is attacking logically and visually, update transition text accordingly, check if the game is over
-
+                
+                targetShip = ship[i].length; //update tracking variables for medium AI
+                targetLoci = cell;
+                
                 isHit = true;
                 updateHitCounter();
                 updateGuessedBoard(cell, isHit, shipArray[i]);
@@ -169,6 +175,7 @@ function checkSunk(ship) {
                 count++;
             }
             if(count == ship.length) {
+                targetShip = 0; //deallocate targetShip to aid mediumAI
                 return true;
             }
         }

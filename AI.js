@@ -32,3 +32,183 @@
  *	-Should probably put in a check to ensure a hit ship is sunk until moving on to next ship (this would be the most efficient/skilled AI version of a player)
  *
  */
+let orient = "up"; //variables for medium AI
+let offset = 1;
+
+function selectMode(mode) {
+    if (mode == "easy") {
+        easyAI();
+    }
+    if (mode == "medium") {
+        mediumAI();
+    }
+    if (mode == "hard") {
+        //hardAI();
+    }
+}
+
+//Easy AI and helpers============================================================================
+
+function easyAI() {
+    let cell = generateCell(); //call generateCell to get a random cell placement
+
+    while (isGuessed(cell)) { //check if cell placement valid
+        cell = generateCell(); //if not, call generateCell until a valid location is found
+    }
+    guessCell(cell); //call guessCell to update the p2's attackboard 
+}
+
+//calls randomInt twice to generate two random numbers, converts one number
+//into a corresponding column (A-J) and the other into a number string, i.e. a01.
+function generateCell() {
+    //generate the row, i.e. "01"
+    let row = randomInt();
+    if (row < 10) {
+        row = '0' + row.toString();
+    }
+
+    //generate the column by adding the ascii character 'a' and converting the result to a char string.
+    const col = String.fromCharCode(randomInt() + 97); //lowercase alphabet begins at ASCII 97
+
+    //create the string for the cell, i.e. "a01"
+    const cell = col + row.toString();
+    return cell;
+}
+
+//generates number between 1 and 10
+function randomInt(min = 1, max = 10) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+//Medium AI and helpers============================================================================
+
+//uses global variables of targetShip and targetLoci in Maingame.js to decide next cell to guess
+function mediumAI() {
+    if (p2Hits == 0 || targetShip == 0) { //accounts for nothing being hit or no current ship being targeted
+        easyAI();
+    }
+    else { //call guess4d() if a hit occurs and targetShip is nonzero
+        let nextCell = guess4d(); 
+        while (isGuessed(nextCell)) { //check if cell placement valid
+            nextCell = guess4d(); //if not, call generateCell until a valid location is found
+        }
+        guessCell(nextCell); //call guessCell to update the p2's attackboard
+    }
+}
+
+//the guess4d function is called to find the next orthoganol position available to place
+//a ship. if the boundary is exceeded, reset the orientation and offset, and recursively call until 
+//a cell tile is generated. 
+function guess4d(orient = "up", offset = 1) {
+    let nextCell;
+    let col = targetLoci[0]; // i.e. "a";
+    let row = targetLoci[1] + targetLoci[2]; //i.e."01"
+
+    //ex b02 --> b01
+    if (orient == "up") {
+
+        if (row != "10") { //convert the row string to an integer
+            row = charToInt(targetLoci[1]) + charToInt(targetLoci[2]);
+        }
+        else {
+            row = 10;
+        }
+        if ((row - offset) >= 0) { //if upper bounds of board not exceeded
+            row = row - offset;
+            if (row < 10) //if input only one digit, pad a zero and convert row to string
+            {
+                row = '0' + row;
+            }
+            nextCell = col + row; //create the new cell
+            offset++; //update the offset
+            //console.log(nextCell);
+            return nextCell;
+
+        }
+        else { // reached border, change orientation and reset offset
+            guess4d("right", 1);
+        }
+    }
+
+    //ex b02--> c02
+    if (orient == "right") { //increase the column
+        col = getNextChar(col, offset);
+        row = targetLoci[1] + targetLoci[2];
+        if (col <= 'j') { //check does not exceed right boundary
+            nextCell = col + row; //create the new cell
+            offset++;
+            //console.log(nextCell);
+            return nextCell;
+        }
+        else {
+            guess4d("down", 1);
+        }
+    }
+
+    //ex b02--> b03
+    if (orient == "down") { //increase the row
+        col = targetLoci[0];
+        row = targetLoci[1] + targetLoci[2];
+
+        if (row != "10") { //convert the  row into a string
+            row = charToInt(targetLoci[1]) + charToInt(targetLoci[2]);
+        }
+        else {
+            row = 10;
+        }
+
+        if ((row + offset) <= 10) { //if lower bounds not exceeded
+            row = row + offset;
+            if (row < 10) {
+                row = '0' + row;
+            }
+            nextCell = col + row;
+            offset++;
+            //console.log(nextCell);
+            return nextCell;
+        }
+        else {
+            guess4d("left", 1);
+        }
+    }
+
+    //ex b02--> a02
+    if (orient == "left") {
+        col = getPrevChar(col, offset); //decrease the column
+
+        if (col >= 'a') { //check if within left boundary of board
+            nextCell = col + row; //create new cell  
+            offset++; //update offset
+            //console.log(nextCell);
+            return nextCell;
+        }
+        else {
+            ;
+            guess4d("up", 1);
+        }
+    }
+}
+
+//helper to get next column
+function getNextChar(col, offset) {
+    //convert column to corresponding number between 1-10, add 1 to increment
+    col = col.charCodeAt(0) - 97 + offset;
+    //convert column back into its corresponding character string     
+    col = String.fromCharCode(col + 97);
+    return col;
+}
+
+
+//helper to get previous column, same as getNextchar except subtract the offset
+function getPrevChar(col, offset) {
+    col = col.charCodeAt(0) - 97 - offset;
+    col = String.fromCharCode(col + 97);
+    return col;
+}
+
+//convert character number to integer. 
+function charToInt(char) {
+    return char.charCodeAt(0) - 48;
+}
+
+//Hard AI and helpers============================================================================
