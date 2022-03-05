@@ -35,16 +35,38 @@
 let orient = "up"; //variables for medium AI
 let offset = 1;
 
-function selectMode(mode) {
-    if (mode == "easy") {
-        easyAI();
+function selectMode() {
+    if (difficulty == "Easy") {
+        return easyAI();
     }
-    if (mode == "medium") {
-        mediumAI();
+    if (difficulty == "Medium") {
+        return mediumAI();
     }
-    if (mode == "hard") {
-        //hardAI();
+    if (difficulty == "Hard") {
+        //return hardAI();
     }
+}
+
+//Placement helpers==================================================================
+function randomBool() { //generate a bool to assist ship orientation placement 
+    return Math.random() < 0.5;
+}
+
+//generates a new valid ship and auto places by calling attemptShipPlace
+function autoShip(length) {
+    //let shipsRemaining = 4;
+    //initialize a ship
+    let cell = generateCell();
+    let orient = randomBool();
+    let ship = initializeShip(length, cell, orient);
+
+    while(isShipValid(ship) == false) //check if it is a valid ship
+    {
+        cell = generateCell();
+        ship = initializeShip(length, cell, orient);
+    }
+
+    return ship;
 }
 
 //Easy AI and helpers============================================================================
@@ -55,7 +77,8 @@ function easyAI() {
     while (isGuessed(cell)) { //check if cell placement valid
         cell = generateCell(); //if not, call generateCell until a valid location is found
     }
-    guessCell(cell); //call guessCell to update the p2's attackboard 
+    cell = cell + "p2AttackBoard";
+    return cell; 
 }
 
 //calls randomInt twice to generate two random numbers, converts one number
@@ -92,7 +115,9 @@ function mediumAI() {
         while (isGuessed(nextCell)) { //check if cell placement valid
             nextCell = guess4d(); //if not, call generateCell until a valid location is found
         }
-        guessCell(nextCell); //call guessCell to update the p2's attackboard
+        cell = cell + "p2AttackBoard";
+        return cell;
+        //guessCell(cell); //call guessCell to update the p2's attackboard 
     }
 }
 
