@@ -21,36 +21,49 @@ let transitionTarget = "p1View";
 
 let columnLabelAlphabet = ['a','b','c','d','e','f','g','h','i','j'];
 
+
+//Function to be activated when the number of ships has been chosen
 function setNumShipsChoice(ships) {
     numShipsChoice = ships;
     numShipsChosen = true;
 }
 
+
+//Function to be activated when the number of special shots are chosen
 function setSpecialShot(count) {
     p1SpecShot = count;
     p2SpecShot = count;
     specialShotChosen = true;
 }
 
+
+//Function to be activated when the type of opponent is chosen
 function setOpponent(op) {
     opponent = op;
     opponentChosen = true;
 }
 
+
+//Function to be activated whne the difficulty has been chosen
 function setDifficulty(chooseDifficult) {
     difficulty = chooseDifficult;
     difficultyChosen = true;
 }
 
+
+//Function to display difficulty options if the AI opponent is chosen
 function showDifficulty() {
     document.getElementById("selectDifficulty").style.display = "flex";
 }
 
-//Builds the UI taking in the number of ships as a parameter.
+//Builds the UI
 function createUI()
 {
+    //If all necessary buttons have been activated, the UI can be created
     if(specialShotChosen == true && numShipsChosen == true && ((opponentChosen == true && opponent == "AI" && difficultyChosen == true) || (opponentChosen == true && opponent == "Human")))
     {
+
+        //Hide unncessary buttons
         hideElement("selectDifficulty");
         hideElement("chooseOp");
         hideElement("specialShot");
@@ -80,7 +93,9 @@ function createUI()
         p2ShipsToPlace.appendChild(drawShips(numberOfShips, "p2"));
         document.getElementById("p2View").appendChild(p2ShipsToPlace);
 
+        //Function call to enable hover effect for attack grid
         setBigShotHover();
+
         initializeShipPlacement(numberOfShips);
     }
 }
@@ -164,6 +179,7 @@ function drawGrid(gridId, gridClass)
                 {
                   tile.addEventListener('mouseover', function() { parseTileHover(tileId); }, false);
                 } else {
+                  //Add a class to attack tiles so that the hover effect can be added to them
                   tile.setAttribute("class", "attackTile")
                 }
                 row.appendChild(tile);
@@ -184,61 +200,100 @@ function drawGrid(gridId, gridClass)
     return grid;
 }
 
+
+//Function to enable hover effects for both attack boards
 function setBigShotHover() {
   let tiles = document.getElementsByClassName("attackTile")
-    for (let i = 0; i < tiles.length-100; i++) {
+
+    //For all tiles on p1AttackBoard
+    for (let i = 0; i < tiles.length-100; i++)
+    {
+        //Mouseover function checks if a special shot has been activated and, if possible, set the hover state to 3x3
         tiles[i].addEventListener('mouseover', function() {
-          if (fireSpecShot && p1SpecShot > 0) {
-            let tileIds = getNeighborCells(tiles[i].id)
-            for (let j = 0; j < tileIds.length; j++) {
-              neighbor = document.getElementById(tileIds[j])
-              neighbor.classList.add('firePreview');
+            if (fireSpecShot && p1SpecShot > 0)
+            {
+                let tileIds = getNeighborCells(tiles[i].id)
+                for (let j = 0; j < tileIds.length; j++)
+                {
+                    neighbor = document.getElementById(tileIds[j])
+                    neighbor.classList.add('firePreview');
+                }
             }
-          } else {
-            tiles[i].classList.add('firePreview');
-          }
-        }, false);
-        tiles[i].addEventListener('mouseout', function() {
-          if (fireSpecShot && p1SpecShot) {
-    
-            let tileIds = getNeighborCells(tiles[i].id)
-    
-            for (let j = 0; j < tileIds.length; j++) {
-              neighbor = document.getElementById(tileIds[j])
-              neighbor.classList.remove('firePreview');
+
+            //If special shot is not activated or not possible, set the hover state to a normal 1x1
+            else
+            {
+                tiles[i].classList.add('firePreview');
             }
-          } else {
-            tiles[i].classList.remove('firePreview');
-          }
-        }, false);
+            }, false
+        );
+
+        //Mouseout function checks if a special shot has been activated and, if possible, remove the 3x3 hover state
+        tiles[i].addEventListener('mouseout', function()
+        {
+            if (fireSpecShot && p1SpecShot)
+            {
+                let tileIds = getNeighborCells(tiles[i].id)
+                for (let j = 0; j < tileIds.length; j++) 
+                {
+                    neighbor = document.getElementById(tileIds[j])
+                    neighbor.classList.remove('firePreview');
+                }
+             }
+
+             //If special shot is not activated or not possible, set the remove hover state to a normal 1x1
+             else
+             {
+                tiles[i].classList.remove('firePreview');
+             }
+            }, false
+        );
   }
 
-    for (let i = tiles.length-100; i < tiles.length; i++) {
-        tiles[i].addEventListener('mouseover', function() {
-          if (fireSpecShot && p2SpecShot > 0) {
-            let tileIds = getNeighborCells(tiles[i].id)
-            for (let j = 0; j < tileIds.length; j++) {
-              neighbor = document.getElementById(tileIds[j])
-              neighbor.classList.add('firePreview');
-            }
-          } else {
-            tiles[i].classList.add('firePreview');
-          }
-        }, false);
-        tiles[i].addEventListener('mouseout', function() {
-          if (fireSpecShot && p2SpecShot > 0) {
-    
-            let tileIds = getNeighborCells(tiles[i].id)
-    
-            for (let j = 0; j < tileIds.length; j++) {
-              neighbor = document.getElementById(tileIds[j])
-              neighbor.classList.remove('firePreview');
-            }
-          } else {
-            tiles[i].classList.remove('firePreview');
-          }
-        }, false);
-      }
+    //For all tiles on p2AttackBoard
+    for (let i = tiles.length-100; i < tiles.length; i++)
+      {
+          //Mouseover function checks if a special shot has been activated and, if possible, set the hover state to 3x3
+          tiles[i].addEventListener('mouseover', function() {
+              if (fireSpecShot && p2SpecShot > 0)
+              {
+                  let tileIds = getNeighborCells(tiles[i].id)
+                  for (let j = 0; j < tileIds.length; j++)
+                  {
+                      neighbor = document.getElementById(tileIds[j])
+                      neighbor.classList.add('firePreview');
+                  }
+              }
+
+              //If special shot is not activated or not possible, set the hover state to a normal 1x1
+              else
+              {
+                  tiles[i].classList.add('firePreview');
+              }
+              }, false
+          );
+  
+          //Mouseout function checks if a special shot has been activated and, if possible, remove the 3x3 hover state
+          tiles[i].addEventListener('mouseout', function()
+          {
+              if (fireSpecShot && p2SpecShot)
+              {
+                  let tileIds = getNeighborCells(tiles[i].id)
+                  for (let j = 0; j < tileIds.length; j++) 
+                  {
+                      neighbor = document.getElementById(tileIds[j])
+                      neighbor.classList.remove('firePreview');
+                  }
+               }
+
+               //If special shot is not activated or not possible, set the remove hover state to a normal 1x1
+               else
+               {
+                  tiles[i].classList.remove('firePreview');
+               }
+              }, false
+          );
+    }
 }
 
 //Creates the inventory box containing the ships to be placed. Takes in an int representing the
@@ -301,13 +356,21 @@ function drawShips(numberOfShips, player)
     return (shipInventoryBox);
 }
 
+
+//Function takes in one cell and returns an array of length 9 or fewer (edge case) for neighbor cells according to the special shot
 function getNeighborCells(cell) {
+
+    //Get the coordinate information from the passed in cell
     let gridId = cell.substring(3)
     cell = cell.substring(0, 3)
 
     let cells = []
+
+    //Store the necessary start col
     let startCol = columnLabelAlphabet.indexOf(cell[0])
     let endCol = startCol
+
+    //Adjust endCol depending on normal or edge case
     if (startCol < 9) {
       endCol = startCol+1
     }
@@ -315,14 +378,19 @@ function getNeighborCells(cell) {
         startCol -= 1
     }
 
+    //Store the necessary start row
     let startRow = parseInt(cell.substring(1, 3))
     let endRow = startRow
+
+    //Adjust endrow depending on normal or edge case
     if (endRow < 10) {
       endRow = startRow+1
     }
     if (startRow > 1) {
         startRow -= 1
     }
+
+    //Push each possible neighbor coordinate to the array and return
     for (let i = startRow; i <= endRow; i++) {
         for (let j = startCol; j <= endCol; j++) {
             if (i == 10) {
@@ -345,20 +413,29 @@ function parseTileClick(tile)
     else if(gameState == "p2Place" && tile.substring(3) == "p2HomeBoard"){
         attemptShipPlace(tile)
     }
+
     else if(gameState == "p1Turn" && tile.substring(3) == "p1AttackBoard"){
+        //If a special shot is chosen and possible
         if (fireSpecShot && p1SpecShot > 0) {
+            //Get the neighbor cells of the chosen tile
             cells = getNeighborCells(tile);
+            //Call the special shot
             guessCells(cells)
         } else {
+            //Call the normal shot
             guessCell(tile)
         }
 
     }
     else if(gameState == "p2Turn" && tile.substring(3) == "p2AttackBoard"){
+        //IF a special shot is chosen and possible
         if (fireSpecShot && p2SpecShot > 0) {
+            //Get the neighbor cells of the chosen tile
             cells = getNeighborCells(tile);
+            //Call the special shot
             guessCells(cells)
         } else {
+            //Call the normal shot
            guessCell(tile)
         }
     }
@@ -367,7 +444,7 @@ function parseTileClick(tile)
     }
 }
 
-
+//When the fire special shot button has been clicked, change the bool state
 function initSpecShot() {
     fireSpecShot = !fireSpecShot
 }
@@ -499,6 +576,7 @@ function drawHitMark(tileId)
     tileRect = document.getElementById(tileId).getBoundingClientRect();
     //Moves the hitMark div to the location tileRect.
     hitMark.style.position = "absolute";
+    //75 offset to adjust for incorrect placement where ships where vertically off by 2
     if(tileId.substring(3) == "p1HomeBoard") hitMark.style.top = (tileRect.top - 75);
     else if(tileId.substring(3) == "p2HomeBoard") hitMark.style.top = (tileRect.top +75 );
     else hitMark.style.top = (tileRect.top);
