@@ -11,6 +11,8 @@
     <body>
         <div>
         </div>
+
+        <!-- Div and buttons to select the number of ships -->
         <div id="shipNumPick">
             <h2>Choose a number of ships</h2>
             <button class="button-65" onclick="setNumShipsChoice(1)" >1</button>
@@ -19,28 +21,40 @@
             <button class="button-65" onclick="setNumShipsChoice(4)" >4</button>
             <button class="button-65" onclick="setNumShipsChoice(5)" >5</button>
         </div>
+
+        <!-- Div and buttons to select the number of special shots -->
         <div id="specialShot">
             <h2>Choose a number of special shots</h2>
             <button class="button-65" onclick="setSpecialShot(1)" >1</button>
             <button class="button-65" onclick="setSpecialShot(2)" >2</button>
             <button class="button-65" onclick="setSpecialShot(3)" >3</button>
         </div>
+
+        <!-- Div and buttons to select the type of opponent -->
         <div id="chooseOp">
             <h2>Choose opponent</h2>
             <button class="button-65" onclick="setOpponent('Human'); hideElement('selectDifficulty')" >Human</button>
             <button class="button-65" onclick="setOpponent('AI'); showDifficulty()" >AI</button>
         </div>
+
+        <!-- Div and buttons to select the difficulty of the AI if chosen -->
         <div id="selectDifficulty">
             <h2>Select a difficulty</h2>
             <button class="button-65" onclick="setDifficulty('Easy')" >Easy</button>
             <button class="button-65" onclick="setDifficulty('Medium')" >Medium</button>
             <button class="button-65" onclick="setDifficulty('Hard')" >Hard</button>
         </div>
+
+        <!-- Div and button to start the game -->
         <div id="startGame">
             <h2>Once each option has been selected, start the game</h2>
             <button class="button-65" onclick="createUI()">Start Game</button>
         </div>
+
+
         <div id="gameOver" style="display:none" class ="gameOverMessage"></div>
+
+        <!-- Div for player 1's view: includes instruction text, button to rotate when placing ships, and a special shot button -->
         <div id="p1View" style="display:none">
             <p id = "p1InstructionText" class = "instruction">Place ships on the Home board</p>
             <button id="p1RotateButton" class="button-65" onclick="rotateShip()">Rotate Ships</button>
@@ -51,6 +65,8 @@
             <h1 id="transitionText" class = "transition-message">Switching Turns!</h1>
             <button id="nextPlayerButton" class = "button-65" onclick="handleTransition()">Next Player</button>
         </div>
+
+         <!-- Div for player 2's view: includes instruction text, button to rotate when placing ships, and a special shot button -->
         <div id="p2View" style="display:none">
             <button id="p2RotateButton" class="button-65" onclick="rotateShip()">Rotate Ships</button>
             <p id = "p2InstructionText" class = "instruction">Place ships on the Home board</p>

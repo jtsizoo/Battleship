@@ -90,10 +90,11 @@ function guessCell(cell) {
     switchTurns(); //switch turns at the end of each guess
 }
 
+//Scans all the components of the ship array with the special shot to determine if a guess results in a hit or not.
 function guessCells(cells) {
     let isHit = false;
     let isSunk = false;
-    if (turn == 0) { //if it's p1's turn, we are scanning p2's ships, and vice versa
+    if (turn == 0) { //if it's p1's turn, we are scanning p2's ships, and vice versa, decrease spec Shot count
         shipArray = p2Ships;
         p1SpecShot--;
     }
