@@ -31,6 +31,16 @@ function initializeP2Placement(){
     switchWindow("p2View");
     shipsRemaining = numShips;
     nextShip = initializeShip(shipsRemaining);
+
+    // automatic placement for AI, validate the rand-generated cells
+    if (opponent == "AI") {
+        for (let i = numShips; i > 0; i--) {
+            shipsRemaining = i;
+            nextShip = autoShip(i);
+            attemptShipPlace(nextShip.topLeft);
+            console.log(nextShip.topLeft, nextShip.isVertical);
+        }
+    }
 }
 
 //Call when the user hovers over one of their own cells.
@@ -142,11 +152,11 @@ function isShipValid(ship){
 }
 
 //creates a ship object with the given length and returns it
-function initializeShip(_length){
+function initializeShip(_length, _topLeft = "a01", _isVertical = false) {
     ship = {
         length: _length,
-        topLeft: "a01",
-        isVertical: false
+        topLeft: _topLeft,
+        isVertical: _isVertical
     };
 
     if(isP2){
@@ -159,6 +169,8 @@ function initializeShip(_length){
     //moveShip(ship.length, ship.topLeft, ship.isVertical);
     //setShipProperties(ship.length, PREVIEW_OPACITY, "gray");
 }
+
+
 
 //Create test functions to test ShipPlacement without the other files.
 function initializeTestFunctions(){
