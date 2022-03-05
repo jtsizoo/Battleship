@@ -14,6 +14,8 @@ let maxHits = 0; //max number of hits possible is used to track how close player
 let targetShip = 0; //tracking variable for Medium AI
 let targetLoci = ""; //tracking variable for Medium AI
 
+let aiIsHit = [false, false];
+
 let p1GuessedBoard = createEmptyBoard(); //two empty boards are created and stored in an array
 let p2GuessedBoard = createEmptyBoard(); //the default board is filled with 0's, indicating that a position hasn't been guessed
 arrGuessedBoard = [p1GuessedBoard, p2GuessedBoard]; //arrGuessedBoard is an array containing both of the empty player boards
@@ -51,11 +53,28 @@ function guessCell(cell) {
                 
                 //targetShip = shipArray[i].length; //update tracking variables for medium AI
                 //targetLoci = cell;
-                
-                isHit = true;
-                updateHitCounter();
-                updateGuessedBoard(cell, isHit, shipArray[i]);
-                callSetTileState(cell, isHit);
+            
+                if(opponent == "Human")
+                {
+                    isHit = true;
+                    updateHitCounter();
+                    updateGuessedBoard(cell, isHit, shipArray[i]);
+                    callSetTileState(cell, isHit);
+                }
+                else if(turn == 0)
+                {
+                    aiIsHit[1] = true;
+                    updateHitCounter();
+                    updateGuessedBoard(cell, aiIsHit[1], shipArray[i]);
+                    callSetTileState(cell, aiIsHit[1]);
+                }
+                else if(turn == 1)
+                {
+                    aiIsHit[0] = true;
+                    updateHitCounter();
+                    updateGuessedBoard(cell, aiIsHit[0], shipArray[i]);
+                    callSetTileState(cell, aiIsHit[0]);
+                }
                 let isSunk = checkSunk(shipArray[i]);
 
                 if(opponent == "Human")
