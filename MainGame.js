@@ -11,8 +11,8 @@ let p2Hits = 0;
 
 let maxHits = 0; //max number of hits possible is used to track how close players are to winning the game
 
-let targetShip = 0; //tracking variable for Medium AI
-let targetLoci = ""; //tracking variable for Medium AI
+let targetShip = 0;      //tracking variable for Medium AI
+let adjacentSpaces = []; // array of orthogonally adjacent spaces around target ship
 
 let aiIsHit = [false, false];
 
@@ -49,11 +49,9 @@ function guessCell(cell) {
     let isHit = false;
     for (let i = 0; i < shipArray.length; i++) {
         for (let j = 0; j < shipArray[i].length; j++) {
+            // console.log("Player #", turn+1, cell, shipArray[i].coordinateArray[j], i, j);
             if (shipArray[i].coordinateArray[j] == cell) { //if a cell guessed is a hit, we update the hit counter, update the board the player is attacking logically and visually, update transition text accordingly, check if the game is over
                 
-                //targetShip = shipArray[i].length; //update tracking variables for medium AI
-                //targetLoci = cell;
-            
                 if(opponent == "Human")
                 {
                     isHit = true;
@@ -78,6 +76,13 @@ function guessCell(cell) {
                     updateHitCounter();
                     updateGuessedBoard(cell, aiIsHit[0], shipArray[i]);
                     callSetTileState(cell, aiIsHit[0]);
+
+                    // Track MediumAI enemy's ship, i.e., Player1's ship
+                    if (targetShip == 0) {
+                        targetShip = shipArray[i].length;
+                        buildAdjacentSpaces(targetShip, cell);
+                        // console.log(targetShip, cell, adjacentSpaces);
+                    }
                 }
                 let isSunk = checkSunk(shipArray[i]);
 
@@ -107,6 +112,14 @@ function guessCell(cell) {
                 {
                     if(isSunk) updateTransitionText ("SUNK\n AI will now take its turn. Press switch player button to take your next turn!");
                     updateTransitionText("HIT!\n AI will now take its turn. Press switch player button to take your next turn!");
+                }
+                if(opponent == "AI" && aiIsHit[0] == true && turn == 1)
+                {
+                    // empty MediumAI enemy's ship
+                    if (isSunk) {
+                        targetShip = 0;
+                        adjacentSpaces = [];
+                    }
                 }
                 if (isOver()) {
                     endGame();

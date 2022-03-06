@@ -32,8 +32,6 @@
  *	-Should probably put in a check to ensure a hit ship is sunk until moving on to next ship (this would be the most efficient/skilled AI version of a player)
  *
  */
-let orient = "up"; //variables for medium AI
-let offset = 1;
 
 function selectMode() {
     if (difficulty == "Easy") {
@@ -105,135 +103,75 @@ function randomInt(min = 1, max = 10) {
 
 //Medium AI and helpers============================================================================
 
-//uses global variables of targetShip and targetLoci in Maingame.js to decide next cell to guess
+//uses global variables of targetShip, adjacentSpaces in MainGame.js to decide next cell to guess
 function mediumAI() {
-    if (p2Hits == 0 || targetShip == 0) { //accounts for nothing being hit or no current ship being targeted
-        easyAI();
+    if (targetShip == 0 && (adjacentSpaces === undefined || adjacentSpaces.length == 0)) {
+        return easyAI();
     }
-    else { //call guess4d() if a hit occurs and targetShip is nonzero
-        let nextCell = guess4d(); 
-        while (isGuessed(nextCell)) { //check if cell placement valid
-            nextCell = guess4d(); //if not, call generateCell until a valid location is found
-        }
-        cell = cell + "p2AttackBoard";
-        return cell;
-        //guessCell(cell); //call guessCell to update the p2's attackboard 
+    else {
+        // array of orthogonally adjacent spaces around target ship
+        let nextCell = adjacentSpaces.pop();
+        nextCell += "p2AttackBoard";
+        return nextCell;
     }
 }
 
-//the guess4d function is called to find the next orthoganol position available to place
-//a ship. if the boundary is exceeded, reset the orientation and offset, and recursively call until 
-//a cell tile is generated. 
-function guess4d(orient = "up", offset = 1) {
-    let nextCell;
-    let col = targetLoci[0]; // i.e. "a";
-    let row = targetLoci[1] + targetLoci[2]; //i.e."01"
+// Build  
+function buildAdjacentSpaces(targetShip, cell) {
+    let col = cell[0]; //-'a';
+    let row = cell[1] + cell[2];
+    let loci;
+    const shipLength = targetShip; //get the length of ship
 
-    //ex b02 --> b01
-    if (orient == "up") {
+    //convert row and columns into integers
+    let mRow = parseInt(cell[1] + cell[2]);
+    let mCol = cell.charCodeAt(0) - "a".charCodeAt(0) + 1;
 
-        if (row != "10") { //convert the row string to an integer
-            row = charToInt(targetLoci[1]) + charToInt(targetLoci[2]);
-        }
-        else {
-            row = 10;
-        }
-        if ((row - offset) >= 0) { //if upper bounds of board not exceeded
-            row = row - offset;
-            if (row < 10) //if input only one digit, pad a zero and convert row to string
-            {
-                row = '0' + row;
-            }
-            nextCell = col + row; //create the new cell
-            offset++; //update the offset
-            //console.log(nextCell);
-            return nextCell;
-
-        }
-        else { // reached border, change orientation and reset offset
-            guess4d("right", 1);
+    // check up direction, ex b02 --> b01
+    for (let i = mRow; i > 0; i--) {
+        loci = getCell(i, col);
+        if (!isGuessed(loci)) {
+            adjacentSpaces.push(loci);
         }
     }
 
-    //ex b02--> c02
-    if (orient == "right") { //increase the column
-        col = getNextChar(col, offset);
-        row = targetLoci[1] + targetLoci[2];
-        if (col <= 'j') { //check does not exceed right boundary
-            nextCell = col + row; //create the new cell
-            offset++;
-            //console.log(nextCell);
-            return nextCell;
-        }
-        else {
-            guess4d("down", 1);
+    // check down direction ex b02--> b03
+    for (let i = mRow + 1; i < (mRow + shipLength) && i <= 10; i++) {
+        loci = getCell(i, col);
+        if (!isGuessed(loci)) {
+            adjacentSpaces.push(loci);
         }
     }
 
-    //ex b02--> b03
-    if (orient == "down") { //increase the row
-        col = targetLoci[0];
-        row = targetLoci[1] + targetLoci[2];
-
-        if (row != "10") { //convert the  row into a string
-            row = charToInt(targetLoci[1]) + charToInt(targetLoci[2]);
-        }
-        else {
-            row = 10;
-        }
-
-        if ((row + offset) <= 10) { //if lower bounds not exceeded
-            row = row + offset;
-            if (row < 10) {
-                row = '0' + row;
-            }
-            nextCell = col + row;
-            offset++;
-            //console.log(nextCell);
-            return nextCell;
-        }
-        else {
-            guess4d("left", 1);
+    //check right direction ex b02--> c02
+    let nc = col;
+    for (let j = mCol + 1; j < (mCol + shipLength); j++) {
+        nc = nextChar(nc);
+        loci = nc + row;
+        if (!isGuessed(loci)) {
+            adjacentSpaces.push(loci);
         }
     }
 
-    //ex b02--> a02
-    if (orient == "left") {
-        col = getPrevChar(col, offset); //decrease the column
-
-        if (col >= 'a') { //check if within left boundary of board
-            nextCell = col + row; //create new cell  
-            offset++; //update offset
-            //console.log(nextCell);
-            return nextCell;
-        }
-        else {
-            ;
-            guess4d("up", 1);
+    //check left direction, ex b02--> a02
+    nc = 'a';
+    for (let j = 1; j < mCol; j++) {
+        nc = nextChar(nc);
+        loci = nc + row;
+        if (!isGuessed(loci)) {
+            adjacentSpaces.push(loci);
         }
     }
 }
 
-//helper to get next column
-function getNextChar(col, offset) {
-    //convert column to corresponding number between 1-10, add 1 to increment
-    col = col.charCodeAt(0) - 97 + offset;
-    //convert column back into its corresponding character string     
-    col = String.fromCharCode(col + 97);
-    return col;
-}
-
-
-//helper to get previous column, same as getNextchar except subtract the offset
-function getPrevChar(col, offset) {
-    col = col.charCodeAt(0) - 97 - offset;
-    col = String.fromCharCode(col + 97);
-    return col;
-}
-
-//convert character number to integer. 
-function charToInt(char) {
-    return char.charCodeAt(0) - 48;
+function getCell(row, col) {
+    let sLoc = "";
+    if (row < 10) {
+        sLoc = col + '0' + row;
+    } else {
+        sLoc = col + row;
+    }
+    return sLoc;
 }
 
 //Hard AI and helpers============================================================================
