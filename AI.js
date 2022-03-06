@@ -45,7 +45,7 @@ function selectMode() {
         return mediumAI();
     }
     if (difficulty == "Hard") {
-        //return hardAI();
+        return hardAI();
     }
 }
 
