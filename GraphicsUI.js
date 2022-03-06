@@ -525,8 +525,7 @@ function drawHitMark(tileId)
             tileId = [tileId.substring(0,3), "p1HomeBoard"].join("");
         }
     }
-    //console.log(document.getElementById(tileId))
-    //console.log(document.getElementById(tileId).getBoundingClientRect())
+
     tileRect = document.getElementById(tileId).getBoundingClientRect();
     //Moves the hitMark div to the location tileRect.
     hitMark.style.position = "absolute";

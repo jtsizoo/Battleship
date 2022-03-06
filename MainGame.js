@@ -107,7 +107,6 @@ function guessCell(cell) {
                     endGame();
                     return;
                 }
-                //console.log("Hit!");
             }
         }
     }
@@ -144,10 +143,8 @@ function guessCells(cells) {
         shipArray = p1Ships;
         p2SpecShot--;
     }
-    //console.log(cells)
     for (let i = 0; i < cells.length; i++) {
         let cell = cells[i].substring(0, 3); //cell = "e04", for example
-        //console.log(cell)
         if (isGuessed(cell)) { //controls repeat guesses, the turn isn't switched until the player guesses a new cell
             continue;
         }

@@ -36,7 +36,6 @@ let orient = "up"; //variables for medium AI
 let offset = 1;
 let oldP2Hits = 0
 let newAIShip = false
-let shipsHit = []
 
 function selectMode() {
     if (difficulty == "Easy") {
@@ -109,7 +108,7 @@ function randomInt(min = 1, max = 10) {
 
 //uses global variables of targetShip and targetLoci in Maingame.js to decide next cell to guess
 function mediumAI() {
-    console.log(oldP2Hits, p2Hits, targetShip)
+    console.log(p2Ships)
     let ship = p2Ships.find((element) => element.length == targetShip)
     if (targetShip == 0 || checkSunk(ship)) { //accounts for nothing being hit or no current ship being targeted
         orient = "up"
@@ -117,6 +116,7 @@ function mediumAI() {
         return easyAI();
     }
     else { //call guess4d() if a hit occurs and targetShip is nonzero
+        
         if (oldP2Hits == p2Hits) {
             //if ai misses, change direction
             changeDirection()
@@ -127,7 +127,6 @@ function mediumAI() {
             offset = 1
         }
         let nextCell = guess4d();
-        console.log(nextCell)
         while (isGuessed(nextCell)) { //check if cell placement valid
             changeDirection()
             nextCell = guess4d(); //if not, call generateCell until a valid location is found
@@ -145,7 +144,6 @@ function guess4d() {
     let nextCell = "";
     let col = targetLoci[0]; // i.e. "a";
     let row = targetLoci[1] + targetLoci[2]; //i.e."01"
-    console.log(col, row)
     //ex b02 --> b01
     if (orient == "up") {
 
