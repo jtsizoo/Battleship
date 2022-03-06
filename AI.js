@@ -97,7 +97,7 @@ function generateCell() {
     return cell;
 }
 
-//generates number between 0 and 9
+//generates number between 1 and 10
 function randomInt(min = 1, max = 10) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
