@@ -267,3 +267,15 @@ function charToInt(char) {
 }
 
 //Hard AI and helpers============================================================================
+function hardAI() { 
+    shipArray = p1Ships; //Iterate over the array containing the locations of player 1's ships
+    for (let i = 0; i < shipArray.length; i++) { //Nested for loop allows access to full cell information
+        for (let j = 0; j < shipArray[i].length; j++) {
+            if (isGuessed(shipArray[i].coordinateArray[j]) == false) { //If the current cell has not previously been guessed...
+                cell = shipArray[i].coordinateArray[j]; //Then set the player 1 cell equal to the cell we will return in the function
+            }
+        }
+    }
+    cell = cell + 'p2AttackBoard'; //Update player2 attack board
+    return cell; //Return the previously unguessed cell for the AI player's guess
+}
