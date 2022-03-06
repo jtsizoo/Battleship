@@ -192,6 +192,11 @@ function guessCells(cells) {
             else {
                 updateTransitionText("Hit!\nPlayer 2, look away! It's Player 1's turn!");
             }
+	    else if (opponent == 'AI') {
+		if (isSunk) {
+			updateTransitionText("SUNK! The AI opponent has sunk one of your ships! It's your turn next.");
+		}
+	    }
         }
 
         if (isOver()) {
