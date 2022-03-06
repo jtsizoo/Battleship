@@ -82,8 +82,13 @@ function attemptShipPlace(cell){
                 initializeGame();
 
                 gameState = "p1Turn";
-                updateTransitionText("Player 1, get ready to make a guess. Player 2, get out of here!");
-                switchWindow("transition");
+		if (opponent == 'Human') {
+                	updateTransitionText("Player 1, get ready to make a guess. Player 2, get out of here!");
+		}
+		else if (opponent == 'AI') {
+			updateTransitionText("Get ready to make your first guess against the AI opponent!");
+		}
+		switchWindow("transition");
                 updateTransitionTarget("p1View");
             }else{
                 initializeP2Placement();
