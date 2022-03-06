@@ -61,6 +61,8 @@ function guessCell(cell) {
                     updateGuessedBoard(cell, isHit, shipArray[i]);
                     callSetTileState(cell, isHit);
                 }
+
+                //Update boards if its player 1's turn
                 else if(turn == 0)
                 {
                     aiIsHit[1] = true;
@@ -68,6 +70,8 @@ function guessCell(cell) {
                     updateGuessedBoard(cell, aiIsHit[1], shipArray[i]);
                     callSetTileState(cell, aiIsHit[1]);
                 }
+
+                //Update boards if its player 2's turn
                 else if(turn == 1)
                 {
                     aiIsHit[0] = true;
@@ -77,6 +81,7 @@ function guessCell(cell) {
                 }
                 let isSunk = checkSunk(shipArray[i]);
 
+                //Update transitions if opponent is human
                 if(opponent == "Human")
                 {
                     if (turn == 0) {
@@ -96,6 +101,8 @@ function guessCell(cell) {
                         }
                     }
                 }
+
+                //Update transitions if opponent is AI
                 if(opponent == "AI" && aiIsHit[1] == true && turn == 0)
                 {
                     if(isSunk) updateTransitionText ("SUNK\n AI will now take its turn. Press switch player button to take your next turn!");
@@ -109,6 +116,7 @@ function guessCell(cell) {
             }
         }
     }
+
     if (opponent == "Human" && isHit == false) { //if the guess is a miss, we update the guessed board, set the tile state to a miss, and update transition text accordingly
         updateGuessedBoard(cell, isHit, shipArray[i]);
         callSetTileState(cell, isHit);
@@ -120,12 +128,16 @@ function guessCell(cell) {
         }
         //console.log("Miss!");
     }
+
+    //Update when AI takes its turn, no need to update transition
     if(opponent == "AI" && turn == 1 && aiIsHit[0] == false)
     {
         updateGuessedBoard(cell, isHit[0], shipArray[i]);
         callSetTileState(cell, isHit[0]);
         //console.log("Miss!");
     }
+
+    //Update transition and board when opponent is AI and it is p1s turn
     if(opponent == "AI" && turn == 0 && aiIsHit[1] == false)
     {
         updateGuessedBoard(cell, isHit[1], shipArray[i]);
