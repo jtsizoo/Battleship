@@ -22,6 +22,8 @@ let transitionTarget = "p1View";
 let columnLabelAlphabet = ['a','b','c','d','e','f','g','h','i','j'];
 
 
+let aiHitTileID = ""
+
 //Function to be activated when the number of ships has been chosen
 function setNumShipsChoice(ships) {
     numShipsChoice = ships;
@@ -205,8 +207,7 @@ function drawGrid(gridId, gridClass)
 function setBigShotHover() {
   let tiles = document.getElementsByClassName("attackTile")
 
-    //For all tiles on p1AttackBoard
-    for (let i = 0; i < tiles.length-100; i++)
+    for (let i = 0; i < tiles.length; i++)
     {
         //Mouseover function checks if a special shot has been activated and, if possible, set the hover state to 3x3
         tiles[i].addEventListener('mouseover', function() {
@@ -249,51 +250,6 @@ function setBigShotHover() {
             }, false
         );
   }
-
-    //For all tiles on p2AttackBoard
-    for (let i = tiles.length-100; i < tiles.length; i++)
-      {
-          //Mouseover function checks if a special shot has been activated and, if possible, set the hover state to 3x3
-          tiles[i].addEventListener('mouseover', function() {
-              if (fireSpecShot && p2SpecShot > 0)
-              {
-                  let tileIds = getNeighborCells(tiles[i].id)
-                  for (let j = 0; j < tileIds.length; j++)
-                  {
-                      neighbor = document.getElementById(tileIds[j])
-                      neighbor.classList.add('firePreview');
-                  }
-              }
-
-              //If special shot is not activated or not possible, set the hover state to a normal 1x1
-              else
-              {
-                  tiles[i].classList.add('firePreview');
-              }
-              }, false
-          );
-  
-          //Mouseout function checks if a special shot has been activated and, if possible, remove the 3x3 hover state
-          tiles[i].addEventListener('mouseout', function()
-          {
-              if (fireSpecShot && p2SpecShot)
-              {
-                  let tileIds = getNeighborCells(tiles[i].id)
-                  for (let j = 0; j < tileIds.length; j++) 
-                  {
-                      neighbor = document.getElementById(tileIds[j])
-                      neighbor.classList.remove('firePreview');
-                  }
-               }
-
-               //If special shot is not activated or not possible, set the remove hover state to a normal 1x1
-               else
-               {
-                  tiles[i].classList.remove('firePreview');
-               }
-              }, false
-          );
-    }
 }
 
 //Creates the inventory box containing the ships to be placed. Takes in an int representing the
@@ -514,11 +470,7 @@ function setTileState(tileId, isHit)
 {
     if (isHit == true)
     {
-        if (tileId.substring(5) == "HomeBoard")
-        {
-            drawHitMark(tileId);
-        }
-        else if (tileId.substring(5) == "AttackBoard")
+        if (tileId.substring(5) == "HomeBoard" || tileId.substring(5) == "AttackBoard")
         {
             drawHitMark(tileId);
         }
@@ -547,8 +499,10 @@ function drawHitMark(tileId)
     hitMarkLabel.textContent = "X";
     hitMark.appendChild(hitMarkLabel);
 
-    var tileRect = document.getElementById(tileId).getBoundingClientRect();
-
+    let tile = document.getElementById(tileId)
+    console.log(tile)
+    var tileRect = tile.getBoundingClientRect();
+    
     //Appends the hitMark div to the window corresponding to which player board the tile belongs to.
     //If the window is not currently visible, sets tileId to the corresponding tile of the currently
     //visible window.
@@ -572,15 +526,19 @@ function drawHitMark(tileId)
             tileId = [tileId.substring(0,3), "p1HomeBoard"].join("");
         }
     }
-
+    //console.log(document.getElementById(tileId))
+    //console.log(document.getElementById(tileId).getBoundingClientRect())
     tileRect = document.getElementById(tileId).getBoundingClientRect();
     //Moves the hitMark div to the location tileRect.
     hitMark.style.position = "absolute";
     //75 offset to adjust for incorrect placement where ships where vertically off by 2
-    if(tileId.substring(3) == "p1HomeBoard") hitMark.style.top = (tileRect.top - 75);
-    else if(tileId.substring(3) == "p2HomeBoard") hitMark.style.top = (tileRect.top +75 );
-    else hitMark.style.top = (tileRect.top);
-    hitMark.style.left = tileRect.left + 10 ;
+    if (opponent != "AI") {
+        if(tileId.substring(3) == "p1HomeBoard") hitMark.style.top = (tileRect.top - 75);
+        else if(tileId.substring(3) == "p2HomeBoard") hitMark.style.top = (tileRect.top +75 );
+        else hitMark.style.top = (tileRect.top);
+    }
+    hitMark.style.top = (tileRect.top);
+    hitMark.style.left = tileRect.left + 10;
     hitMark.style.zIndex = 1000;
 }
 
@@ -616,6 +574,11 @@ function updateTransitionTarget(windowId){
 //calls the switchWindow function
 function handleTransition(){
     switchWindow(transitionTarget);
+    if (transitionTarget == "p1View" && opponent == "AI" && gameState == "p1Turn" && aiHitTileID != "") {
+        console.log(aiHitTileID)
+        drawHitMark(aiHitTileID)
+        aiHitTileID = ""
+    }
 }
 
 

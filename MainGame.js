@@ -14,12 +14,12 @@ let maxHits = 0; //max number of hits possible is used to track how close player
 let targetShip = 0; //tracking variable for Medium AI
 let targetLoci = ""; //tracking variable for Medium AI
 
-let aiIsHit = [false, false];
-
 let p1GuessedBoard = createEmptyBoard(); //two empty boards are created and stored in an array
 let p2GuessedBoard = createEmptyBoard(); //the default board is filled with 0's, indicating that a position hasn't been guessed
 arrGuessedBoard = [p1GuessedBoard, p2GuessedBoard]; //arrGuessedBoard is an array containing both of the empty player boards
 //this array is accessed using arrGuessedBoard[turn], so the functions below don't have to specify which player's board they'd like to access
+
+
 
 //initializes the game according to the player's ship number and placement
 function initializeGame() {
@@ -54,32 +54,29 @@ function guessCell(cell) {
                 //targetShip = shipArray[i].length; //update tracking variables for medium AI
                 //targetLoci = cell;
             
-                if(opponent == "Human")
-                {
-                    isHit = true;
-                    updateHitCounter();
-                    updateGuessedBoard(cell, isHit, shipArray[i]);
+
+                isHit = true;
+                updateHitCounter();
+                updateGuessedBoard(cell, isHit, shipArray[i]);
+                if (opponent == "AI" && turn == 1) {
+                    aiHitTileID = cell + "p1HomeBoard"
+                } else {
                     callSetTileState(cell, isHit);
                 }
-                else if(turn == 0)
-                {
-                    aiIsHit[1] = true;
-                    updateHitCounter();
-                    updateGuessedBoard(cell, aiIsHit[1], shipArray[i]);
-                    callSetTileState(cell, aiIsHit[1]);
-                }
-                else if(turn == 1)
-                {
-                    aiIsHit[0] = true;
-                    updateHitCounter();
-                    updateGuessedBoard(cell, aiIsHit[0], shipArray[i]);
-                    callSetTileState(cell, aiIsHit[0]);
-                }
+                
+
+                
                 let isSunk = checkSunk(shipArray[i]);
 
-                if(opponent == "Human")
-                {
-                    if (turn == 0) {
+            
+                if (turn == 0) {
+                    if (opponent == "AI") {
+                        if(isSunk) {
+                            updateTransitionText("SUNK\n AI will now take its turn.") 
+                         } else {
+                            updateTransitionText("HIT!\n AI will now take its turn.");
+                         }
+                    } else {
                         if(isSunk) {
                             updateTransitionText("Sunk!\nPlayer 1, look away! It's Player 2's turn!");
                         }
@@ -87,7 +84,10 @@ function guessCell(cell) {
                             updateTransitionText("Hit!\nPlayer 1, look away! It's Player 2's turn!");
                         }
                     }
-                    else if (turn == 1) {
+                    
+                }
+                else if (turn == 1) {
+                    if (opponent == "Human") {
                         if(isSunk) {
                             updateTransitionText("Sunk!\nPlayer 2, look away! It's Player 1's turn!");
                         }
@@ -96,11 +96,7 @@ function guessCell(cell) {
                         }
                     }
                 }
-                if(opponent == "AI" && aiIsHit[1] == true && turn == 0)
-                {
-                    if(isSunk) updateTransitionText ("SUNK\n AI will now take its turn. Press switch player button to take your next turn!");
-                    updateTransitionText("HIT!\n AI will now take its turn. Press switch player button to take your next turn!");
-                }
+
                 if (isOver()) {
                     endGame();
                     return;
@@ -109,30 +105,24 @@ function guessCell(cell) {
             }
         }
     }
-    if (opponent == "Human" && isHit == false) { //if the guess is a miss, we update the guessed board, set the tile state to a miss, and update transition text accordingly
+    //if the guess is a miss, we update the guessed board, set the tile state to a miss, and update transition text accordingly
+    if (!isHit) {
         updateGuessedBoard(cell, isHit, shipArray[i]);
         callSetTileState(cell, isHit);
+
         if (turn == 0) {
-            updateTransitionText("Miss!\nPlayer 1, look away! It's Player 2's turn!");
+            if (opponent == "AI") {
+                updateTransitionText("Miss!\nAI will now take its turn.");
+            } else {
+                updateTransitionText("Miss!\nPlayer 1, look away! It's Player 2's turn!");
+            }
         }
         else if (turn == 1) {
-            updateTransitionText("Miss!\nPlayer 2, look away! It's Player 1's turn!");
+            if (opponent == "Human") updateTransitionText("Miss!\nPlayer 2, look away! It's Player 1's turn!");
         }
-        //console.log("Miss!");
+
+    
     }
-    if(opponent == "AI" && turn == 1 && aiIsHit[0] == false)
-    {
-        updateGuessedBoard(cell, isHit[0], shipArray[i]);
-        callSetTileState(cell, isHit[0]);
-        //console.log("Miss!");
-    }
-    if(opponent == "AI" && turn == 0 && aiIsHit[1] == false)
-    {
-        updateGuessedBoard(cell, isHit[1], shipArray[i]);
-        callSetTileState(cell, isHit[1]);
-        updateTransitionText("Miss!\nAI will now take its turn. Press switch player button to take your next turn!");
-    }   
-    if(turn == 1) aiIsHit[1] = false;
     switchTurns(); //switch turns at the end of each guess
 }
 
@@ -174,9 +164,15 @@ function guessCells(cells) {
         }
     }
     if (isHit) {
-        if(opponent == "Human")
-        {
-            if (turn == 0) {
+        if (turn == 0) {
+            if (opponent == "AI") {
+                if(isSunk) {
+                    updateTransitionText("Sunk!\nAI will now take its turn.");
+                }
+                else {
+                    updateTransitionText("Hit!\nAI will now take its turn.");
+                }
+            } else {
                 if(isSunk) {
                     updateTransitionText("Sunk!\nPlayer 1, look away! It's Player 2's turn!");
                 }
@@ -184,22 +180,14 @@ function guessCells(cells) {
                     updateTransitionText("Hit!\nPlayer 1, look away! It's Player 2's turn!");
                 }
             }
-            else if (turn == 1) {
-                if(isSunk) {
-                    updateTransitionText("Sunk!\nPlayer 2, look away! It's Player 1's turn!");
-                }
-                else {
-                    updateTransitionText("Hit!\nPlayer 2, look away! It's Player 1's turn!");
-                }
-            }
+            
         }
-        if(opponent == "AI")
-        {
+        else if (turn == 1) {
             if(isSunk) {
-                updateTransitionText("Sunk!\nAI will now take its turn. Press switch player button to begin your next turn!");
+                updateTransitionText("Sunk!\nPlayer 2, look away! It's Player 1's turn!");
             }
             else {
-                updateTransitionText("Hit!\nAI will now take its turn. Press switch player button to begin your next turn!");
+                updateTransitionText("Hit!\nPlayer 2, look away! It's Player 1's turn!");
             }
         }
 
@@ -209,19 +197,16 @@ function guessCells(cells) {
         }
     } else {
 
-        if(opponent == "Human")
-        {
-            if (turn == 0) {
+        if (turn == 0) {
+            if (opponent == "AI") {
+                updateTransitionText("Miss!\nAI will now take its turn.")
+            } else {
                 updateTransitionText("Miss!\nPlayer 1, look away! It's Player 2's turn!");
             }
-            else if (turn == 1) {
-                updateTransitionText("Miss!\nPlayer 2, look away! It's Player 1's turn!");
-            }
+            
         }
-
-        if(opponent == "AI")
-        {
-            updateTransitionText("Miss\n AI will now take its turn. Press switch player button to begin your next turn!")
+        else if (turn == 1) {
+            if (opponent == "Human") updateTransitionText("Miss!\nPlayer 2, look away! It's Player 1's turn!");
         }
     }
     fireSpecShot = false
@@ -270,7 +255,6 @@ function isGuessed(cell) {
 //default = 0, hit = ship number, miss = -1
 function updateGuessedBoard(cell, isHit, ship) {
     let board = arrGuessedBoard[turn];
-
     let row = parseInt(cell[1] + cell[2]) - 1;
     let column = 0;
 
@@ -298,6 +282,7 @@ function callSetTileState(cell, isHit) {
         setTileState(tileID_2, isHit);
     }
     else if (turn == 1) {
+        
         let tileID_1 = cell + 'p1HomeBoard';
         let tileID_2 = cell + 'p2AttackBoard';
         setTileState(tileID_1, isHit);
@@ -316,7 +301,8 @@ function switchTurns() {
         // AI shots here
         if (opponent == "AI") {
             //tile = "e01p2AttackBoard";
-            tile = selectMode();
+            
+            let tile = selectMode();
             document.getElementById(tile).click();
         }
     }

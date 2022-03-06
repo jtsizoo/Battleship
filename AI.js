@@ -57,15 +57,15 @@ function autoShip(length) {
     //let shipsRemaining = 4;
     //initialize a ship
     let cell = generateCell();
-    let orient = randomBool();
-    let ship = initializeShip(length, cell, orient);
-
+    let direction = randomBool();
+    let ship = initializeShip(length, cell, direction);
+    
     while(isShipValid(ship) == false) //check if it is a valid ship
     {
         cell = generateCell();
-        ship = initializeShip(length, cell, orient);
-    }
+        ship = initializeShip(length, cell, direction);
 
+    }
     return ship;
 }
 
@@ -91,15 +91,14 @@ function generateCell() {
     }
 
     //generate the column by adding the ascii character 'a' and converting the result to a char string.
-    const col = String.fromCharCode(randomInt() + 97); //lowercase alphabet begins at ASCII 97
-
+    const col = String.fromCharCode(randomInt() + 96); //lowercase alphabet begins at ASCII 97
     //create the string for the cell, i.e. "a01"
     const cell = col + row.toString();
     return cell;
 }
 
 //generates number between 0 and 9
-function randomInt(min = 0, max = 9) {
+function randomInt(min = 1, max = 10) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
@@ -108,7 +107,7 @@ function randomInt(min = 0, max = 9) {
 //uses global variables of targetShip and targetLoci in Maingame.js to decide next cell to guess
 function mediumAI() {
     if (p2Hits == 0 || targetShip == 0) { //accounts for nothing being hit or no current ship being targeted
-        easyAI();
+        return easyAI();
     }
     else { //call guess4d() if a hit occurs and targetShip is nonzero
         let nextCell = guess4d(); 
@@ -208,7 +207,6 @@ function guess4d(orient = "up", offset = 1) {
             return nextCell;
         }
         else {
-            ;
             guess4d("up", 1);
         }
     }
