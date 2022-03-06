@@ -34,6 +34,9 @@
  */
 let orient = "up"; //variables for medium AI
 let offset = 1;
+let oldP2Hits = 0
+let newAIShip = false
+let shipsHit = []
 
 function selectMode() {
     if (difficulty == "Easy") {
@@ -106,16 +109,31 @@ function randomInt(min = 1, max = 10) {
 
 //uses global variables of targetShip and targetLoci in Maingame.js to decide next cell to guess
 function mediumAI() {
-    if (p2Hits == 0 || targetShip == 0) { //accounts for nothing being hit or no current ship being targeted
+    console.log(oldP2Hits, p2Hits, targetShip)
+    let ship = p2Ships.find((element) => element.length == targetShip)
+    if (targetShip == 0 || checkSunk(ship)) { //accounts for nothing being hit or no current ship being targeted
+        orient = "up"
+        offset = 1
         return easyAI();
     }
     else { //call guess4d() if a hit occurs and targetShip is nonzero
-        let nextCell = guess4d(); 
+        if (oldP2Hits == p2Hits) {
+            //if ai misses, change direction
+            changeDirection()
+        }
+        if (newAIShip) {
+            //reset if a new ship is hit
+            orient = "up"
+            offset = 1
+        }
+        let nextCell = guess4d();
+        console.log(nextCell)
         while (isGuessed(nextCell)) { //check if cell placement valid
+            changeDirection()
             nextCell = guess4d(); //if not, call generateCell until a valid location is found
         }
-        cell = cell + "p2AttackBoard";
-        return cell;
+        nextCell = nextCell + "p2AttackBoard";
+        return nextCell;
         //guessCell(cell); //call guessCell to update the p2's attackboard 
     }
 }
@@ -123,11 +141,11 @@ function mediumAI() {
 //the guess4d function is called to find the next orthoganol position available to place
 //a ship. if the boundary is exceeded, reset the orientation and offset, and recursively call until 
 //a cell tile is generated. 
-function guess4d(orient = "up", offset = 1) {
-    let nextCell;
+function guess4d() {
+    let nextCell = "";
     let col = targetLoci[0]; // i.e. "a";
     let row = targetLoci[1] + targetLoci[2]; //i.e."01"
-
+    console.log(col, row)
     //ex b02 --> b01
     if (orient == "up") {
 
@@ -137,7 +155,7 @@ function guess4d(orient = "up", offset = 1) {
         else {
             row = 10;
         }
-        if ((row - offset) >= 0) { //if upper bounds of board not exceeded
+        if ((row - offset) > 0) { //if upper bounds of board not exceeded
             row = row - offset;
             if (row < 10) //if input only one digit, pad a zero and convert row to string
             {
@@ -150,14 +168,13 @@ function guess4d(orient = "up", offset = 1) {
 
         }
         else { // reached border, change orientation and reset offset
-            guess4d("right", 1);
+            changeDirection()
+            return guess4d()
         }
     }
-
     //ex b02--> c02
-    if (orient == "right") { //increase the column
+    else if (orient == "right") { //increase the column
         col = getNextChar(col, offset);
-        row = targetLoci[1] + targetLoci[2];
         if (col <= 'j') { //check does not exceed right boundary
             nextCell = col + row; //create the new cell
             offset++;
@@ -165,12 +182,12 @@ function guess4d(orient = "up", offset = 1) {
             return nextCell;
         }
         else {
-            guess4d("down", 1);
+           changeDirection()
+           return guess4d()
         }
     }
-
     //ex b02--> b03
-    if (orient == "down") { //increase the row
+    else if (orient == "down") { //increase the row
         col = targetLoci[0];
         row = targetLoci[1] + targetLoci[2];
 
@@ -185,6 +202,8 @@ function guess4d(orient = "up", offset = 1) {
             row = row + offset;
             if (row < 10) {
                 row = '0' + row;
+            } else {
+                row = row.toString()
             }
             nextCell = col + row;
             offset++;
@@ -192,12 +211,12 @@ function guess4d(orient = "up", offset = 1) {
             return nextCell;
         }
         else {
-            guess4d("left", 1);
+            changeDirection()
+            return guess4d()
         }
     }
-
     //ex b02--> a02
-    if (orient == "left") {
+    else if (orient == "left") {
         col = getPrevChar(col, offset); //decrease the column
 
         if (col >= 'a') { //check if within left boundary of board
@@ -207,8 +226,23 @@ function guess4d(orient = "up", offset = 1) {
             return nextCell;
         }
         else {
-            guess4d("up", 1);
+            changeDirection()
+            return guess4d()
         }
+    }
+
+}
+
+function changeDirection() {
+    offset = 1
+    if (orient == "up") {
+        orient = "right"
+    } else if (orient == "right") {
+        orient = "down"
+    } else if (orient == "down") {
+        orient = "left"
+    } else if (orient == "left") {
+        orient = "up"
     }
 }
 

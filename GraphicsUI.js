@@ -500,7 +500,6 @@ function drawHitMark(tileId)
     hitMark.appendChild(hitMarkLabel);
 
     let tile = document.getElementById(tileId)
-    console.log(tile)
     var tileRect = tile.getBoundingClientRect();
     
     //Appends the hitMark div to the window corresponding to which player board the tile belongs to.
@@ -575,7 +574,6 @@ function updateTransitionTarget(windowId){
 function handleTransition(){
     switchWindow(transitionTarget);
     if (transitionTarget == "p1View" && opponent == "AI" && gameState == "p1Turn" && aiHitTileID != "") {
-        console.log(aiHitTileID)
         drawHitMark(aiHitTileID)
         aiHitTileID = ""
     }

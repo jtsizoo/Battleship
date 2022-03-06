@@ -51,8 +51,14 @@ function guessCell(cell) {
         for (let j = 0; j < shipArray[i].length; j++) {
             if (shipArray[i].coordinateArray[j] == cell) { //if a cell guessed is a hit, we update the hit counter, update the board the player is attacking logically and visually, update transition text accordingly, check if the game is over
                 
-                //targetShip = shipArray[i].length; //update tracking variables for medium AI
-                //targetLoci = cell;
+                if (opponent == "AI" && turn == 1) {
+                    newAIShip = false
+                    if (targetShip != shipArray[i].length) {
+                        targetLoci = cell;
+                        newAIShip = true
+                    }
+                    targetShip = shipArray[i].length; //update tracking variables for medium AI
+                }
             
 
                 isHit = true;
@@ -72,7 +78,7 @@ function guessCell(cell) {
                 if (turn == 0) {
                     if (opponent == "AI") {
                         if(isSunk) {
-                            updateTransitionText("SUNK\n AI will now take its turn.") 
+                            updateTransitionText("SUNK!\n AI will now take its turn.") 
                          } else {
                             updateTransitionText("HIT!\n AI will now take its turn.");
                          }
@@ -303,7 +309,9 @@ function switchTurns() {
             //tile = "e01p2AttackBoard";
             
             let tile = selectMode();
+            oldP2Hits = p2Hits //update old
             document.getElementById(tile).click();
+            
         }
     }
     else {
