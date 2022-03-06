@@ -108,7 +108,6 @@ function randomInt(min = 1, max = 10) {
 
 //uses global variables of targetShip and targetLoci in Maingame.js to decide next cell to guess
 function mediumAI() {
-    console.log(p2Ships)
     let ship = p2Ships.find((element) => element.length == targetShip)
     if (targetShip == 0 || checkSunk(ship)) { //accounts for nothing being hit or no current ship being targeted
         orient = "up"
