@@ -78,7 +78,7 @@ function guessCell(cell) {
                 if (turn == 0) {
                     if (opponent == "AI") {
                         if(isSunk) {
-                            updateTransitionText("SUNK!\n AI will now take its turn.") 
+                            updateTransitionText("SUNK!\n AI will now take its turn."); 
                          } else {
                             updateTransitionText("HIT!\n AI will now take its turn.");
                          }
@@ -101,6 +101,11 @@ function guessCell(cell) {
                             updateTransitionText("Hit!\nPlayer 2, look away! It's Player 1's turn!");
                         }
                     }
+		    else if (opponent == 'AI') {
+			if (isSunk) {
+				updateTransitionText("SUNK! The AI opponent has sunk one of your ships. It's your turn next.");
+			}
+		    }
                 }
 
                 if (isOver()) {
